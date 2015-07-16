@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * This class is used to show the color of lantern cards, lake tiles for playing the game
- * @author Avneet
+ * @author avneet
  * @version 1.0
  */
 
