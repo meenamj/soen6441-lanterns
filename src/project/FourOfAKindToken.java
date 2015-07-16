@@ -3,8 +3,7 @@ package project;
  * Four of a kind token is one of dedication token
  * when players have four lantern cards which have the same color,
  * the player can exchange this card
- * @author Idris
- * @version 1.0
+ * @author none
  */
 public class FourOfAKindToken extends DedicationToken {
 	//This honorList is used for order the card in four of a kind token stack
