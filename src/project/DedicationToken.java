@@ -4,8 +4,7 @@ import java.io.Serializable;
 /**
  * Dedication Token is a card to get the score
  * Player can change from the lantern card to dedication token
- * @author Idris
- * @version 1.0
+ * @author none
  */
 
 public class DedicationToken implements Serializable {
