@@ -6,7 +6,8 @@ import java.io.Serializable;
  * Seven unique token is one of dedication token
  * when players have seven lantern cards which have the all different color,
  * the player can exchange this card
- * @author none
+ * * @author Idris
+ * @version 1.1
  */
 public class SevenUniqueToken extends DedicationToken {
 	//This honorList is used for order the card in seven unique token stack
