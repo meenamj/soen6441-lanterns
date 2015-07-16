@@ -11,14 +11,15 @@ public class LakeTileTest {
 
 	@Test
 	public void testStartLakeTile() {
-		LakeTile lt = new LakeTile(true);
+		LakeTile lt = new LakeTile(true, -1);
 		assertTrue(lt.getColorOfFourSides().contains(Color.RED));
 		assertTrue(!lt.isPlatform());
 	}
 	
 	@Test
 	public void testColorOfLakeTile() {
-		LakeTile lt = new LakeTile(false);
+		LakeTile lt = new LakeTile(false, 0);
 		assertEquals(4, lt.getColorOfFourSides().size());
 	}
+	
 }

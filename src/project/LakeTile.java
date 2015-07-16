@@ -9,9 +9,14 @@ import java.util.Vector;
  * Lake tile is a card to place to the game
  * After that player can get lantern cards
  * following the direction of the placed lake tile.
- * @author avneet
+ * @author Meenakshi
+ * @version 1.1
  */
 public class LakeTile implements Serializable{
+	/**
+	 * index
+	 */
+	private int index;
 	/**
 	 * four colors of lake tile
 	 */
@@ -43,7 +48,7 @@ public class LakeTile implements Serializable{
 	 * Generate a lake tile with random color for each sides
 	 * @param true for this lake tiles is a start lake tile
 	 */
-	public LakeTile(boolean isStartLakeTile) {
+	public LakeTile(boolean isStartLakeTile, int index) {
 		Vector<Color> cos = new Vector<Color>(0);
 		if (isStartLakeTile) {
 			cos.insertElementAt(Color.RED, 0);
@@ -53,9 +58,10 @@ public class LakeTile implements Serializable{
 		} else {
 			setPlatform(random.nextBoolean());
 			for (int i = 0; i < 4; i++) {
-				cos.insertElementAt(getRandomColorNotRed(), i);
+				cos.insertElementAt(Color.randomColor(), i);
 			}
 		}
+		setIndex(index);
 		setColorOfFourSides(cos);
 	}
 
@@ -82,4 +88,13 @@ public class LakeTile implements Serializable{
 	public void setPlatform(boolean hasPlatform) {
 		this.hasPlatform = hasPlatform;
 	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 }

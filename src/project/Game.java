@@ -6,8 +6,8 @@ import java.util.*;
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
- * @author Nuttakit
- * @version 1.2
+  * @author Nuttakit
+ * @version 1.1
  */
 
 public class Game implements Serializable {
@@ -263,11 +263,11 @@ public class Game implements Serializable {
 			System.out.println(l.getIndex()+" : "+l.getColorOfFourSides().get(0).name() + " "
 					+ l.getColorOfFourSides().get(1).name() + " "
 					+ l.getColorOfFourSides().get(2).name() + " "
-					+ l.getColorOfFourSides().get(3).name() + " \n Platform : "
+					+ l.getColorOfFourSides().get(3).name() + " --- Platform : "
 					+ l.isPlatform());
 		}
 
-		System.out.println("\nStart Lake Tile");
+		System.out.print("\nStart Lake Tile");
 		System.out.print(this.playArea.getStartLakeTile().getIndex()+" : "+this.playArea.getStartLakeTile().getColorOfFourSides()
 				.get(0)
 				+ " "
@@ -276,17 +276,17 @@ public class Game implements Serializable {
 				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(2)
 				+ " "
 				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(3)
-				+ " \n");
+				+ " \n\n");
 
 		for (int i = 0; i < this.numberOfPlayers; i++) {
-			System.out.print("Player" + i + " name : "
+			System.out.print("Player :" + (i+1) + " name : "
 					+ this.players.get(i).getName());
 			if (this.players.get(i).isCurrentPlayer()) {
 				System.out.println(": (active)");
 			} else {
 				System.out.println();
 			}
-			System.out.println("Their Lantern Cards");
+			System.out.println("Lantern Cards");
 			int black = 0;
 			int blue = 0;
 			int green = 0;
@@ -325,7 +325,7 @@ public class Game implements Serializable {
 				total+=this.players.get(i).getDedicationTokens().get(j).getHonor();
 			}
 			System.out.println("\nValue Dedication Token : "+ total);
-			System.out.println("\nTheir Lake Tiles :");
+			System.out.println("\nLake Tiles :");
 			for (int j = 0; j < this.players.get(i).getLakeTiles().size(); j++) {
 				System.out.println(j
 						+ 1
@@ -345,7 +345,7 @@ public class Game implements Serializable {
 						+ this.players.get(i).getLakeTiles().get(j)
 								.getColorOfFourSides().get(3).name()
 						+ " "
-						+ "\nPlatform : "
+						+ "Platform : "
 						+ this.players.get(i).getLakeTiles().get(j)
 								.isPlatform());
 			}

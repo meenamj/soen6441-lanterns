@@ -62,7 +62,6 @@ public class PlayArea implements Serializable {
 	 */
 	public PlayArea(ArrayList<Player> players) {
 		numberOfFavorTokens = 20;
-		startLakeTile = new LakeTile(true);
 		supply = new Supply(players.size());
 		initializeLakeTiles(players.size());
 		initializeDedicationTokens(players.size());
@@ -88,11 +87,11 @@ public class PlayArea implements Serializable {
 	 */
 	private void initializeLakeTiles(int numberOfPlayers) {
 		int numberOfLTToRemove = 0;
-		startLakeTile = new LakeTile(true);
+		startLakeTile = new LakeTile(true, -1);
 		// creation of Lake tiles
 		lakeTiles = new Stack<LakeTile>();
 		for (int i = 0; i < numberOfLakeTiles; i++) {
-			lakeTiles.add(new LakeTile(false));
+			lakeTiles.add(new LakeTile(false, i ));
 		}
 		// shuffle lakeTiles
 		Collections.shuffle(lakeTiles);
