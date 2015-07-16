@@ -30,6 +30,10 @@ public class Player implements Serializable {
 	 * the dedication token which player has now
 	 */
 	private ArrayList<DedicationToken> dedicationTokens;
+	/**
+	 * the current player
+	 */
+	private boolean isCurrentPlayer;
 
 	/**
 	 * Get name of player
@@ -125,6 +129,25 @@ public class Player implements Serializable {
 	 */
 	public void setLakeTiles(ArrayList<LakeTile> lakeTiles) {
 		this.lakeTiles = lakeTiles;
+	}
+
+	/**
+	 * Get the current status of a player. (active player/ non-active player)
+	 * 
+	 * @return true, if this player is active
+	 */
+	public boolean isCurrentPlayer() {
+		return isCurrentPlayer;
+	}
+
+	/**
+	 * Set the current status of a player. (active player/ non-active player)
+	 * 
+	 * @param isCurrentPlayer
+	 *            if this player is active
+	 */
+	public void setCurrentPlayer(boolean isCurrentPlayer) {
+		this.isCurrentPlayer = isCurrentPlayer;
 	}
 
 	/**

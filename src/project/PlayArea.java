@@ -76,6 +76,7 @@ public class PlayArea implements Serializable {
 		Random r = new Random();
 		int randomList = r.nextInt(players.size());
 		Vector<Color> color = startLakeTile.getColorOfFourSides();
+		players.get(randomList).setCurrentPlayer(true);
 		for (int i = 0; i < players.size(); i++) {
 			players.get((randomList + i) % players.size()).getLanternCards()
 					.add(supply.lanternStacks.get(color.get(i)).pop());
