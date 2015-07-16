@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 /**
- * this class is used to manage the game file
- * @author none
+ * this class is used to manage the game file\
+ * 
+ * @author Nuttakit
+ * @version 1.1
  */
 public final class GameFile {
 	/**
