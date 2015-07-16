@@ -6,7 +6,8 @@ import java.util.*;
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
- * @author none
+ * @author Nuttakit
+ * @version 1.1
  */
 
 public class Game implements Serializable {
@@ -136,34 +137,10 @@ public class Game implements Serializable {
 		System.out.println("2. Download");
 		System.out.println("3. Exit");
 		String in = null;
-
 		do {
 			in = scanner.next();
 		} while (!in.equals("1") && !in.equals("2") && !in.equals("3"));
-		Game game = null;
-		if (in.equals("2")) {
-			System.out.println("Put File Name");
-			game = Game.loadGame(scanner.next());
-		} else if (in.equals("1")) {
-			String[] names = null;
-			System.out.print("How many players? (select 2,3 or 4) : ");
-			do {
-				in = scanner.next();
-			} while (!in.equals("2") && !in.equals("3") && !in.equals("4"));
-
-			int nplayer = Integer.parseInt(in);
-			names = new String[nplayer];
-			for (int i = 0; i < nplayer; i++) {
-				System.out.println("Player[" + i + "] name:");
-				names[i] = new String(scanner.next());
-			}
-			game = new Game(names);
-			game.startGame();
-		} else {
-			System.out.print("Goodbye");
-			System.exit(0);
-		}
-		
+		Game game = option(scanner, in);
 
 		game.showInformation();
 		if (in.equals("2")) {
@@ -194,6 +171,36 @@ public class Game implements Serializable {
 
 	}
 
+	public static Game option(Scanner scanner, String in) throws Exception{
+		Game game = null;
+		if (in.equals("2")) {
+			System.out.println("Put File Name");
+			game = Game.loadGame(scanner.next());
+			if(game == null){
+				System.out.println("Put Another File Name");
+				game = option(scanner,in);
+			}
+		} else if (in.equals("1")) {
+			String[] names = null;
+			System.out.print("How many players? (select 2,3 or 4) : ");
+			do {
+				in = scanner.next();
+			} while (!in.equals("2") && !in.equals("3") && !in.equals("4"));
+
+			int nplayer = Integer.parseInt(in);
+			names = new String[nplayer];
+			for (int i = 0; i < nplayer; i++) {
+				System.out.println("Player[" + i + "] name:");
+				names[i] = new String(scanner.next());
+			}
+			game = new Game(names);
+			game.startGame();
+		} else {
+			System.out.print("Goodbye");
+			System.exit(0);
+		}
+		return game;
+	}
 	/**
 	 * Save state of the game
 	 * 
@@ -222,31 +229,37 @@ public class Game implements Serializable {
 	 */
 	private void showInformation() {
 		System.out.println("\nFour Of A Kind Token Stack");
-		while(!this.playArea.getFourOfAKindTokens().isEmpty()) {
-			System.out.println(this.playArea.getFourOfAKindTokens().pop()
+		for (int i = 0; i < this.playArea.getFourOfAKindTokens().size(); i++) {
+			System.out.println(this.playArea.getFourOfAKindTokens().get(i)
 					.getHonor());
 		}
 		System.out.println("\nSeven Unique Token Stack");
-		while(!this.playArea.getSevenUniqueTokens().isEmpty()){
-			System.out.println(this.playArea.getSevenUniqueTokens().pop()
+		for (int i = 0; i < this.playArea.getSevenUniqueTokens().size(); i++) {
+			System.out.println(this.playArea.getSevenUniqueTokens().get(i)
 					.getHonor());
 		}
 
 		System.out.println("\nThree Pair Token Stack");
-		while(!this.playArea.getThreePairTokens().isEmpty()) {
-			System.out.println(this.playArea.getThreePairTokens().pop()
+		for (int i = 0; i < this.playArea.getThreePairTokens().size(); i++) {
+			System.out.println(this.playArea.getThreePairTokens().get(i)
 					.getHonor());
 		}
 
 		System.out.println("\nGeneric Token Stack");
-		while(!this.playArea.getGenericTokens().isEmpty()) {
-			System.out.println(this.playArea.getGenericTokens().pop()
+		for (int i = 0; i < this.playArea.getGenericTokens().size(); i++) {
+			System.out.println(this.playArea.getGenericTokens().get(i)
 					.getHonor());
 		}
 		
+		System.out.println("\nLantern Card Supply :");
+		for (Color c : Color.values()){
+		System.out.println(c.name() + " : " +
+				this.playArea.getSupply().lanternStacks.get(c).size());
+		}
+		System.out.println("Amount of Favor Token :"+ this.playArea.getNumberOfFavorTokens());
 		System.out.println("\nLake Tiles Stack");
-		while(!this.playArea.getLakeTiles().isEmpty()) {
-			LakeTile l = this.playArea.getLakeTiles().pop();
+		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
+			LakeTile l = this.playArea.getLakeTiles().get(i);
 			System.out.println(l.getColorOfFourSides().get(0).name() + " "
 					+ l.getColorOfFourSides().get(1).name() + " "
 					+ l.getColorOfFourSides().get(2).name() + " "
@@ -268,7 +281,12 @@ public class Game implements Serializable {
 		for (int i = 0; i < this.numberOfPlayers; i++) {
 			System.out.print("Player" + i + " name : "
 					+ this.players.get(i).getName());
-			System.out.println("\nTheir Lantern Cards");
+			if (this.players.get(i).isCurrentPlayer()) {
+				System.out.println(": (active)");
+			} else {
+				System.out.println();
+			}
+			System.out.println("Their Lantern Cards");
 			for (int j = 0; j < this.players.get(i).getLanternCards().size(); j++) {
 				System.out.println(this.players.get(i).getLanternCards().get(j)
 						.getColor());
