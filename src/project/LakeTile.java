@@ -9,7 +9,7 @@ import java.util.Vector;
  * Lake tile is a card to place to the game
  * After that player can get lantern cards
  * following the direction of the placed lake tile.
- * @author Avneet
+ * @author avneet
  */
 public class LakeTile implements Serializable{
 	/**
