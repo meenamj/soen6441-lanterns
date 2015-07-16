@@ -7,7 +7,7 @@ import java.util.*;
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
  * @author Nuttakit
- * @version 1.1
+ * @version 1.2
  */
 
 public class Game implements Serializable {
@@ -260,7 +260,7 @@ public class Game implements Serializable {
 		System.out.println("\nLake Tiles Stack");
 		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
 			LakeTile l = this.playArea.getLakeTiles().get(i);
-			System.out.println(l.getColorOfFourSides().get(0).name() + " "
+			System.out.println(l.getIndex()+" : "+l.getColorOfFourSides().get(0).name() + " "
 					+ l.getColorOfFourSides().get(1).name() + " "
 					+ l.getColorOfFourSides().get(2).name() + " "
 					+ l.getColorOfFourSides().get(3).name() + " \n Platform : "
@@ -268,7 +268,7 @@ public class Game implements Serializable {
 		}
 
 		System.out.println("\nStart Lake Tile");
-		System.out.print(this.playArea.getStartLakeTile().getColorOfFourSides()
+		System.out.print(this.playArea.getStartLakeTile().getIndex()+" : "+this.playArea.getStartLakeTile().getColorOfFourSides()
 				.get(0)
 				+ " "
 				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(1)
@@ -287,14 +287,51 @@ public class Game implements Serializable {
 				System.out.println();
 			}
 			System.out.println("Their Lantern Cards");
+			int black = 0;
+			int blue = 0;
+			int green = 0;
+			int red = 0;
+			int purple = 0;
+			int white = 0;
+			int orange = 0;
 			for (int j = 0; j < this.players.get(i).getLanternCards().size(); j++) {
-				System.out.println(this.players.get(i).getLanternCards().get(j)
-						.getColor());
+				if(this.players.get(i).getLanternCards().get(j).getColor() == Color.BLACK){
+					black+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.BLUE){
+					blue+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.GREEN){
+					green+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.RED){
+					red+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.PURPLE){
+					purple+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.WHITE){
+					white+=1;
+				}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.ORANGE){
+					orange+=1;
+				}
 			}
-			System.out.println("Their Lake Tiles :");
+			System.out.println("BLACK : "+black );
+			System.out.println("BLUE : "+blue );
+			System.out.println("GREEN : "+green );
+			System.out.println("RED : "+red );
+			System.out.println("PURPLE : "+purple );
+			System.out.println("WHITE : "+white );
+			System.out.println("ORANGE : "+orange);
+			
+			
+			int total = 0;
+			for (int j = 0; j < this.players.get(i).getDedicationTokens().size(); j++){
+				total+=this.players.get(i).getDedicationTokens().get(j).getHonor();
+			}
+			System.out.println("\nValue Dedication Token : "+ total);
+			System.out.println("\nTheir Lake Tiles :");
 			for (int j = 0; j < this.players.get(i).getLakeTiles().size(); j++) {
 				System.out.println(j
 						+ 1
+						+ " : index :"
+						+ this.players.get(i).getLakeTiles().get(j)
+								.getIndex()
 						+ " "
 						+ this.players.get(i).getLakeTiles().get(j)
 								.getColorOfFourSides().get(0).name()
