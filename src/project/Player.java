@@ -7,7 +7,8 @@ import java.util.HashMap;
 /**
  * player is the person who play the game
  * 
- * @author none
+ * @author Idris
+ * @version 1.3
  */
 public class Player implements Serializable {
 	/**
@@ -186,6 +187,29 @@ public class Player implements Serializable {
 		this.lakeTiles = lakeTiles;
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
+	}
+	/**
+	 * 
+	 * @param dedicationType The type of dedication a player is willing to make
+	 */
+	public void makeDedication(String dedicationType)
+	{
+		switch (dedicationType) 
+		{
+			case "fourOFAKind":
+				//check and get four of kind lantern card for user and give dedicated token
+				break;
+			case "threePair":
+				//check and get three pair lantern card for user and give dedicated token
+				break;
+			case "sevenUnique":
+				////check and get Seven Unique lantern card for user and give dedicated token
+				break;
+			default:
+				System.out.println("You have select the incorrect dedication type");
+				
+		
+		}
 	}
 
 }
