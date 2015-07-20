@@ -197,12 +197,15 @@ public class Player implements Serializable {
 		switch (dedicationType) 
 		{
 			case "fourOFAKind":
+				checkFourOfAKind();
 				//check and get four of kind lantern card for user and give dedicated token
 				break;
 			case "threePair":
+				checkThreePair();
 				//check and get three pair lantern card for user and give dedicated token
 				break;
 			case "sevenUnique":
+				checkSevenUnique();
 				////check and get Seven Unique lantern card for user and give dedicated token
 				break;
 			default:
@@ -210,6 +213,19 @@ public class Player implements Serializable {
 				
 		
 		}
+	}
+	public boolean checkFourOfAKind()
+	{
+		
+	}
+	
+	public boolean checkThreePair()
+	{
+		
+	}
+	public boolean checkSevenUnique()
+	{
+		
 	}
 
 }
