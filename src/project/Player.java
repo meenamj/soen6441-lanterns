@@ -2,6 +2,7 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -34,6 +35,8 @@ public class Player implements Serializable {
 	/**
 	 * the current player
 	 */
+	boolean canMakeDedication = false;
+	Color c;
 	private boolean isCurrentPlayer;
 
 	/**
@@ -216,16 +219,25 @@ public class Player implements Serializable {
 	}
 	public boolean checkFourOfAKind()
 	{
+		if(lanternCards.contains("RED"));
+		{
+			
+		}
+		canMakeDedication = true;
+		return canMakeDedication;
+		
 		
 	}
 	
 	public boolean checkThreePair()
 	{
-		
+		canMakeDedication = true;
+		return canMakeDedication;
 	}
 	public boolean checkSevenUnique()
 	{
-		
+		canMakeDedication = true;
+		return canMakeDedication;
 	}
 
 }
