@@ -202,13 +202,15 @@ public class Player implements Serializable {
 			case "fourOFAKind":
 				if(isFourOfAKind())
 				{
+					System.out.println("Player can perform Four Of a kind dedication");
 					
 				}
-				//check and get four of kind lantern card for user and give dedicated token
+				//check and get four of kind lantern card for player and give dedicated token
 				break;
 			case "threePair":
 				if(isThreePair())
 				{
+					System.out.println("Player can perform three pair dedication");
 					
 				}
 				//check and get three pair lantern card for user and give dedicated token
@@ -216,7 +218,7 @@ public class Player implements Serializable {
 			case "sevenUnique":
 				if(isSevenUnique())
 				{
-					
+					System.out.println("Player can perform Seven Unique dedication");
 				}
 				////check and get Seven Unique lantern card for user and give dedicated token
 				break;
