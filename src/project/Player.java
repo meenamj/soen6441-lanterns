@@ -200,15 +200,24 @@ public class Player implements Serializable {
 		switch (dedicationType) 
 		{
 			case "fourOFAKind":
-				checkFourOfAKind();
+				if(isFourOfAKind())
+				{
+					
+				}
 				//check and get four of kind lantern card for user and give dedicated token
 				break;
 			case "threePair":
-				checkThreePair();
+				if(isThreePair())
+				{
+					
+				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
 			case "sevenUnique":
-				checkSevenUnique();
+				if(isSevenUnique())
+				{
+					
+				}
 				////check and get Seven Unique lantern card for user and give dedicated token
 				break;
 			default:
@@ -217,26 +226,71 @@ public class Player implements Serializable {
 		
 		}
 	}
-	public boolean checkFourOfAKind()
+	public boolean isFourOfAKind()
 	{
-		if(lanternCards.contains("RED"));
+		ArrayList<Color> list = new ArrayList<Color>();
+		for(Color c: Color.values())
 		{
+				if(numOfCardColor(c) >= 4)
+				{	
+					list.add(c);
+					canMakeDedication = true;
+				}
 			
 		}
-		canMakeDedication = true;
 		return canMakeDedication;
-		
-		
 	}
 	
-	public boolean checkThreePair()
+	/*public void displayFourOfAKindChoice(ArrayList<Color> list)
 	{
-		canMakeDedication = true;
+		
+	}*/
+	public int numOfCardColor(Color c)
+	{
+		int cardNo = 0;
+		for(LanternCard lantern :this.lanternCards)
+		{
+			if(lantern.getColor() == c)
+			{
+				cardNo++;	
+			}
+			
+		}
+		return cardNo;
+	}
+	
+	public boolean isThreePair()
+	{
+		ArrayList<Color> list = new ArrayList<Color>();
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 2)
+				{	
+					list.add(c);
+					count++;
+				}	
+		}
+		if(count >= 3)
+		{
+			canMakeDedication = true;
+		}
 		return canMakeDedication;
 	}
-	public boolean checkSevenUnique()
+	public boolean isSevenUnique()
 	{
-		canMakeDedication = true;
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 1)
+				{	
+					count++;
+				}	
+		}
+		if(count >= 7)
+		{
+			canMakeDedication = true;
+		}
 		return canMakeDedication;
 	}
 
