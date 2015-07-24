@@ -2,12 +2,14 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * player is the person who play the game
  * 
- * @author none
+ * @author Idris
+ * @version 1.3
  */
 public class Player implements Serializable {
 	/**
@@ -33,6 +35,21 @@ public class Player implements Serializable {
 	/**
 	 * the current player
 	 */
+	
+	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
+	/**
+	 * The list of four of kind card a player has hand
+	 */
+	ArrayList<Color> threePairList = new ArrayList<Color>();
+	/**
+	 * The list of three pair card a player has on hand
+	 */
+	
+	boolean canMakeDedication = false;
+	/**
+	 * 
+	 */
+	Color c;
 	private boolean isCurrentPlayer;
 
 	/**
@@ -186,6 +203,122 @@ public class Player implements Serializable {
 		this.lakeTiles = lakeTiles;
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
+	}
+	/**
+	 * 
+	 * @param dedicationType The type of dedication a player is willing to make
+	 */
+	public void makeDedication(String dedicationType)
+	{
+		switch (dedicationType) 
+		{
+			case "fourOFAKind":
+				if(isFourOfAKind())
+				{
+					System.out.println("Player can perform Four Of a kind dedication");
+					displayFourOfAKindChoice();
+					
+				}
+				//check and get four of kind lantern card for player and give dedicated token
+				break;
+			case "threePair":
+				if(isThreePair())
+				{
+					System.out.println("Player can perform three pair dedication");
+					displayThreePair();
+					
+				}
+				//check and get three pair lantern card for user and give dedicated token
+				break;
+			case "sevenUnique":
+				if(isSevenUnique())
+				{
+					System.out.println("Player can perform Seven Unique dedication");
+				}
+				////check and get Seven Unique lantern card for user and give dedicated token
+				break;
+			default:
+				System.out.println("You have select the incorrect dedication type");
+				
+		
+		}
+	}
+	public boolean isFourOfAKind()
+	{
+		
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 4)
+				{	
+					fourOfaKindList.add(c);
+					canMakeDedication = true;
+				}
+			
+		}
+		return canMakeDedication;
+	}
+	
+	public void displayFourOfAKindChoice()
+	{ 
+		for(Color c : fourOfaKindList)
+		{
+			System.out.print(c.name());
+		}
+		
+	}
+	public void displayThreePair()
+	{ 
+		for(Color c : threePairList)
+		{
+			System.out.print(c.name());
+		}
+	}
+	public int numOfCardColor(Color c)
+	{
+		int cardNo = 0;
+		for(LanternCard lantern :this.lanternCards)
+		{
+			if(lantern.getColor() == c)
+			{
+				cardNo++;	
+			}
+			
+		}
+		return cardNo;
+	}
+	
+	public boolean isThreePair()
+	{
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 2)
+				{	
+					threePairList.add(c);
+					count++;
+				}	
+		}
+		if(count >= 3)
+		{
+			canMakeDedication = true;
+		}
+		return canMakeDedication;
+	}
+	public boolean isSevenUnique()
+	{
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 1)
+				{	
+					count++;
+				}	
+		}
+		if(count >= 7)
+		{
+			canMakeDedication = true;
+		}
+		return canMakeDedication;
 	}
 
 }

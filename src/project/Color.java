@@ -32,4 +32,5 @@ public enum Color {
 	public static Color randomColor() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
+	
 }

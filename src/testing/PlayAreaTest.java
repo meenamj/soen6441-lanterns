@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import project.Color;
+import project.FourOfAKindToken;
+import project.LanternCard;
 import project.PlayArea;
 import project.Player;
 
@@ -21,6 +23,34 @@ public class PlayAreaTest {
 	  py2 = new Player("Tester2");
 	  py3 = new Player("Tester3");
 	  py4 = new Player("Tester4");
+	  
+	  py1.getLanternCards().add(new LanternCard(Color.RED));
+	  py1.getLanternCards().add(new LanternCard(Color.RED));
+	  py1.getLanternCards().add(new LanternCard(Color.RED));
+	  py1.getLanternCards().add(new LanternCard(Color.RED));
+	  
+	  py2.getLanternCards().add(new LanternCard(Color.BLUE));
+	  py2.getLanternCards().add(new LanternCard(Color.BLUE));
+	  py2.getLanternCards().add(new LanternCard(Color.BLUE));
+
+	  py3.getLanternCards().add(new LanternCard(Color.BLUE));
+	  py3.getLanternCards().add(new LanternCard(Color.WHITE));
+	  py3.getLanternCards().add(new LanternCard(Color.BLACK));
+	  py3.getLanternCards().add(new LanternCard(Color.GREEN));
+	  py3.getLanternCards().add(new LanternCard(Color.ORANGE));
+	  py3.getLanternCards().add(new LanternCard(Color.RED));
+	  py3.getLanternCards().add(new LanternCard(Color.PURPLE));
+	  
+	  py4.getLanternCards().add(new LanternCard(Color.RED));
+	  py4.getLanternCards().add(new LanternCard(Color.RED));
+	  py4.getLanternCards().add(new LanternCard(Color.BLUE));
+	  py4.getLanternCards().add(new LanternCard(Color.BLUE));
+	  py4.getLanternCards().add(new LanternCard(Color.PURPLE));
+	  py4.getLanternCards().add(new LanternCard(Color.PURPLE));
+;
+	  
+	  
+	  
 	  
 	  fourPyList = new ArrayList<Player>();
 	  fourPyList.add(py1);
@@ -158,5 +188,23 @@ public class PlayAreaTest {
 		assertEquals(6,pa.getSevenUniqueTokens().pop().getHonor());
 		assertEquals(5,pa.getSevenUniqueTokens().pop().getHonor());
 		
+	}
+	@Test 
+	public void testFourOfAKind()
+	{
+	    assertTrue(py1.isFourOfAKind());
+	    assertFalse(py2.isFourOfAKind());
+	}
+	@Test
+	public void testSevenOfAKind()
+	{
+	    assertTrue(py3.isSevenUnique());
+	    assertFalse(py1.isSevenUnique());
+	}
+	@Test
+	public void testThreePair()
+	{
+	    assertTrue(py4.isThreePair());
+	    assertFalse(py3.isThreePair());
 	}
 }
