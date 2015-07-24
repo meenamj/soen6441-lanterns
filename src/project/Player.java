@@ -36,11 +36,11 @@ public class Player implements Serializable {
 	 * the current player
 	 */
 	
-	ArrayList<Color> FourOfKindlist = new ArrayList<Color>();
+	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
 	/**
 	 * The list of four of kind card a player has hand
 	 */
-	ArrayList<Color> ThreePairlist = new ArrayList<Color>();
+	ArrayList<Color> threePairList = new ArrayList<Color>();
 	/**
 	 * The list of three pair card a player has on hand
 	 */
@@ -216,6 +216,7 @@ public class Player implements Serializable {
 				if(isFourOfAKind())
 				{
 					System.out.println("Player can perform Four Of a kind dedication");
+					displayFourOfAKindChoice();
 					
 				}
 				//check and get four of kind lantern card for player and give dedicated token
@@ -224,6 +225,7 @@ public class Player implements Serializable {
 				if(isThreePair())
 				{
 					System.out.println("Player can perform three pair dedication");
+					displayThreePair();
 					
 				}
 				//check and get three pair lantern card for user and give dedicated token
@@ -248,7 +250,7 @@ public class Player implements Serializable {
 		{
 				if(numOfCardColor(c) >= 4)
 				{	
-					FourOfKindlist.add(c);
+					fourOfaKindList.add(c);
 					canMakeDedication = true;
 				}
 			
@@ -256,10 +258,21 @@ public class Player implements Serializable {
 		return canMakeDedication;
 	}
 	
-	/*public void displayFourOfAKindChoice(ArrayList<Color> list)
-	{
+	public void displayFourOfAKindChoice()
+	{ 
+		for(Color c : fourOfaKindList)
+		{
+			System.out.print(c.name());
+		}
 		
-	}*/
+	}
+	public void displayThreePair()
+	{ 
+		for(Color c : threePairList)
+		{
+			System.out.print(c.name());
+		}
+	}
 	public int numOfCardColor(Color c)
 	{
 		int cardNo = 0;
@@ -281,7 +294,7 @@ public class Player implements Serializable {
 		{
 				if(numOfCardColor(c) >= 2)
 				{	
-					ThreePairlist.add(c);
+					threePairList.add(c);
 					count++;
 				}	
 		}
