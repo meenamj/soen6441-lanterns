@@ -33,7 +33,11 @@ public class GameFileTest {
 	public void testLoad(){
 		GameFile.save(gSave, "test.txt");
 		gLoad = GameFile.load("test.txt");
-		assertEquals("Player1", gLoad.getPlayers().get(0).getName());
+		String player1_name = gLoad.getPlayers().remove().getName();
+		String player2_name = gLoad.getPlayers().remove().getName();
+		assertTrue("Player1".equals(player1_name)
+				|| "Player1".equals(player2_name));
+		f = new File("test.txt");
+		f.delete();
 	}
-
 }

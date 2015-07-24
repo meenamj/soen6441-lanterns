@@ -29,7 +29,7 @@ public enum Color {
 	 * random color of lake tiles
 	 * @return Color 
 	 */
-	public static Color randomColor() {
+	public static Color random() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
 }

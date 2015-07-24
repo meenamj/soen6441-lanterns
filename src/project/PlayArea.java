@@ -2,16 +2,27 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
+
 /**
- * play area is a place for players to put a lake tile
- * and draw dedication tokens
+ * play area is a place for players to put a lake tile and draw dedication
+ * tokens
+ * 
  * @author none
  */
 public class PlayArea implements Serializable {
+
+	/**
+	 * ArrayList<Players> into Queue<Players>
+	 * <code> Queue<Player> players = new Queue<Player> </code>
+	 */
+
 	/**
 	 * the current number of favor tokens in play area
 	 */
@@ -23,11 +34,53 @@ public class PlayArea implements Serializable {
 	/**
 	 * a start lake tile is placed in the play area since the game start
 	 */
-	private LakeTile startLakeTile;
+	private LakeTile startLakeTile =new LakeTile(27,Color.BLUE,Color.RED,Color.WHITE, Color.BLACK, true);
 	/**
 	 * a group of lake tiles in a stack on play area
 	 */
 	private Stack<LakeTile> lakeTiles;
+	private static LakeTile[] lakeTilesList = {
+			new LakeTile(0,Color.GREEN,Color.BLUE,Color.BLACK, Color.ORANGE, false),
+			new LakeTile(1,Color.WHITE,Color.BLACK,Color.ORANGE, Color.BLACK, false),
+			new LakeTile(2,Color.GREEN,Color.GREEN,Color.GREEN, Color.RED, false),
+			new LakeTile(3,Color.ORANGE,Color.PURPLE,Color.ORANGE, Color.ORANGE, false),
+			new LakeTile(4,Color.RED,Color.BLACK,Color.GREEN, Color.PURPLE, false),
+			new LakeTile(5,Color.RED,Color.GREEN,Color.BLUE, Color.PURPLE, false),
+			new LakeTile(6,Color.WHITE,Color.GREEN,Color.ORANGE, Color.GREEN, true),
+			new LakeTile(7,Color.RED,Color.GREEN,Color.BLACK, Color.RED, false),
+			new LakeTile(8,Color.WHITE,Color.BLUE,Color.BLACK, Color.BLUE, true),
+			new LakeTile(9,Color.GREEN,Color.RED,Color.ORANGE, Color.WHITE, false),
+			new LakeTile(10,Color.BLUE,Color.PURPLE,Color.WHITE, Color.RED, false),
+			new LakeTile(11,Color.RED,Color.GREEN,Color.GREEN, Color.RED, true),
+			new LakeTile(12,Color.BLACK,Color.PURPLE,Color.BLUE, Color.BLUE, false),
+			new LakeTile(13,Color.WHITE,Color.WHITE,Color.RED, Color.GREEN, false),
+			new LakeTile(14,Color.ORANGE,Color.PURPLE,Color.WHITE, Color.WHITE, true),
+			new LakeTile(15,Color.PURPLE,Color.PURPLE,Color.RED, Color.GREEN, true),
+			new LakeTile(16,Color.GREEN,Color.BLUE,Color.ORANGE, Color.BLUE, false),
+			new LakeTile(17,Color.BLUE,Color.RED,Color.BLACK, Color.GREEN, false),
+			new LakeTile(18,Color.BLUE,Color.BLACK,Color.WHITE, Color.GREEN, false),
+			new LakeTile(19,Color.RED,Color.BLACK,Color.BLACK, Color.PURPLE, true),
+			new LakeTile(20,Color.RED,Color.BLACK,Color.RED, Color.ORANGE, true),
+			new LakeTile(21,Color.PURPLE,Color.BLUE,Color.PURPLE, Color.GREEN, true),
+			new LakeTile(22,Color.ORANGE,Color.BLUE,Color.WHITE, Color.ORANGE, true),
+			new LakeTile(23,Color.BLUE,Color.RED,Color.WHITE, Color.BLACK, false),
+			new LakeTile(24,Color.BLUE,Color.WHITE,Color.GREEN, Color.PURPLE, false),
+			new LakeTile(25,Color.ORANGE,Color.BLUE,Color.ORANGE, Color.BLUE, true),
+			new LakeTile(26,Color.BLACK,Color.WHITE,Color.BLACK, Color.WHITE, true),
+			//index 27 :: start lake tile
+			new LakeTile(28,Color.PURPLE,Color.BLACK,Color.WHITE, Color.ORANGE, false),
+			new LakeTile(29,Color.RED,Color.ORANGE,Color.PURPLE, Color.WHITE, false),
+			new LakeTile(30,Color.PURPLE,Color.PURPLE,Color.BLACK, Color.PURPLE, false),
+			new LakeTile(31,Color.ORANGE,Color.BLACK,Color.PURPLE, Color.RED, false),
+			new LakeTile(32,Color.BLUE,Color.WHITE,Color.ORANGE, Color.RED, false),
+			new LakeTile(33,Color.BLUE,Color.PURPLE,Color.BLACK, Color.ORANGE, false),
+			new LakeTile(34,Color.RED,Color.WHITE,Color.BLACK, Color.ORANGE, false),
+			new LakeTile(35,Color.WHITE,Color.GREEN,Color.PURPLE, Color.BLUE, false)
+			};
+	/**
+	 * a list of lake tiles in a play area (Build-2)
+	 */
+	private LakeTile[][] lakeTilesOnBoard;
 	/**
 	 * one kind of a dedication token
 	 */
@@ -45,7 +98,8 @@ public class PlayArea implements Serializable {
 	 */
 	private Stack<GenericToken> genericTokens;
 	/**
-	 * the total of each four of a kind, three pair and seven unique token in play area
+	 * the total of each four of a kind, three pair and seven unique token in
+	 * play area
 	 */
 	private int numberOfEachToken = 9;
 	/**
@@ -56,47 +110,82 @@ public class PlayArea implements Serializable {
 	 * the total of lake tiles in play area
 	 */
 	private int numberOfLakeTiles = 35;
+
 	/**
-	 * Contructor of play area
-	 * @param players list of players 
+	 * Constructor of play area
+	 * 
+	 * @param players
+	 *            list of players
 	 */
-	public PlayArea(ArrayList<Player> players) {
+	//update start lake tile on board
+	public PlayArea(Queue<Player> players) {
 		numberOfFavorTokens = 20;
 		supply = new Supply(players.size());
+		lakeTilesOnBoard = new LakeTile[65][65];
 		initializeLakeTiles(players.size());
+		lakeTilesOnBoard[32][32] = startLakeTile;
 		initializeDedicationTokens(players.size());
-		putStartLakeTile(players);
+		setUpLakeTile(players);
 	}
+
 	/**
 	 * put the flip lake tile of the game
-	 * @param players list of players
+	 * 
+	 * @param players
+	 *            list of players
 	 */
-	private void putStartLakeTile(ArrayList<Player> players) {
+	//update Queue
+	private void setUpLakeTile(Queue<Player> players) {
 		Random r = new Random();
-		int randomList = r.nextInt(players.size());
-		Vector<Color> color = startLakeTile.getColorOfFourSides();
-		players.get(randomList).setCurrentPlayer(true);
-		for (int i = 0; i < players.size(); i++) {
-			players.get((randomList + i) % players.size()).getLanternCards()
-					.add(supply.lanternStacks.get(color.get(i)).pop());
+		int randomRedLantern = r.nextInt(players.size());
+		Queue<Color> color = startLakeTile.getColorOfFourSides();
+		// change the current player who get red lantern card
+		color.add(color.remove());
+		for (int i = 0; i < randomRedLantern; i++) {
+			players.add(players.remove());	
 		}
+		int current_number_player = 0;
+		for (Color lantern_color : color){
+			if (current_number_player==players.size()){
+				break;
+			}else{
+				current_number_player++;
+			}
+			Player p = players.remove();
+			p.getLanternCards().add(
+					supply.lanternStacks.get(lantern_color).pop());
+			players.add(p);		
+		}
+		//rotate the laketile to the correct position on laketile board
+		color.add(color.remove());
+		color.add(color.remove());
+		color.add(color.remove());
 	}
+	
+
 	/**
-	 * create the total lake tiles for players in the game before giving to the players
-	 * @param numberOfPlayers the number of players
+	 * create the total lake tiles for players in the game before giving to the
+	 * players
+	 * 
+	 * @param numberOfPlayers
+	 *            the number of players
 	 */
 	private void initializeLakeTiles(int numberOfPlayers) {
 		int numberOfLTToRemove = 0;
-		startLakeTile = new LakeTile(true, -1);
+		boolean[] position = { true, true, true, true };
+		// Add start lake tile to the on board list
+		// lakeTilesOnBoard.add(startLakeTile);
 		// creation of Lake tiles
 		lakeTiles = new Stack<LakeTile>();
-		for (int i = 0; i < numberOfLakeTiles; i++) {
-			lakeTiles.add(new LakeTile(false, i ));
+		for (int i = 0; i < lakeTilesList.length; i++) {
+			lakeTiles.add(lakeTilesList[i]);
 		}
+		
 		// shuffle lakeTiles
 		Collections.shuffle(lakeTiles);
 
-		// the number of available lakeTiles will depend on the number of players
+		// the number of available lakeTiles will depend on the number of
+		// players
 		if (numberOfPlayers == 2) {
 			numberOfLTToRemove = 13;
 		} else if (numberOfPlayers == 3) {
@@ -112,7 +201,9 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * create the total dedication token related to number of players
-	 * @param numberOfPlayers number of players
+	 * 
+	 * @param numberOfPlayers
+	 *            number of players
 	 */
 	private void initializeDedicationTokens(int numberOfPlayers) {
 
@@ -123,13 +214,14 @@ public class PlayArea implements Serializable {
 		genericTokens = new Stack<GenericToken>();
 
 		for (int i = 0; i < numberOfEachToken; i++) {
-			
+
 			if (numberOfPlayers == 2 && DedicationToken.dotsList[i] > 2) {
 				// for 2 players, do not add dots in any stacks
 			} else if (numberOfPlayers == 3 && DedicationToken.dotsList[i] > 3) {
-				// for 3 players, do not add Dedication token4 dots in any stacks
+				// for 3 players, do not add Dedication token4 dots in any
+				// stacks
 			} else {
-				//add 3 kinds of dedication token in their stacks
+				// add 3 kinds of dedication token in their stacks
 				fourOfAKindTokens.add(new FourOfAKindToken(i));
 				threePairTokens.add(new ThreePairToken(i));
 				sevenUniqueTokens.add(new SevenUniqueToken(i));
@@ -137,60 +229,71 @@ public class PlayArea implements Serializable {
 		}
 
 		for (int i = 0; i < numberOfGenericToken; i++) {
-			//add 4 generic token into generic token stack
+			// add 4 generic token into generic token stack
 			genericTokens.add(new GenericToken());
 		}
 	}
+
 	/**
 	 * Get a group of lantern stacks in play area
+	 * 
 	 * @return supply (lantern stacks)
 	 */
 	public Supply getSupply() {
 		return supply;
 	}
-	
+
 	/**
 	 * Set a group of lantern stacks in play area
-	 * @param supply a group lantern stacks
+	 * 
+	 * @param supply
+	 *            a group lantern stacks
 	 */
 	public void setSupply(Supply supply) {
 		this.supply = supply;
 	}
-	
+
 	/**
 	 * Get a start lake tile which is used at the beginning of the game
+	 * 
 	 * @return a start lake tile
 	 */
 	public LakeTile getStartLakeTile() {
 		return startLakeTile;
 	}
-	
+
 	/**
 	 * Set a start lake tile which is used at the beginning
-	 * @param startLakeTile the beginning of lake tile on play area
+	 * 
+	 * @param startLakeTile
+	 *            the beginning of lake tile on play area
 	 */
 	public void setStartLakeTile(LakeTile startLakeTile) {
 		this.startLakeTile = startLakeTile;
 	}
 
 	/**
-	 * Get a lake tile stack in a play area 
+	 * Get a lake tile stack in a play area
+	 * 
 	 * @return a lake tile stack
 	 */
 	public Stack<LakeTile> getLakeTiles() {
 		return lakeTiles;
 	}
-	
+
 	/**
-	 * Set a lake tile stack in a play area 
-	 * @param lakeTiles a lake tile stack
+	 * Set a lake tile stack in a play area
+	 * 
+	 * @param lakeTiles
+	 *            a lake tile stack
 	 */
 	public void setLakeTiles(Stack<LakeTile> lakeTiles) {
 		this.lakeTiles = lakeTiles;
 	}
-	
+
 	/**
-	 * Get a seven unique token stack in a play area 
+	 * Get a seven unique token stack in a play area
+	 * 
 	 * @return a seven unique token stack
 	 */
 	public Stack<SevenUniqueToken> getSevenUniqueTokens() {
@@ -198,15 +301,18 @@ public class PlayArea implements Serializable {
 	}
 
 	/**
-	 * Set a seven unique token stack in a play area 
-	 * @param sevenUniqueTokens a seven unique token stack
+	 * Set a seven unique token stack in a play area
+	 * 
+	 * @param sevenUniqueTokens
+	 *            a seven unique token stack
 	 */
 	public void setSevenUniqueTokens(Stack<SevenUniqueToken> sevenUniqueTokens) {
 		this.sevenUniqueTokens = sevenUniqueTokens;
 	}
 
 	/**
-	 * Get a three pair token stack in a play area 
+	 * Get a three pair token stack in a play area
+	 * 
 	 * @return a three pair token stack
 	 */
 	public Stack<ThreePairToken> getThreePairTokens() {
@@ -215,15 +321,18 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Set a three pair token stack in a play area
-	 * @param threePairTokens a three pair token stack 
+	 * 
+	 * @param threePairTokens
+	 *            a three pair token stack
 	 */
 	public void setThreePairTokens(Stack<ThreePairToken> threePairTokens) {
 		this.threePairTokens = threePairTokens;
 	}
-	
+
 	/**
 	 * Get a four of a kind token stack in a play area
-	 * @return a four of a kind token stack 
+	 * 
+	 * @return a four of a kind token stack
 	 */
 	public Stack<FourOfAKindToken> getFourOfAKindTokens() {
 		return fourOfAKindTokens;
@@ -231,7 +340,9 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Set a four of a kind token stack in a play area
-	 * @param fourOfAKindTokens a four of a kind token stack 
+	 * 
+	 * @param fourOfAKindTokens
+	 *            a four of a kind token stack
 	 */
 	public void setFourOfAKindTokens(Stack<FourOfAKindToken> fourOfAKindTokens) {
 		this.fourOfAKindTokens = fourOfAKindTokens;
@@ -239,7 +350,8 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Get a generic token stack in a play area
-	 * @return a generic token stack 
+	 * 
+	 * @return a generic token stack
 	 */
 	public Stack<GenericToken> getGenericTokens() {
 		return genericTokens;
@@ -247,7 +359,9 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Set a generic token stack in a play area
-	 * @param genericTokens a generic token stack 
+	 * 
+	 * @param genericTokens
+	 *            a generic token stack
 	 */
 	public void setGenericToken(Stack<GenericToken> genericTokens) {
 		this.genericTokens = genericTokens;
@@ -255,7 +369,8 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Get a current number of favor tokens in a play area
-	 * @return a current number of favor tokens  
+	 * 
+	 * @return a current number of favor tokens
 	 */
 	public int getNumberOfFavorTokens() {
 		return numberOfFavorTokens;
@@ -263,10 +378,72 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * Set a current number of favor tokens in a play area
-	 * @param numberOfFavorTokens a current number of favor tokens 
+	 * 
+	 * @param numberOfFavorTokens
+	 *            a current number of favor tokens
 	 */
 	public void setNumberOfFavorTokens(int numberOfFavorTokens) {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
 
+	// Methods for build-2 starts
+	// 1) count the number of the lantern card the player has
+	// 2) Display all the open positions like (index, color, platform,
+	// true/false , facing player)
+	// 3) show the lake tile in his hand like (Color-facing player, color-facing
+	// player,color-facing player,
+	// color-facing player)
+	// 4) get all the tiles and information around a tile user has put
+	// 5) distribute bonuses based on the tile a user put
+
+	/*
+	 * 
+	 */
+	public LakeTile[][] getLakeTilesOnBoard() {
+		return lakeTilesOnBoard;
+	}
+
+	/*
+	 * get all open positions on the board
+	 */
+	public void showLakeTileBoard() {
+		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
+			if(isLakeTileInRow(i)){
+			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
+				LakeTile l = lakeTilesOnBoard[i][j];
+				if(l == null){
+					//System.out.printf("%s","[]");
+				}else{
+					System.out.print(l.getIndex());
+					for (Color c : l.getColorOfFourSides()){
+						System.out.print(c.name()+" ");
+					}
+					System.out.print("platform: "+l.isPlatform()+", rotation: "+l.getRotation());
+					
+					/*
+				System.out.printf("[%1$2s: %2$2s, %3$2s, %4$2s, %5$2s, platform: %6$b, rotation: %7$4s]",
+						l.getIndex(),
+						l.getColorOfFourSides().get(0).name(),
+						l.getColorOfFourSides().get(1).name(),
+						l.getColorOfFourSides().get(2).name(),
+						l.getColorOfFourSides().get(3).name(),
+						l.isPlatform(),
+						l.getRotation());
+						*/
+						
+				}
+			}
+			System.out.println("");
+			}
+		}
+	}
+	private boolean isLakeTileInRow(int nrow){
+		for (int i = 0; i < lakeTilesOnBoard[nrow].length; i++) {
+			if (lakeTilesOnBoard[nrow][i] != null)
+				return true;
+		}
+		return false;
+	}
+	
 }
+
