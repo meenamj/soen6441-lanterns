@@ -219,7 +219,11 @@ public class Player implements Serializable {
 					displayFourOfAKindChoice();
 					
 				}
-
+				else
+				{
+					System.out.println("Player can not perform Four Of a kind dedication");
+				}
+				
 				//check and get four of kind lantern card for player and give dedicated token
 				break;
 			case 2:
@@ -229,12 +233,20 @@ public class Player implements Serializable {
 					displayThreePair();
 					
 				}
+				else
+				{
+					System.out.println("Player can not perform Three Pair dedication");
+				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
 			case 3:
 				if(isSevenUnique())
 				{
 					System.out.println("Player can perform Seven Unique dedication");
+				}
+				else
+				{
+					System.out.println("Player can not perform Seven Unique dedication");
 				}
 				////check and get Seven Unique lantern card for user and give dedicated token
 				break;
@@ -272,6 +284,7 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : fourOfaKindList)
 		{
+			System.out.print("Select which four of a kind color you would like to dedicate");
 			System.out.print(c.name());
 		}
 		
@@ -284,6 +297,7 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : threePairList)
 		{
+			System.out.print("Select which four of a Three Pair color you would like to dedicate");
 			System.out.print(c.name());
 		}
 	}
