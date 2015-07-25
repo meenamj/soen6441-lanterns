@@ -16,12 +16,6 @@ public class Game implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
-	/**
-	 * Grid of the Board
-	 */
-	public int[][] table = new int[65][65];
-	
 	public static Scanner scan;
 	/**
 	 * the list of players in the game
@@ -56,7 +50,7 @@ public class Game implements Serializable {
 	public void setPlayers(Queue<Player> players) {
 		this.players = players;
 	}
-
+	
 	/**
 	 * Get a play area
 	 * 
@@ -283,78 +277,79 @@ public class Game implements Serializable {
 				+ " \n\n");
 
 		for (Player player : players) {
-			System.out.print("Player name : "
-					+ player.getName());
-			if (players.element().equals(player)) {
-				System.out.println(": (active)");
-				//currentTurn = i+1;
-			} else {
-				System.out.println();
-			}
-			System.out.println("Lantern Cards");
-			int black = 0;
-			int blue = 0;
-			int green = 0;
-			int red = 0;
-			int purple = 0;
-			int white = 0;
-			int orange = 0;
-			for (int j = 0; j < player.getLanternCards().size(); j++) {
-				if(player.getLanternCards().get(j).getColor() == Color.BLACK){
-					black+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.BLUE){
-					blue+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.GREEN){
-					green+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.RED){
-					red+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.PURPLE){
-					purple+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.WHITE){
-					white+=1;
-				}else if(player.getLanternCards().get(j).getColor() == Color.ORANGE){
-					orange+=1;
-				}
-			}
-			System.out.println("BLACK : "+black );
-			System.out.println("BLUE : "+blue );
-			System.out.println("GREEN : "+green );
-			System.out.println("RED : "+red );
-			System.out.println("PURPLE : "+purple );
-			System.out.println("WHITE : "+white );
-			System.out.println("ORANGE : "+orange);
-			
-			
-			int total = 0;
-			for (int j = 0; j < player.getDedicationTokens().size(); j++){
-				total+=player.getDedicationTokens().get(j).getHonor();
-			}
-			System.out.println("\nValue Dedication Token : "+ total);
-			System.out.println("\nLake Tiles :");
-			for (int j = 0; j < player.getLakeTiles().size(); j++) {
-				System.out.print(j
-						+ 1
-						+ " : index :"
-						+ player.getLakeTiles().get(j)
-								.getIndex()
-						+ " ");
-				for (Color c : player.getLakeTiles().get(j).getColorOfFourSides()){
-					System.out.print(c.name()+ " ");
-				}
-				System.out.println(" "
-				+ "Platform : "
-				+ player.getLakeTiles().get(j)
-						.isPlatform());
-			}
-			System.out.println("");
-			
+			showPlayerInformation(player);
 		}
 		
 		//Start Game
 		GamePlay();
 	}
 	
-	
+	public void showPlayerInformation(Player player){
+		System.out.print("Player name : "
+				+ player.getName());
+		if (players.element().equals(player)) {
+			System.out.println(": (active)");
+			//currentTurn = i+1;
+		} else {
+			System.out.println();
+		}
+		System.out.println("Lantern Cards");
+		int black = 0;
+		int blue = 0;
+		int green = 0;
+		int red = 0;
+		int purple = 0;
+		int white = 0;
+		int orange = 0;
+		for (int j = 0; j < player.getLanternCards().size(); j++) {
+			if(player.getLanternCards().get(j).getColor() == Color.BLACK){
+				black+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.BLUE){
+				blue+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.GREEN){
+				green+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.RED){
+				red+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.PURPLE){
+				purple+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.WHITE){
+				white+=1;
+			}else if(player.getLanternCards().get(j).getColor() == Color.ORANGE){
+				orange+=1;
+			}
+		}
+		System.out.println("BLACK : "+black );
+		System.out.println("BLUE : "+blue );
+		System.out.println("GREEN : "+green );
+		System.out.println("RED : "+red );
+		System.out.println("PURPLE : "+purple );
+		System.out.println("WHITE : "+white );
+		System.out.println("ORANGE : "+orange);
+		
+		
+		int total = 0;
+		for (int j = 0; j < player.getDedicationTokens().size(); j++){
+			total+=player.getDedicationTokens().get(j).getHonor();
+		}
+		System.out.println("\nValue Dedication Token : "+ total);
+		System.out.println("\nLake Tiles :");
+		for (int j = 0; j < player.getLakeTiles().size(); j++) {
+			System.out.print(j
+					+ 1
+					+ " : index :"
+					+ player.getLakeTiles().get(j)
+							.getIndex()
+					+ " ");
+			for (Color c : player.getLakeTiles().get(j).getColorOfFourSides()){
+				System.out.print(c.name()+ " ");
+			}
+			System.out.println(" "
+			+ "Platform : "
+			+ player.getLakeTiles().get(j)
+					.isPlatform());
+		}
+		System.out.println("");
+	}
 	//Build-2
 	
 	/**
@@ -365,6 +360,7 @@ public class Game implements Serializable {
 		@SuppressWarnings("resource")
 		Scanner inputscan = new Scanner(System.in);
 		String in;
+		
 		System.out.println("Select the one of the options(0-3):");
 		System.out.println(" 0. Exit");
 		System.out.println(" 1. Exchange a Lantern Card (optional) ");
@@ -382,6 +378,7 @@ public class Game implements Serializable {
 	 */
 	public void GamePlay(){
 		int input = 0;
+		Scanner inputscan = new Scanner(System.in);
 		boolean quit = false;
 		do{
 			Player current_player = players.element();
@@ -400,9 +397,36 @@ public class Game implements Serializable {
 				
 			case 3:
 				System.out.println("Place a lake tile selected");
+				if(isNumberOfLanternCardsOnHandsOver()){
+					System.out.println("You must make a dedication token or discard cards");
+				}
+				//**discard card or return to menu.
+				showCurrentPlayerLakeTile();
+				String in;
+				boolean flag = true;
+				do {
+					in = inputscan.next();
+					for( int i =0 ; i < current_player.getLakeTiles().size(); i++){
+						if(in.equals(""+i)){
+							flag= false;
+						}
+					}
+				} while (flag);
+				LakeTile active_laketile = current_player.getLakeTiles().get(Integer.parseInt(in));
+				ArrayList<Double> list = playArea.showIndexAvailableToPutLakeTileOnBoard();
+				System.out.print("Available index :::");
+				for (double index : list) {
+					System.out.print(index+" ");
+				}
+				/*
+				 * 
+				 * not working... we are doing it.
+				 * 
+				 */
 				placeALakeTile();
 				//change turn
 				players.add(players.remove());
+				
 				break;
 
 			case 0:
@@ -462,8 +486,8 @@ public class Game implements Serializable {
 	 * @param y position of y-coordinate
 	 * @param LakeTileIndex index of the lake, which need to put on the board
 	 */
-	public void putLakeTileOnGrid(int x, int y, int LakeTileIndex){
-			table[x][y] = LakeTileIndex;
+	public void putLakeTileOnGrid(int x, int y, LakeTile lakeTile){
+			playArea.getLakeTilesOnBoard()[x][y] = lakeTile;
 	}
 	
 	/**
@@ -472,31 +496,34 @@ public class Game implements Serializable {
 	 * @param y position of y-coordinates
 	 * 
 	 */
-	public int[] getTilesAround(int x, int y){
-		int[] tilesAround = new int[8];
-		tilesAround[0] = table[x-1][y+1];
-		tilesAround[1] = table[x][y+1];
-		tilesAround[2] = table[x+1][y+1];
-		tilesAround[3] = table[x+1][y];
-		tilesAround[4] = table[x+1][y-1];
-		tilesAround[5] = table[x][y-1];
-		tilesAround[6] = table[x-1][y-1];
-		tilesAround[7] = table[x-1][y];
-		return tilesAround;
+	public ArrayList<LakeTile> getTilesAround(int x, int y){
+		ArrayList<LakeTile> list_laketiles = new ArrayList<LakeTile>();
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x][y+1]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x+1][y]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x][y-1]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x-1][y]);
+		return list_laketiles;
 	}
 	
 	/**
 	 * Execute this method, if the third option is selected by player.
 	 */
 	public void placeALakeTile(){
+		/**
+		 * 
+		 * 
+		 * not working .. nothing now
+		 * 
+		 */
+		
+			
+		
+	}
+	
+	public boolean isNumberOfLanternCardsOnHandsOver(){
 		int lanternCards;
 		lanternCards = getNumberOfLanternCardsOnHand();
-		if(lanternCards > 12){
-			System.out.println("you can not have more than 12 lantern cards, need to make a dedication or discard cards");
-		}
-		else{
-			showCurrentPlayerLakeTile();
-		}
+		return lanternCards > 12;
 	}
 	
 	public void showCurrentPlayerLakeTile(){
@@ -508,7 +535,7 @@ public class Game implements Serializable {
 				System.out.print(c.name()+" ");
 			}
 			System.out.println("");
-		}	
+		}
 	}
 	
 
