@@ -29,4 +29,18 @@ public enum Rotation {
 	public static Rotation random() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
+	
+	public static Rotation getRotation(int rotation) throws Exception{
+		if (rotation==0){
+			return D0;
+		}else if(rotation==90){
+			return D90;
+		}else if(rotation==180){
+			return D180;
+		}else if(rotation==270){
+			return D270;
+		}else{
+			throw new Exception("not available for this degree");
+		}
+	}
 }

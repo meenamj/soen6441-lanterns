@@ -187,5 +187,7 @@ public class Player implements Serializable {
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
-
+	public int getNumberOfLakeTile(){
+		return this.lakeTiles.size();
+	}
 }

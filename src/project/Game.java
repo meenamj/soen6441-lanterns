@@ -227,8 +227,9 @@ public class Game implements Serializable {
 
 	/**
 	 * Show information of the card on play area and players hand
+	 * @throws Exception 
 	 */
-	private void showInformation() {
+	private void showInformation() throws Exception {
 		System.out.println("\nFour Of A Kind Token Stack");
 		for (int i = 0; i < this.playArea.getFourOfAKindTokens().size(); i++) {
 			System.out.println(this.playArea.getFourOfAKindTokens().get(i)
@@ -254,27 +255,34 @@ public class Game implements Serializable {
 		
 		System.out.println("\nLantern Card Supply :");
 		for (Color c : Color.values()){
-		System.out.println(c.name() + " : " +
+		System.out.println(Color.getColorText(c, "\u2022") + " : " +
 				this.playArea.getSupply().lanternStacks.get(c).size());
 		}
 		System.out.println("Amount of Favor Token :"+ this.playArea.getNumberOfFavorTokens());
 		System.out.println("\nLake Tiles Stack");
 		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
 			LakeTile l = this.playArea.getLakeTiles().get(i);
-			System.out.print(l.getIndex()+" : ");
+			System.out.print(l.getIndex()+" : \t");
 			for (Color c: l.getColorOfFourSides()){
-				System.out.print(c.name() + " ");
+				System.out.print(Color.getColorText(c, "\u2022") + " ");
 			}
-			System.out.println(" --- Platform : "+ l.isPlatform());
+			System.out.print(" --- Platform : ");
+			if(l.isPlatform()){
+				System.out.println("\u273f");
+			}else{
+				System.out.println();
+			}
 		}
 
 		System.out.print("\nStart Lake Tile\n");
 		System.out.print(playArea.getStartLakeTile().getIndex()+" : ");
 		for ( Color c : playArea.getStartLakeTile().getColorOfFourSides()){
-			System.out.print(c.name()+" ");
+			System.out.print(Color.getColorText(c, "\u2022")+" ");
 		}
-		System.out.print(this.playArea.getStartLakeTile().isPlatform()
-				+ " \n\n");
+		if(this.playArea.getStartLakeTile().isPlatform()){
+			System.out.print("\u273f");
+		}
+		System.out.print(" \n\n");
 
 		for (Player player : players) {
 			showPlayerInformation(player);
@@ -284,7 +292,7 @@ public class Game implements Serializable {
 		GamePlay();
 	}
 	
-	public void showPlayerInformation(Player player){
+	public void showPlayerInformation(Player player) throws Exception{
 		System.out.print("Player name : "
 				+ player.getName());
 		if (players.element().equals(player)) {
@@ -318,13 +326,13 @@ public class Game implements Serializable {
 				orange+=1;
 			}
 		}
-		System.out.println("BLACK : "+black );
-		System.out.println("BLUE : "+blue );
-		System.out.println("GREEN : "+green );
-		System.out.println("RED : "+red );
-		System.out.println("PURPLE : "+purple );
-		System.out.println("WHITE : "+white );
-		System.out.println("ORANGE : "+orange);
+		System.out.print(Color.getColorText(Color.BLACK, " ")+black+" ");
+		System.out.print(Color.getColorText(Color.BLUE, " ")+blue+" ");
+		System.out.print(Color.getColorText(Color.GREEN, " ")+green+" ");
+		System.out.print(Color.getColorText(Color.RED, " ")+red+" ");
+		System.out.print(Color.getColorText(Color.PURPLE, " ")+purple+" ");
+		System.out.print(Color.getColorText(Color.WHITE, " ")+white+" ");
+		System.out.println(Color.getColorText(Color.ORANGE, " ")+orange+" ");
 		
 		
 		int total = 0;
@@ -341,12 +349,13 @@ public class Game implements Serializable {
 							.getIndex()
 					+ " ");
 			for (Color c : player.getLakeTiles().get(j).getColorOfFourSides()){
-				System.out.print(c.name()+ " ");
+				System.out.print(Color.getColorText(c, " ")+ " ");
 			}
-			System.out.println(" "
-			+ "Platform : "
-			+ player.getLakeTiles().get(j)
-					.isPlatform());
+			System.out.print("Platform : ");
+			if(player.getLakeTiles().get(j).isPlatform()){
+				System.out.print("\u273f");
+			}
+			System.out.println();
 		}
 		System.out.println("");
 	}
@@ -375,14 +384,22 @@ public class Game implements Serializable {
 	
 	/**
 	 * Start Game play
+	 * @throws Exception 
 	 */
-	public void GamePlay(){
+	public void GamePlay() throws Exception{
 		int input = 0;
 		Scanner inputscan = new Scanner(System.in);
 		boolean quit = false;
 		do{
 			Player current_player = players.element();
 			System.out.println("Player - "+ current_player.getName()+" will start to play :");
+			
+			//check number of lake tile
+			while(current_player.getNumberOfLakeTile()<3){
+				System.out.println("Draw New LakeTile");
+				LakeTile new_laketile = playArea.getLakeTiles().pop();
+				current_player.getLakeTiles().add(new_laketile);
+			}
 			playArea.showLakeTileBoard();
 			input=Menu();
 
@@ -412,21 +429,47 @@ public class Game implements Serializable {
 						}
 					}
 				} while (flag);
-				LakeTile active_laketile = current_player.getLakeTiles().get(Integer.parseInt(in));
-				ArrayList<Double> list = playArea.showIndexAvailableToPutLakeTileOnBoard();
-				System.out.print("Available index :::");
-				for (double index : list) {
-					System.out.print(index+" ");
+				//get the laketile which player wants to put then remove the tile on their hand
+				LakeTile active_laketile = current_player.getLakeTiles().remove(Integer.parseInt(in));
+				ArrayList<Position> list = playArea.showIndexAvailableToPutLakeTileOnBoard();
+				System.out.println("Available index :::");
+				for (int i=0; i<list.size(); i++){
+					Position index = list.get(i);
+					System.out.print("option "+i+" ::"+index.getText());
+					
+					//show adjacent color
+					playArea.showAdjacentColor(index);
+					System.out.println();
 				}
+				System.out.print("which position you want to put laketile::");
+				//input position and check
+				flag = true;
+				do {
+					in = inputscan.next();
+					for( int i =0 ; i < list.size(); i++){
+						if(in.equals(""+i)){
+							flag= false;
+						}
+					}
+				} while (flag);
+				placeALakeTile(list.get(Integer.parseInt(in)), active_laketile);
+				
+				System.out.println();
+				showPossibleRotation(active_laketile);
+				
+				do {
+					in = inputscan.next();
+				} while (!in.equals("0") && !in.equals("1") && !in.equals("2") && !in.equals("3"));
+				int rotation = Integer.parseInt(in)*90;
+				active_laketile.setRotation(Rotation.getRotation(rotation));
 				/*
 				 * 
 				 * not working... we are doing it.
 				 * 
 				 */
-				placeALakeTile();
+				
 				//change turn
 				players.add(players.remove());
-				
 				break;
 
 			case 0:
@@ -453,8 +496,9 @@ public class Game implements Serializable {
 	/**
 	 * display the lake tile a player need to put next
 	 * for example : 1. (Index, RED -P1, BLUE - P2, BLACK -P3, PURPLE- P4, Rotation)  
+	 * @throws Exception 
 	 */
-	public void showPlayerLakeTile(){
+	public void showPlayerLakeTile() throws Exception{
 		for (int j = 1; j < 5; j++) 
 		{
 			Player current_player = players.element();
@@ -463,11 +507,12 @@ public class Game implements Serializable {
 					+ " ");
 			int i = 1;
 			for( Color c : current_player.getLakeTiles().get(0).getColorOfFourSides()){
-				System.out.print(c.name() + "P"+(i++));
+				System.out.print(Color.getColorText(c, "\u2022") + "P"+(i++));
 			}
-			System.out.print("Platform : "
-					+ current_player.getLakeTiles().get(0).isPlatform());
-					
+			System.out.print("platform::");
+			if(current_player.getLakeTiles().get(0).isPlatform()){
+				System.out.println("\u273f");
+			}
 			if(j==1){
 				System.out.print( "Rotation : 0");
 			}else if(j==2){
@@ -478,16 +523,6 @@ public class Game implements Serializable {
 				System.out.print( "Rotation : 270");
 			}
 		}
-	}
-	
-	/**
-	 * To put a tile in the grid
-	 * @param x position of x-coordinate
-	 * @param y position of y-coordinate
-	 * @param LakeTileIndex index of the lake, which need to put on the board
-	 */
-	public void putLakeTileOnGrid(int x, int y, LakeTile lakeTile){
-			playArea.getLakeTilesOnBoard()[x][y] = lakeTile;
 	}
 	
 	/**
@@ -508,16 +543,16 @@ public class Game implements Serializable {
 	/**
 	 * Execute this method, if the third option is selected by player.
 	 */
-	public void placeALakeTile(){
+	public void placeALakeTile(Position pos , LakeTile lakeTile){
+		int x = pos.getX();
+		int y = pos.getY();
+		playArea.getLakeTilesOnBoard()[x][y] = lakeTile;
 		/**
 		 * 
 		 * 
-		 * not working .. nothing now
+		 * not working .. check player who will get lantern cards
 		 * 
 		 */
-		
-			
-		
 	}
 	
 	public boolean isNumberOfLanternCardsOnHandsOver(){
@@ -526,17 +561,30 @@ public class Game implements Serializable {
 		return lanternCards > 12;
 	}
 	
-	public void showCurrentPlayerLakeTile(){
+	public void showCurrentPlayerLakeTile() throws Exception{
 		ArrayList<LakeTile> current_player_laketiles = players.element().getLakeTiles();
 		for (LakeTile lake_tile : current_player_laketiles){
 			int index = current_player_laketiles.indexOf(lake_tile);
 			System.out.print("index : " + index + "::");
 			for(Color c : lake_tile.getColorOfFourSides()){
-				System.out.print(c.name()+" ");
+				System.out.print(Color.getColorText(c, "\u2022")+" ");
 			}
 			System.out.println("");
 		}
 	}
 	
-
+	public void showPossibleRotation(LakeTile l) throws Exception{
+		int sideOfLakeTile = 4;
+		System.out.println("How do you want to rotate the lake tile?");
+		for(int i = 0; i < sideOfLakeTile; i++){
+			System.out.print(i+":");
+			ArrayList<Color> four_side_colors = new ArrayList<Color>(l.getColorOfFourSides());
+			System.out.print(Color.getColorText(four_side_colors.get(0), "\u2191")+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(1), "\u2192")+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(2), "\u2193")+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(3), "\u2190")+" ");
+			System.out.println();
+			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
+		}
+	}
 }

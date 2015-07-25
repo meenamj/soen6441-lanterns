@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -159,7 +158,6 @@ public class PlayArea implements Serializable {
 		lakeTilesOnBoard = new LakeTile[65][65];
 		initializeLakeTiles(players.size());
 		lakeTilesOnBoard[32][32] = startLakeTile;
-		lakeTilesOnBoard[33][32] = lakeTiles.pop();
 		initializeDedicationTokens(players.size());
 		setUpLakeTile(players);
 	}
@@ -441,8 +439,10 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * get all open positions on the board
+	 * @throws Exception 
 	 */
-	public void showLakeTileBoard() {
+	public void showLakeTileBoard() throws Exception {
+		System.out.println("-- Lake Tile Board --");
 		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
 			if (isLakeTileInRow(i)) {
 				for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
@@ -450,9 +450,9 @@ public class PlayArea implements Serializable {
 					if (l == null) {
 
 					} else {
-						System.out.print(l.getIndex() + ": ");
+						System.out.print("("+i+","+j+") "+l.getIndex() + ": ");
 						for (Color c : l.getColorOfFourSides()) {
-							System.out.print(c.name() + " ");
+							System.out.print(Color.getColorText(c, "\u2022") + " ");
 						}
 						System.out.print("platform: " + l.isPlatform()
 								+ ", rotation: " + l.getRotation());
@@ -484,39 +484,67 @@ public class PlayArea implements Serializable {
 	 *  
 	 * @return coordinates of available positions to put a lake tile on the board
 	 */
-	public ArrayList<Double> showIndexAvailableToPutLakeTileOnBoard() {
-		ArrayList<Double> index_list = new ArrayList<Double>();
+	public ArrayList<Position> showIndexAvailableToPutLakeTileOnBoard() {
+		ArrayList<Position> index_list = new ArrayList<Position>();
 		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
 			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
 				//check all the available lake tile on board with a condition
 				boolean flag = false;
-				if(j+1<lakeTilesOnBoard[i].length)
-				if(lakeTilesOnBoard[i][j+1] != null){
-					flag =true;
-				}
-				if(i+1<lakeTilesOnBoard.length)
-				if(lakeTilesOnBoard[i+1][j] != null){
-					flag =true;
-				}
-				if(j-1>0)
-				if(lakeTilesOnBoard[i][j-1] != null){
-					flag =true;
-				}
-				if(i-1>0)
-				if(lakeTilesOnBoard[i-1][j] != null){
-					flag =true;
-				}
+				if(j+1<lakeTilesOnBoard[i].length)//is the index(j+1) greater than the array index? 
+					if(lakeTilesOnBoard[i][j+1] != null){//check the available
+						flag =true;
+					}
+				if(i+1<lakeTilesOnBoard.length)//is the index(i+1) greater than the array index?
+					if(lakeTilesOnBoard[i+1][j] != null){
+						flag =true;
+					}
+				if(j-1>0)//is the index(j-1) less than the array index?
+					if(lakeTilesOnBoard[i][j-1] != null){
+						flag =true;
+					}
+				if(i-1>0)//is the index(i-1) less than the array index?
+					if(lakeTilesOnBoard[i-1][j] != null){
+						flag =true;
+					}
 				//is there a lake tile on this position?
 				if(lakeTilesOnBoard[i][j] instanceof LakeTile){
 					flag = false;
 				}
 				//add index
 				if(flag){
-					double index = Double.parseDouble(i+"."+j);
+					Position index = new Position(i,j);
 					index_list.add(index);
 				}
 			}
 		}
 		return index_list;
+	}
+	public Color showAdjacentColor(Position pos) throws Exception{
+		if(pos.getX()-1>0 && lakeTilesOnBoard[pos.getX()-1][pos.getY()]!=null){
+			Queue color = lakeTilesOnBoard[pos.getX()-1][pos.getY()].getColorOfFourSides();
+			ArrayList<Color> l = new ArrayList<Color>(color);
+			Color c = l.get(1);
+			System.out.println(Color.getColorText(c, "\u2190"));
+		}
+		if(pos.getY()-1>0 && lakeTilesOnBoard[pos.getX()][pos.getY()-1]!=null){
+			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY()-1].getColorOfFourSides();
+			ArrayList<Color> l = new ArrayList<Color>(color);
+			Color c = l.get(2);
+			System.out.println(Color.getColorText(c, "\u2191"));
+		}
+		if(pos.getX()+1<lakeTilesOnBoard.length && lakeTilesOnBoard[pos.getX()+1][pos.getY()]!=null){
+			Queue color = lakeTilesOnBoard[pos.getX()+1][pos.getY()].getColorOfFourSides();
+			ArrayList<Color> l = new ArrayList<Color>(color);
+			Color c = l.get(3);
+			System.out.println(Color.getColorText(c, "\u2192"));
+		}
+		if(pos.getY()+1<lakeTilesOnBoard[0].length && lakeTilesOnBoard[pos.getX()][pos.getY()+1]!=null){
+			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY()+1].getColorOfFourSides();
+			ArrayList<Color> l = new ArrayList<Color>(color);
+			Color c = l.get(0);
+			System.out.println(Color.getColorText(c, "\u2193"));
+		}
+		
+		return null;
 	}
 }

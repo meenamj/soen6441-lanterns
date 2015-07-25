@@ -32,4 +32,32 @@ public enum Color {
 	public static Color random() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
+	
+	public static String getColorText(Color c, String text) throws Exception{
+		if(c.equals(Color.ORANGE)){ 
+			return "\u001b[1;37m\u001b[43m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.GREEN)){
+			return "\u001b[1;37m\u001b[42m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.PURPLE)){
+			return "\u001b[1;37m\u001b[45m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.WHITE)){
+			return "\u001b[1;37m\u001b[47m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.BLUE)){
+			return "\u001b[1;37m\u001b[44m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.RED)){
+			return "\u001b[1;37m\u001b[41m"+text+"\u001b[47m\u001b[0m";
+		}else if(c.equals(Color.BLACK)){
+			return "\u001b[1;37m\u001b[40m"+text+"\u001b[47m\u001b[0m";
+		}else{
+			throw new Exception();
+		}
+	}
+	
+	public static void main(String args[]) throws Exception{
+		for(Color c : Color.values()){
+			String a = getColorText(c, "\u2022");
+			System.out.println(a);
+		}
+	}
+	
 }
