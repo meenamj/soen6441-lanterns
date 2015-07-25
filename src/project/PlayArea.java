@@ -34,49 +34,84 @@ public class PlayArea implements Serializable {
 	/**
 	 * a start lake tile is placed in the play area since the game start
 	 */
-	private LakeTile startLakeTile =new LakeTile(27,Color.BLUE,Color.RED,Color.WHITE, Color.BLACK, true);
+	private LakeTile startLakeTile = new LakeTile(27, Color.BLUE, Color.RED,
+			Color.WHITE, Color.BLACK, true);
 	/**
 	 * a group of lake tiles in a stack on play area
 	 */
 	private Stack<LakeTile> lakeTiles;
 	private static LakeTile[] lakeTilesList = {
-			new LakeTile(0,Color.GREEN,Color.BLUE,Color.BLACK, Color.ORANGE, false),
-			new LakeTile(1,Color.WHITE,Color.BLACK,Color.ORANGE, Color.BLACK, false),
-			new LakeTile(2,Color.GREEN,Color.GREEN,Color.GREEN, Color.RED, false),
-			new LakeTile(3,Color.ORANGE,Color.PURPLE,Color.ORANGE, Color.ORANGE, false),
-			new LakeTile(4,Color.RED,Color.BLACK,Color.GREEN, Color.PURPLE, false),
-			new LakeTile(5,Color.RED,Color.GREEN,Color.BLUE, Color.PURPLE, false),
-			new LakeTile(6,Color.WHITE,Color.GREEN,Color.ORANGE, Color.GREEN, true),
-			new LakeTile(7,Color.RED,Color.GREEN,Color.BLACK, Color.RED, false),
-			new LakeTile(8,Color.WHITE,Color.BLUE,Color.BLACK, Color.BLUE, true),
-			new LakeTile(9,Color.GREEN,Color.RED,Color.ORANGE, Color.WHITE, false),
-			new LakeTile(10,Color.BLUE,Color.PURPLE,Color.WHITE, Color.RED, false),
-			new LakeTile(11,Color.RED,Color.GREEN,Color.GREEN, Color.RED, true),
-			new LakeTile(12,Color.BLACK,Color.PURPLE,Color.BLUE, Color.BLUE, false),
-			new LakeTile(13,Color.WHITE,Color.WHITE,Color.RED, Color.GREEN, false),
-			new LakeTile(14,Color.ORANGE,Color.PURPLE,Color.WHITE, Color.WHITE, true),
-			new LakeTile(15,Color.PURPLE,Color.PURPLE,Color.RED, Color.GREEN, true),
-			new LakeTile(16,Color.GREEN,Color.BLUE,Color.ORANGE, Color.BLUE, false),
-			new LakeTile(17,Color.BLUE,Color.RED,Color.BLACK, Color.GREEN, false),
-			new LakeTile(18,Color.BLUE,Color.BLACK,Color.WHITE, Color.GREEN, false),
-			new LakeTile(19,Color.RED,Color.BLACK,Color.BLACK, Color.PURPLE, true),
-			new LakeTile(20,Color.RED,Color.BLACK,Color.RED, Color.ORANGE, true),
-			new LakeTile(21,Color.PURPLE,Color.BLUE,Color.PURPLE, Color.GREEN, true),
-			new LakeTile(22,Color.ORANGE,Color.BLUE,Color.WHITE, Color.ORANGE, true),
-			new LakeTile(23,Color.BLUE,Color.RED,Color.WHITE, Color.BLACK, false),
-			new LakeTile(24,Color.BLUE,Color.WHITE,Color.GREEN, Color.PURPLE, false),
-			new LakeTile(25,Color.ORANGE,Color.BLUE,Color.ORANGE, Color.BLUE, true),
-			new LakeTile(26,Color.BLACK,Color.WHITE,Color.BLACK, Color.WHITE, true),
-			//index 27 :: start lake tile
-			new LakeTile(28,Color.PURPLE,Color.BLACK,Color.WHITE, Color.ORANGE, false),
-			new LakeTile(29,Color.RED,Color.ORANGE,Color.PURPLE, Color.WHITE, false),
-			new LakeTile(30,Color.PURPLE,Color.PURPLE,Color.BLACK, Color.PURPLE, false),
-			new LakeTile(31,Color.ORANGE,Color.BLACK,Color.PURPLE, Color.RED, false),
-			new LakeTile(32,Color.BLUE,Color.WHITE,Color.ORANGE, Color.RED, false),
-			new LakeTile(33,Color.BLUE,Color.PURPLE,Color.BLACK, Color.ORANGE, false),
-			new LakeTile(34,Color.RED,Color.WHITE,Color.BLACK, Color.ORANGE, false),
-			new LakeTile(35,Color.WHITE,Color.GREEN,Color.PURPLE, Color.BLUE, false)
-			};
+			new LakeTile(0, Color.GREEN, Color.BLUE, Color.BLACK, Color.ORANGE,
+					false),
+			new LakeTile(1, Color.WHITE, Color.BLACK, Color.ORANGE,
+					Color.BLACK, false),
+			new LakeTile(2, Color.GREEN, Color.GREEN, Color.GREEN, Color.RED,
+					false),
+			new LakeTile(3, Color.ORANGE, Color.PURPLE, Color.ORANGE,
+					Color.ORANGE, false),
+			new LakeTile(4, Color.RED, Color.BLACK, Color.GREEN, Color.PURPLE,
+					false),
+			new LakeTile(5, Color.RED, Color.GREEN, Color.BLUE, Color.PURPLE,
+					false),
+			new LakeTile(6, Color.WHITE, Color.GREEN, Color.ORANGE,
+					Color.GREEN, true),
+			new LakeTile(7, Color.RED, Color.GREEN, Color.BLACK, Color.RED,
+					false),
+			new LakeTile(8, Color.WHITE, Color.BLUE, Color.BLACK, Color.BLUE,
+					true),
+			new LakeTile(9, Color.GREEN, Color.RED, Color.ORANGE, Color.WHITE,
+					false),
+			new LakeTile(10, Color.BLUE, Color.PURPLE, Color.WHITE, Color.RED,
+					false),
+			new LakeTile(11, Color.RED, Color.GREEN, Color.GREEN, Color.RED,
+					true),
+			new LakeTile(12, Color.BLACK, Color.PURPLE, Color.BLUE, Color.BLUE,
+					false),
+			new LakeTile(13, Color.WHITE, Color.WHITE, Color.RED, Color.GREEN,
+					false),
+			new LakeTile(14, Color.ORANGE, Color.PURPLE, Color.WHITE,
+					Color.WHITE, true),
+			new LakeTile(15, Color.PURPLE, Color.PURPLE, Color.RED,
+					Color.GREEN, true),
+			new LakeTile(16, Color.GREEN, Color.BLUE, Color.ORANGE, Color.BLUE,
+					false),
+			new LakeTile(17, Color.BLUE, Color.RED, Color.BLACK, Color.GREEN,
+					false),
+			new LakeTile(18, Color.BLUE, Color.BLACK, Color.WHITE, Color.GREEN,
+					false),
+			new LakeTile(19, Color.RED, Color.BLACK, Color.BLACK, Color.PURPLE,
+					true),
+			new LakeTile(20, Color.RED, Color.BLACK, Color.RED, Color.ORANGE,
+					true),
+			new LakeTile(21, Color.PURPLE, Color.BLUE, Color.PURPLE,
+					Color.GREEN, true),
+			new LakeTile(22, Color.ORANGE, Color.BLUE, Color.WHITE,
+					Color.ORANGE, true),
+			new LakeTile(23, Color.BLUE, Color.RED, Color.WHITE, Color.BLACK,
+					false),
+			new LakeTile(24, Color.BLUE, Color.WHITE, Color.GREEN,
+					Color.PURPLE, false),
+			new LakeTile(25, Color.ORANGE, Color.BLUE, Color.ORANGE,
+					Color.BLUE, true),
+			new LakeTile(26, Color.BLACK, Color.WHITE, Color.BLACK,
+					Color.WHITE, true),
+			// index 27 :: start lake tile
+			new LakeTile(28, Color.PURPLE, Color.BLACK, Color.WHITE,
+					Color.ORANGE, false),
+			new LakeTile(29, Color.RED, Color.ORANGE, Color.PURPLE,
+					Color.WHITE, false),
+			new LakeTile(30, Color.PURPLE, Color.PURPLE, Color.BLACK,
+					Color.PURPLE, false),
+			new LakeTile(31, Color.ORANGE, Color.BLACK, Color.PURPLE,
+					Color.RED, false),
+			new LakeTile(32, Color.BLUE, Color.WHITE, Color.ORANGE, Color.RED,
+					false),
+			new LakeTile(33, Color.BLUE, Color.PURPLE, Color.BLACK,
+					Color.ORANGE, false),
+			new LakeTile(34, Color.RED, Color.WHITE, Color.BLACK, Color.ORANGE,
+					false),
+			new LakeTile(35, Color.WHITE, Color.GREEN, Color.PURPLE,
+					Color.BLUE, false) };
 	/**
 	 * a list of lake tiles in a play area (Build-2)
 	 */
@@ -117,13 +152,14 @@ public class PlayArea implements Serializable {
 	 * @param players
 	 *            list of players
 	 */
-	//update start lake tile on board
+	// update start lake tile on board
 	public PlayArea(Queue<Player> players) {
 		numberOfFavorTokens = 20;
 		supply = new Supply(players.size());
 		lakeTilesOnBoard = new LakeTile[65][65];
 		initializeLakeTiles(players.size());
 		lakeTilesOnBoard[32][32] = startLakeTile;
+		lakeTilesOnBoard[33][32] = lakeTiles.pop();
 		initializeDedicationTokens(players.size());
 		setUpLakeTile(players);
 	}
@@ -134,7 +170,7 @@ public class PlayArea implements Serializable {
 	 * @param players
 	 *            list of players
 	 */
-	//update Queue
+	// update Queue
 	private void setUpLakeTile(Queue<Player> players) {
 		Random r = new Random();
 		int randomRedLantern = r.nextInt(players.size());
@@ -142,26 +178,25 @@ public class PlayArea implements Serializable {
 		// change the current player who get red lantern card
 		color.add(color.remove());
 		for (int i = 0; i < randomRedLantern; i++) {
-			players.add(players.remove());	
+			players.add(players.remove());
 		}
 		int current_number_player = 0;
-		for (Color lantern_color : color){
-			if (current_number_player==players.size()){
+		for (Color lantern_color : color) {
+			if (current_number_player == players.size()) {
 				break;
-			}else{
+			} else {
 				current_number_player++;
 			}
 			Player p = players.remove();
 			p.getLanternCards().add(
 					supply.lanternStacks.get(lantern_color).pop());
-			players.add(p);		
+			players.add(p);
 		}
-		//rotate the laketile to the correct position on laketile board
+		// rotate the laketile to the correct position on laketile board
 		color.add(color.remove());
 		color.add(color.remove());
 		color.add(color.remove());
 	}
-	
 
 	/**
 	 * create the total lake tiles for players in the game before giving to the
@@ -180,7 +215,7 @@ public class PlayArea implements Serializable {
 		for (int i = 0; i < lakeTilesList.length; i++) {
 			lakeTiles.add(lakeTilesList[i]);
 		}
-		
+
 		// shuffle lakeTiles
 		Collections.shuffle(lakeTiles);
 
@@ -396,54 +431,92 @@ public class PlayArea implements Serializable {
 	// 4) get all the tiles and information around a tile user has put
 	// 5) distribute bonuses based on the tile a user put
 
-	/*
-	 * 
+	/**
+	 * To get all the lake tiles available on the board
+	 * @return list of lake tiles found on board
 	 */
 	public LakeTile[][] getLakeTilesOnBoard() {
 		return lakeTilesOnBoard;
 	}
 
-	/*
+	/**
 	 * get all open positions on the board
 	 */
 	public void showLakeTileBoard() {
 		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
-			if(isLakeTileInRow(i)){
-			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
-				LakeTile l = lakeTilesOnBoard[i][j];
-				if(l == null){
-					//System.out.printf("%s","[]");
-				}else{
-					System.out.print(l.getIndex());
-					for (Color c : l.getColorOfFourSides()){
-						System.out.print(c.name()+" ");
+			if (isLakeTileInRow(i)) {
+				for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
+					LakeTile l = lakeTilesOnBoard[i][j];
+					if (l == null) {
+
+					} else {
+						System.out.print(l.getIndex() + ": ");
+						for (Color c : l.getColorOfFourSides()) {
+							System.out.print(c.name() + " ");
+						}
+						System.out.print("platform: " + l.isPlatform()
+								+ ", rotation: " + l.getRotation());
+
 					}
-					System.out.print("platform: "+l.isPlatform()+", rotation: "+l.getRotation());
-					
-					/*
-				System.out.printf("[%1$2s: %2$2s, %3$2s, %4$2s, %5$2s, platform: %6$b, rotation: %7$4s]",
-						l.getIndex(),
-						l.getColorOfFourSides().get(0).name(),
-						l.getColorOfFourSides().get(1).name(),
-						l.getColorOfFourSides().get(2).name(),
-						l.getColorOfFourSides().get(3).name(),
-						l.isPlatform(),
-						l.getRotation());
-						*/
-						
 				}
-			}
-			System.out.println("");
+				System.out.println("");
 			}
 		}
 	}
-	private boolean isLakeTileInRow(int nrow){
+	
+	/**
+	 * To check if a lake tile is available in a row in the grid or not
+	 * @param nrow number of a row in the grid
+	 * @return if a lake tile found in a row then return true otherwise return false
+	 */
+
+	private boolean isLakeTileInRow(int nrow) {
 		for (int i = 0; i < lakeTilesOnBoard[nrow].length; i++) {
 			if (lakeTilesOnBoard[nrow][i] != null)
 				return true;
 		}
 		return false;
 	}
-	
-}
 
+	
+	/**
+	 * this method checks for all the positions available to put on the board
+	 *  
+	 * @return coordinates of available positions to put a lake tile on the board
+	 */
+	public ArrayList<Double> showIndexAvailableToPutLakeTileOnBoard() {
+		ArrayList<Double> index_list = new ArrayList<Double>();
+		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
+			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
+				//check all the available lake tile on board with a condition
+				boolean flag = false;
+				if(j+1<lakeTilesOnBoard[i].length)
+				if(lakeTilesOnBoard[i][j+1] != null){
+					flag =true;
+				}
+				if(i+1<lakeTilesOnBoard.length)
+				if(lakeTilesOnBoard[i+1][j] != null){
+					flag =true;
+				}
+				if(j-1>0)
+				if(lakeTilesOnBoard[i][j-1] != null){
+					flag =true;
+				}
+				if(i-1>0)
+				if(lakeTilesOnBoard[i-1][j] != null){
+					flag =true;
+				}
+				//is there a lake tile on this position?
+				if(lakeTilesOnBoard[i][j] instanceof LakeTile){
+					flag = false;
+				}
+				//add index
+				if(flag){
+					double index = Double.parseDouble(i+"."+j);
+					index_list.add(index);
+				}
+			}
+		}
+		return index_list;
+	}
+}
