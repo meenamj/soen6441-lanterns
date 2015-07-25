@@ -243,6 +243,7 @@ public class Player implements Serializable {
 				if(isSevenUnique())
 				{
 					System.out.println("Player can perform Seven Unique dedication");
+						removeSevenUniqueCard();
 				}
 				else
 				{
@@ -284,8 +285,10 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : fourOfaKindList)
 		{
-			System.out.print("Select which four of a kind color you would like to dedicate");
+			System.out.print("Select which of a kind color you would like to dedicate");
 			System.out.print(c.name());
+			removeFourOfAKindCard(c); //remove after player makes a choice
+ 
 		}
 		
 	}
@@ -297,8 +300,10 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : threePairList)
 		{
-			System.out.print("Select which four of a Three Pair color you would like to dedicate");
+			System.out.print("Select which of a Three Pair color you would like to dedicate");
 			System.out.print(c.name());
+			
+			removeThreePairCard(c); //remove only when player makes a choice
 		}
 	}
 	
@@ -319,6 +324,52 @@ public class Player implements Serializable {
 			
 		}
 		return cardNo;
+	}
+	
+	public void removeFourOfAKindCard(Color c)
+	{
+		int count = 1;
+		while(count<=4)
+		{
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(c);
+				}
+				
+			}
+			count++;
+		}
+	}
+	public void removeThreePairCard(Color c)
+	{
+		int count = 1;
+		while(count<=2)
+		{
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(c);
+				}
+				
+			}
+			count++;
+		}
+	}
+	
+	public void removeSevenUniqueCard()
+	{
+		int count = 1;
+		while(count<=7)
+		{
+			for(Color c: Color.values())
+			{
+					lanternCards.remove(c);
+			}
+			count++;
+		}
 	}
 	
 	/**
