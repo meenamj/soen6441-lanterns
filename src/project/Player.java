@@ -208,20 +208,21 @@ public class Player implements Serializable {
 	 * Make a dedication by dedication type
 	 * @param dedicationType The type of dedication a player is willing to make
 	 */
-	public void makeDedication(String dedicationType)
+	public void makeDedication(int dedicationType)
 	{
 		switch (dedicationType) 
 		{
-			case "fourOFAKind":
+			case 1:
 				if(isFourOfAKind())
 				{
 					System.out.println("Player can perform Four Of a kind dedication");
 					displayFourOfAKindChoice();
 					
 				}
+
 				//check and get four of kind lantern card for player and give dedicated token
 				break;
-			case "threePair":
+			case 2:
 				if(isThreePair())
 				{
 					System.out.println("Player can perform three pair dedication");
@@ -230,7 +231,7 @@ public class Player implements Serializable {
 				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
-			case "sevenUnique":
+			case 3:
 				if(isSevenUnique())
 				{
 					System.out.println("Player can perform Seven Unique dedication");
