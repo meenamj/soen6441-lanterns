@@ -362,11 +362,15 @@ public class Player implements Serializable {
 	public void removeSevenUniqueCard()
 	{
 		int count = 1;
-		while(count<=7)
+		while(count == 1)
 		{
-			for(Color c: Color.values())
+			for(LanternCard lantern :this.lanternCards)
 			{
+				if(lantern.getColor() == c)
+				{
 					lanternCards.remove(c);
+				}
+				
 			}
 			count++;
 		}
