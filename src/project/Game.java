@@ -3,22 +3,24 @@ package project;
 import java.io.Serializable;
 import java.util.*;
 
+
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
-  * @author Nuttakit
- * @version 1.1
+ * @author none
  */
 
 public class Game implements Serializable {
 	/**
-	 * the number of player in the game
+	 * 
 	 */
-	private int numberOfPlayers;
+	private static final long serialVersionUID = 1L;
+
+	public static Scanner scan;
 	/**
 	 * the list of players in the game
 	 */
-	private ArrayList<Player> players;
+	private Queue<Player> players;
 	/**
 	 * the list of players' name in the game
 	 */
@@ -35,7 +37,7 @@ public class Game implements Serializable {
 	 * 
 	 * @return the list of players
 	 */
-	public ArrayList<Player> getPlayers() {
+	public Queue<Player> getPlayers() {
 		return players;
 	}
 
@@ -45,10 +47,10 @@ public class Game implements Serializable {
 	 * @param players
 	 *            the list of players
 	 */
-	public void setPlayers(ArrayList<Player> players) {
+	public void setPlayers(Queue<Player> players) {
 		this.players = players;
 	}
-
+	
 	/**
 	 * Get a play area
 	 * 
@@ -81,7 +83,7 @@ public class Game implements Serializable {
 		this.playersNames = playersNames;
 
 		if (playersNames.length > 1 && playersNames.length < 5) {
-			this.numberOfPlayers = playersNames.length;
+			startGame();
 		} else {
 			throw new Exception();
 		}
@@ -112,9 +114,9 @@ public class Game implements Serializable {
 	 */
 	private void createPlayers(String... names) {
 		Player player = null;
-		players = new ArrayList<Player>();
+		players = new LinkedList<Player>();
 
-		// create players according to numberOfPlayers attribute
+		// create players according to number of players
 		for (int i = 0; i < names.length; i++) {
 			player = new Player(names[i]);
 			// initialize all the stuff for the new player
@@ -150,7 +152,7 @@ public class Game implements Serializable {
 				in = scanner.next();
 			} while (!in.toUpperCase().equals("Y")
 					&& !in.toUpperCase().equals("N"));
-			if (in.equals("Y")) {
+			if (in.toUpperCase().equals("Y")) {
 				Collections.shuffle(game.playArea.getLakeTiles());
 				game.showInformation();
 			}
@@ -194,7 +196,6 @@ public class Game implements Serializable {
 				names[i] = new String(scanner.next());
 			}
 			game = new Game(names);
-			game.startGame();
 		} else {
 			System.out.print("Goodbye");
 			System.exit(0);
@@ -228,95 +229,6 @@ public class Game implements Serializable {
 	 * Show information of the card on play area and players hand
 	 */
 	private void showInformation() {
-		displayTokenStack();
-		
-		System.out.println("\nLantern Card Supply :");
-		for (Color c : Color.values()){
-		System.out.println(c.name() + " : " +
-				this.playArea.getSupply().lanternStacks.get(c).size());
-		}
-		displayFavorToken();
-
-		System.out.print("\nStart Lake Tile");
-		System.out.print(this.playArea.getStartLakeTile().getIndex()+" : "+this.playArea.getStartLakeTile().getColorOfFourSides()
-				.get(0)
-				+ " "
-				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(1)
-				+ " "
-				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(2)
-				+ " "
-				+ this.playArea.getStartLakeTile().getColorOfFourSides().get(3)
-				+ " \n\n");
-
-		for (int i = 0; i < this.numberOfPlayers; i++) {
-			System.out.print("Player :" + (i+1) + " name : "
-					+ this.players.get(i).getName());
-			checkPlayerStatus(i);
-			displayLanternCard(i);
-			displayDedicatedToken(i);
-			displayPlayerLakeTiles(i);
-			System.out.println("");
-		}
-
-	}
-
-	public void checkPlayerStatus(int i) {
-		if (this.players.get(i).isCurrentPlayer()) {
-			System.out.println(": (active)");
-		} else {
-			System.out.println();
-		}
-	}
-
-	public void displayDedicatedToken(int i) {
-		int total = 0;
-		for (int j = 0; j < this.players.get(i).getDedicationTokens().size(); j++){
-			total+=this.players.get(i).getDedicationTokens().get(j).getHonor();
-		}
-		System.out.println("\nValue Dedication Token : "+ total);
-	}
-
-	public void displayFavorToken() {
-		System.out.println("Amount of Favor Token :"+ this.playArea.getNumberOfFavorTokens());
-		System.out.println("\nLake Tiles Stack");
-		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
-			LakeTile l = this.playArea.getLakeTiles().get(i);
-			System.out.println(l.getIndex()+" : "+l.getColorOfFourSides().get(0).name() + " "
-					+ l.getColorOfFourSides().get(1).name() + " "
-					+ l.getColorOfFourSides().get(2).name() + " "
-					+ l.getColorOfFourSides().get(3).name() + " --- Platform : "
-					+ l.isPlatform());
-		}
-	}
-
-	public void displayPlayerLakeTiles(int i) {
-		System.out.println("\nLake Tiles :");
-		for (int j = 0; j < this.players.get(i).getLakeTiles().size(); j++) {
-			System.out.println(j
-					+ 1
-					+ " : index :"
-					+ this.players.get(i).getLakeTiles().get(j)
-							.getIndex()
-					+ " "
-					+ this.players.get(i).getLakeTiles().get(j)
-							.getColorOfFourSides().get(0).name()
-					+ " "
-					+ this.players.get(i).getLakeTiles().get(j)
-							.getColorOfFourSides().get(1).name()
-					+ " "
-					+ this.players.get(i).getLakeTiles().get(j)
-							.getColorOfFourSides().get(2).name()
-					+ " "
-					+ this.players.get(i).getLakeTiles().get(j)
-							.getColorOfFourSides().get(3).name()
-					+ " "
-					+ "Platform : "
-					+ this.players.get(i).getLakeTiles().get(j)
-							.isPlatform());
-		}
-	}
-
-	public void displayTokenStack() {
 		System.out.println("\nFour Of A Kind Token Stack");
 		for (int i = 0; i < this.playArea.getFourOfAKindTokens().size(); i++) {
 			System.out.println(this.playArea.getFourOfAKindTokens().get(i)
@@ -339,9 +251,48 @@ public class Game implements Serializable {
 			System.out.println(this.playArea.getGenericTokens().get(i)
 					.getHonor());
 		}
-	}
+		
+		System.out.println("\nLantern Card Supply :");
+		for (Color c : Color.values()){
+		System.out.println(c.name() + " : " +
+				this.playArea.getSupply().lanternStacks.get(c).size());
+		}
+		System.out.println("Amount of Favor Token :"+ this.playArea.getNumberOfFavorTokens());
+		System.out.println("\nLake Tiles Stack");
+		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
+			LakeTile l = this.playArea.getLakeTiles().get(i);
+			System.out.print(l.getIndex()+" : ");
+			for (Color c: l.getColorOfFourSides()){
+				System.out.print(c.name() + " ");
+			}
+			System.out.println(" --- Platform : "+ l.isPlatform());
+		}
 
-	public void displayLanternCard(int i) {
+		System.out.print("\nStart Lake Tile\n");
+		System.out.print(playArea.getStartLakeTile().getIndex()+" : ");
+		for ( Color c : playArea.getStartLakeTile().getColorOfFourSides()){
+			System.out.print(c.name()+" ");
+		}
+		System.out.print(this.playArea.getStartLakeTile().isPlatform()
+				+ " \n\n");
+
+		for (Player player : players) {
+			showPlayerInformation(player);
+		}
+		
+		//Start Game
+		GamePlay();
+	}
+	
+	public void showPlayerInformation(Player player){
+		System.out.print("Player name : "
+				+ player.getName());
+		if (players.element().equals(player)) {
+			System.out.println(": (active)");
+			//currentTurn = i+1;
+		} else {
+			System.out.println();
+		}
 		System.out.println("Lantern Cards");
 		int black = 0;
 		int blue = 0;
@@ -350,20 +301,20 @@ public class Game implements Serializable {
 		int purple = 0;
 		int white = 0;
 		int orange = 0;
-		for (int j = 0; j < this.players.get(i).getLanternCards().size(); j++) {
-			if(this.players.get(i).getLanternCards().get(j).getColor() == Color.BLACK){
+		for (int j = 0; j < player.getLanternCards().size(); j++) {
+			if(player.getLanternCards().get(j).getColor() == Color.BLACK){
 				black+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.BLUE){
+			}else if(player.getLanternCards().get(j).getColor() == Color.BLUE){
 				blue+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.GREEN){
+			}else if(player.getLanternCards().get(j).getColor() == Color.GREEN){
 				green+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.RED){
+			}else if(player.getLanternCards().get(j).getColor() == Color.RED){
 				red+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.PURPLE){
+			}else if(player.getLanternCards().get(j).getColor() == Color.PURPLE){
 				purple+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.WHITE){
+			}else if(player.getLanternCards().get(j).getColor() == Color.WHITE){
 				white+=1;
-			}else if(this.players.get(i).getLanternCards().get(j).getColor() == Color.ORANGE){
+			}else if(player.getLanternCards().get(j).getColor() == Color.ORANGE){
 				orange+=1;
 			}
 		}
@@ -374,5 +325,218 @@ public class Game implements Serializable {
 		System.out.println("PURPLE : "+purple );
 		System.out.println("WHITE : "+white );
 		System.out.println("ORANGE : "+orange);
+		
+		
+		int total = 0;
+		for (int j = 0; j < player.getDedicationTokens().size(); j++){
+			total+=player.getDedicationTokens().get(j).getHonor();
+		}
+		System.out.println("\nValue Dedication Token : "+ total);
+		System.out.println("\nLake Tiles :");
+		for (int j = 0; j < player.getLakeTiles().size(); j++) {
+			System.out.print(j
+					+ 1
+					+ " : index :"
+					+ player.getLakeTiles().get(j)
+							.getIndex()
+					+ " ");
+			for (Color c : player.getLakeTiles().get(j).getColorOfFourSides()){
+				System.out.print(c.name()+ " ");
+			}
+			System.out.println(" "
+			+ "Platform : "
+			+ player.getLakeTiles().get(j)
+					.isPlatform());
+		}
+		System.out.println("");
 	}
+	//Build-2
+	
+	/**
+	 * Options to be displayed
+	 * @return in input selected by user
+	 */
+	public static int Menu(){
+		@SuppressWarnings("resource")
+		Scanner inputscan = new Scanner(System.in);
+		String in;
+		
+		System.out.println("Select the one of the options(0-3):");
+		System.out.println(" 0. Exit");
+		System.out.println(" 1. Exchange a Lantern Card (optional) ");
+		System.out.println(" 2. Make a Dedication (optional) ");
+		System.out.println(" 3. Place a Lake Tile (mandatory) ");
+
+		do {
+			in = inputscan.next();
+		} while (!in.equals("0") && !in.equals("1") && !in.equals("2") && !in.equals("3"));
+		return Integer.parseInt(in);
+	}
+	
+	/**
+	 * Start Game play
+	 */
+	public void GamePlay(){
+		int input = 0;
+		Scanner inputscan = new Scanner(System.in);
+		boolean quit = false;
+		do{
+			Player current_player = players.element();
+			System.out.println("Player - "+ current_player.getName()+" will start to play :");
+			playArea.showLakeTileBoard();
+			input=Menu();
+
+			switch (input) {
+			case 1:
+				System.out.println("Favor token part not Implemented yet...");
+				break;
+
+			case 2:
+				System.out.println("Dedication tokens part not implemented yet");
+				break;
+				
+			case 3:
+				System.out.println("Place a lake tile selected");
+				if(isNumberOfLanternCardsOnHandsOver()){
+					System.out.println("You must make a dedication token or discard cards");
+				}
+				//**discard card or return to menu.
+				showCurrentPlayerLakeTile();
+				String in;
+				boolean flag = true;
+				do {
+					in = inputscan.next();
+					for( int i =0 ; i < current_player.getLakeTiles().size(); i++){
+						if(in.equals(""+i)){
+							flag= false;
+						}
+					}
+				} while (flag);
+				LakeTile active_laketile = current_player.getLakeTiles().get(Integer.parseInt(in));
+				ArrayList<Double> list = playArea.showIndexAvailableToPutLakeTileOnBoard();
+				System.out.print("Available index :::");
+				for (double index : list) {
+					System.out.print(index+" ");
+				}
+				/*
+				 * 
+				 * not working... we are doing it.
+				 * 
+				 */
+				placeALakeTile();
+				//change turn
+				players.add(players.remove());
+				
+				break;
+
+			case 0:
+				quit = true;
+				break;
+
+			default:
+				System.out.println("Invalid input!!! Please do right selection...");
+				break;
+			}
+		}while(!quit);
+	}
+	
+	/**
+	 * get number of lantern cards a player has, to check it should not exceed 12
+	 * @param playerID Id of the player
+	 * @return count number of the lantern card a player has
+	 */
+	public int getNumberOfLanternCardsOnHand(){
+		int count = players.element().getLanternCards().size();
+		return count;
+	}
+	
+	/**
+	 * display the lake tile a player need to put next
+	 * for example : 1. (Index, RED -P1, BLUE - P2, BLACK -P3, PURPLE- P4, Rotation)  
+	 */
+	public void showPlayerLakeTile(){
+		for (int j = 1; j < 5; j++) 
+		{
+			Player current_player = players.element();
+			System.out.print(j + " : index :"
+					+ current_player.getLakeTiles().get(0).getIndex()
+					+ " ");
+			int i = 1;
+			for( Color c : current_player.getLakeTiles().get(0).getColorOfFourSides()){
+				System.out.print(c.name() + "P"+(i++));
+			}
+			System.out.print("Platform : "
+					+ current_player.getLakeTiles().get(0).isPlatform());
+					
+			if(j==1){
+				System.out.print( "Rotation : 0");
+			}else if(j==2){
+				System.out.print( "Rotation : 90");
+			}else if(j==3){
+				System.out.print( "Rotation : 180");
+			}else if(j==4){
+				System.out.print( "Rotation : 270");
+			}
+		}
+	}
+	
+	/**
+	 * To put a tile in the grid
+	 * @param x position of x-coordinate
+	 * @param y position of y-coordinate
+	 * @param LakeTileIndex index of the lake, which need to put on the board
+	 */
+	public void putLakeTileOnGrid(int x, int y, LakeTile lakeTile){
+			playArea.getLakeTilesOnBoard()[x][y] = lakeTile;
+	}
+	
+	/**
+	 * Get all the tiles around a tile provided
+	 * @param x position of x-coordinates
+	 * @param y position of y-coordinates
+	 * 
+	 */
+	public ArrayList<LakeTile> getTilesAround(int x, int y){
+		ArrayList<LakeTile> list_laketiles = new ArrayList<LakeTile>();
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x][y+1]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x+1][y]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x][y-1]);
+		list_laketiles.add(playArea.getLakeTilesOnBoard()[x-1][y]);
+		return list_laketiles;
+	}
+	
+	/**
+	 * Execute this method, if the third option is selected by player.
+	 */
+	public void placeALakeTile(){
+		/**
+		 * 
+		 * 
+		 * not working .. nothing now
+		 * 
+		 */
+		
+			
+		
+	}
+	
+	public boolean isNumberOfLanternCardsOnHandsOver(){
+		int lanternCards;
+		lanternCards = getNumberOfLanternCardsOnHand();
+		return lanternCards > 12;
+	}
+	
+	public void showCurrentPlayerLakeTile(){
+		ArrayList<LakeTile> current_player_laketiles = players.element().getLakeTiles();
+		for (LakeTile lake_tile : current_player_laketiles){
+			int index = current_player_laketiles.indexOf(lake_tile);
+			System.out.print("index : " + index + "::");
+			for(Color c : lake_tile.getColorOfFourSides()){
+				System.out.print(c.name()+" ");
+			}
+			System.out.println("");
+		}
+	}
+	
+
 }
