@@ -266,6 +266,7 @@ public class Player implements Serializable {
 		}
 		
 	}
+
 	public void displayThreePair()
 	{ 
 		for(Color c : threePairList)
