@@ -1,20 +1,17 @@
 package project;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
-/**
- * This class is used to show the color of lantern cards, lake tiles for playing the game
- * @author avneet
- * @version 1.0
- */
-
-public enum Color {
-	ORANGE, GREEN, PURPLE, WHITE, BLUE, RED, BLACK;
+public enum Rotation {
+	D0, D90, D180, D270;
 	/**
 	 * This list is used when created random color
 	 * with an unmodifiable view of the specific collection
 	 */
-	private static final List<Color> VALUES = Collections
+	private static final List<Rotation> VALUES = Collections
 			.unmodifiableList(Arrays.asList(values()));
 	/**
 	 * size of color
@@ -29,8 +26,7 @@ public enum Color {
 	 * random color of lake tiles
 	 * @return Color 
 	 */
-	public static Color random() {
+	public static Rotation random() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
-	
 }
