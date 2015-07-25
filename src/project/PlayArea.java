@@ -268,5 +268,5 @@ public class PlayArea implements Serializable {
 	public void setNumberOfFavorTokens(int numberOfFavorTokens) {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
-
+	
 }

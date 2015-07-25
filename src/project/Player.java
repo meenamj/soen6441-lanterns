@@ -205,7 +205,7 @@ public class Player implements Serializable {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
 	/**
-	 * 
+	 * Make a dedication by dedication type
 	 * @param dedicationType The type of dedication a player is willing to make
 	 */
 	public void makeDedication(String dedicationType)
@@ -243,6 +243,11 @@ public class Player implements Serializable {
 		
 		}
 	}
+	
+	/**
+	 * Check if a player has a four of kind lantern card
+	 * @return true if player has a four of a kind card and false otherwise
+	 */
 	public boolean isFourOfAKind()
 	{
 		
@@ -258,6 +263,10 @@ public class Player implements Serializable {
 		return canMakeDedication;
 	}
 	
+	/**
+	 *  Display the four of kind  options a player has
+	 */
+	
 	public void displayFourOfAKindChoice()
 	{ 
 		for(Color c : fourOfaKindList)
@@ -266,6 +275,10 @@ public class Player implements Serializable {
 		}
 		
 	}
+
+	/**
+	 * Displays three pair cards a player has
+	 */
 	public void displayThreePair()
 	{ 
 		for(Color c : threePairList)
@@ -273,6 +286,12 @@ public class Player implements Serializable {
 			System.out.print(c.name());
 		}
 	}
+	
+	/**
+	 * Check the number of card color a player has
+	 * @param c color of a card
+	 * @return the number of card for each color
+	 */
 	public int numOfCardColor(Color c)
 	{
 		int cardNo = 0;
@@ -287,6 +306,10 @@ public class Player implements Serializable {
 		return cardNo;
 	}
 	
+	/**
+	 * Check if a player has a three pair
+	 * @return true if player has a three pair card and false otherwise
+	 */
 	public boolean isThreePair()
 	{
 		int count = 0;;
@@ -304,6 +327,10 @@ public class Player implements Serializable {
 		}
 		return canMakeDedication;
 	}
+	/**
+	 * Check if a player has a seven Unique card
+	 * @return true if player has seven unique card and false otherwise
+	 */
 	public boolean isSevenUnique()
 	{
 		int count = 0;;
