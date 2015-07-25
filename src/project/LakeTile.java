@@ -120,4 +120,19 @@ public class LakeTile implements Serializable {
 	public void setRotation(Rotation rotation) {
 		this.rotation = rotation;
 	}
+	
+	public void changeRotation(Rotation rotation) {
+		if(rotation.equals(Rotation.D0)){
+			
+		}else if(rotation.equals(Rotation.D90)){
+			colorOfFourSides.add(colorOfFourSides.remove());
+		}else if(rotation.equals(Rotation.D180)){
+			colorOfFourSides.add(colorOfFourSides.remove());
+			colorOfFourSides.add(colorOfFourSides.remove());
+		}else if(rotation.equals(Rotation.D270)){
+			colorOfFourSides.add(colorOfFourSides.remove());
+			colorOfFourSides.add(colorOfFourSides.remove());
+			colorOfFourSides.add(colorOfFourSides.remove());
+		}
+	}
 }

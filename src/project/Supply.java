@@ -54,4 +54,12 @@ public class Supply implements Serializable{
 			System.out.print("Supply.java :: Error");
 		}
 	}
+	
+	public HashMap<Color, Stack<LanternCard>> getLanternStack(){
+		return lanternStacks;
+	}
+	
+	public void setLanternStack(HashMap<Color, Stack<LanternCard>> lanternStacks){
+		this.lanternStacks = lanternStacks;
+	}
 }

@@ -11,6 +11,10 @@ import java.util.HashMap;
  */
 public class Player implements Serializable {
 	/**
+	 * player index
+	 */
+	private int index;
+	/**
 	 * name of a player
 	 */
 	private String name;
@@ -48,11 +52,30 @@ public class Player implements Serializable {
 	/**
 	 * Set name of player
 	 * 
-	 * @param name
-	 *            of player
+	 * @param name of player
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Get name of player
+	 * 
+	 * @return name of player
+	 */
+
+	public int getIndex() {
+		return index;
+	}
+
+	/**
+	 * Set name of player
+	 * 
+	 * @param name
+	 *            of player
+	 */
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	/**
@@ -187,7 +210,8 @@ public class Player implements Serializable {
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
-	public int getNumberOfLakeTile(){
+
+	public int getNumberOfLakeTile() {
 		return this.lakeTiles.size();
 	}
 }
