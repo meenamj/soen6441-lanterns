@@ -456,8 +456,8 @@ public class PlayArea implements Serializable {
 			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-					for (int i = 0; i < 17; i++) {
-						System.out.print(Symbol.NOT);
+					for (int i = 0; i < 21; i++) {
+						System.out.print(" ");
 					}
 
 				} else {
