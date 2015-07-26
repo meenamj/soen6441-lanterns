@@ -238,7 +238,6 @@ public class Player implements Serializable {
 			case 1:
 				if(isFourOfAKind())
 				{
-					System.out.println("Player can perform Four Of a kind dedication");
 					displayFourOfAKindChoice();
 					
 				}
@@ -252,7 +251,7 @@ public class Player implements Serializable {
 			case 2:
 				if(isThreePair())
 				{
-					System.out.println("Player can perform three pair dedication");
+					
 					displayThreePair();
 					
 				}
@@ -265,7 +264,7 @@ public class Player implements Serializable {
 			case 3:
 				if(isSevenUnique())
 				{
-					System.out.println("Player can perform Seven Unique dedication");
+					
 				}
 				else
 				{
