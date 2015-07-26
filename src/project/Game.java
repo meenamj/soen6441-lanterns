@@ -395,12 +395,37 @@ public class Game implements Serializable {
 			Player current_player = players.element();
 			System.out.println("Player - " + current_player.getName()
 					+ " will start to play :");
-
+			try{
 			// check number of lake tile
 			while (current_player.getNumberOfLakeTile() < 3) {
 				System.out.println("Draw New LakeTile");
 				LakeTile new_laketile = playArea.getLakeTiles().pop();
 				current_player.getLakeTiles().add(new_laketile);
+			}
+			}catch(Exception e){
+				int winner_honor = 0;
+				ArrayList<Player> winner_players = new ArrayList<Player>();
+				for(Player p:players){
+					if(p.countHonorValue()==winner_honor){
+						winner_players.add(p);
+					}
+					if(p.countHonorValue()>winner_honor){
+						winner_players = new ArrayList<Player>();
+						winner_players.add(p);
+						winner_honor = p.countHonorValue();
+					}
+				}
+				System.out.print("The winner");
+				if(winner_players.size()>1){
+					System.out.print("s are");
+				}else{
+					System.out.print("is");
+				}
+				for(Player winner :winner_players){
+					System.out.print(" "+winner.getName());
+				}
+				System.out.print(" with " + winner_honor + " honor value");
+				System.exit(0);
 			}
 			playArea.showLakeTileBoard();
 

@@ -462,4 +462,11 @@ public class Player implements Serializable {
 	public int getNumberOfLakeTile() {
 		return this.lakeTiles.size();
 	}
+	
+	public int countHonorValue(){
+		int count=0;
+		for(DedicationToken dedication :dedicationTokens)
+			count+=dedication.getHonor();
+		return count;
+	}
 }
