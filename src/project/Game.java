@@ -406,6 +406,13 @@ public class Game implements Serializable {
 
 			System.out.println("Number of Favor Tokens::"
 					+ current_player.getNumberOfFavorTokens());
+			
+			int total = 0;
+			for (int j = 0; j < current_player.getDedicationTokens().size(); j++) {
+				total += current_player.getDedicationTokens().get(j).getHonor();
+			}
+			System.out.println("\nValue Dedication Token : " + total);
+			
 			// /code
 			System.out.println("Lantern Cards");
 			int black = 0;
@@ -450,15 +457,15 @@ public class Game implements Serializable {
 
 			switch (input) {
 			case 1:
-				if(current_player.getNumberOfFavorTokens() < 2){
+				/*if(current_player.getNumberOfFavorTokens() < 2){
 					System.out.println("Sorry..you can not perform this action, because you do not have more than 2 favor tokens");
 				}
-				else{
+				else{*/
 					//remove lantern card from player's hand and add that card to supply stack
 					playerLanternCard(current_player);
 					//remove lantern card from supply stack and add it to player's hand
 					supplyLanternCard(current_player);
-				}
+				//}
 				break;
 
 			case 2:

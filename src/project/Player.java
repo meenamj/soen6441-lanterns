@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * player is the person who play the game
@@ -55,6 +56,7 @@ public class Player implements Serializable {
 	 * 
 	 */
 	Color c;
+	
 	private boolean isCurrentPlayer;
 
 	/**
@@ -272,10 +274,12 @@ public class Player implements Serializable {
 				{ 
 					for(Color c: Color.values())
 					{
-							if(numOfCardColor(c) == 1)
+							if(numOfCardColor(c) >= 1)
 							{	
 								removeSingleCard(c);
-								
+								//add lantern card back to supply
+								//add dedication token
+								drawSevenUniqueStackOnPlayArea();
 							}	
 					}
 					
@@ -329,11 +333,15 @@ public class Player implements Serializable {
 			//in = inputscan.next();
 			//i++;
 			removeFourOfAKindCard(c); //remove after player makes a choice
+			//drawFourOfAKindStackOnPlayArea();
+
+			//add dedication token
+			//add lantern card back to supply
  
 		}
 		
 	}
-
+	
 	/**
 	 * Displays three pair cards a player has
 	 */
@@ -347,6 +355,9 @@ public class Player implements Serializable {
 			i++;
 			
 			removeThreePairCard(c); //remove only when player makes a choice
+			//drawThreePairStackOnPlayArea();
+			//add dedication token
+			//add lantern card back to supply
 		}
 	}
 	
@@ -413,10 +424,9 @@ public class Player implements Serializable {
 					lanternCards.remove(lantern);
 					break;
 				}
-				
 			}
 	}
-	
+
 	/**
 	 * Check if a player has a three pair
 	 * @return true if player has a three pair card and false otherwise
@@ -459,7 +469,22 @@ public class Player implements Serializable {
 		return canMakeDedication;
 	}
 
-	public int getNumberOfLakeTile() {
+	public int getNumberOfLakeTile() 
+	{
 		return this.lakeTiles.size();
 	}
+	public void drawFourOfAKindStackOnPlayArea()
+	{
+		this.dedicationTokens.add(fourOfAKindToken.pop());
+	}
+	
+	public void drawThreePairStackOnPlayArea()
+	{
+		this.dedicationTokens.add(threePairToken.pop());
+	}
+	public void drawSevenUniqueStackOnPlayArea()
+	{
+		this.dedicationTokens.add(sevenUniqueToken.pop());
+	}
+
 }
