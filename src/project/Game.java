@@ -256,20 +256,19 @@ public class Game implements Serializable {
 		
 		System.out.println("\nLantern Card Supply :");
 		for (Color c : Color.values()){
-		System.out.println(Color.getColorText(c, "\u2022") + " : " +
+		System.out.println(Color.getColorText(c, Symbol.BULLET) + " : " +
 				this.playArea.getSupply().lanternStacks.get(c).size());
 		}
 		System.out.println("Amount of Favor Token :"+ this.playArea.getNumberOfFavorTokens());
 		System.out.println("\nLake Tiles Stack");
 		for (int i = 0; i < this.playArea.getLakeTiles().size(); i++) {
 			LakeTile l = this.playArea.getLakeTiles().get(i);
-			System.out.print(l.getIndex()+" : \t");
+			System.out.printf("%4s",l.getIndex()+" :");
 			for (Color c: l.getColorOfFourSides()){
-				System.out.print(Color.getColorText(c, "\u2022") + " ");
+				System.out.print(Color.getColorText(c, " ") + " ");
 			}
-			System.out.print(" --- Platform : ");
 			if(l.isPlatform()){
-				System.out.println("\u273f");
+				System.out.println(Symbol.PLATFORM);
 			}else{
 				System.out.println();
 			}
@@ -278,10 +277,10 @@ public class Game implements Serializable {
 		System.out.print("\nStart Lake Tile\n");
 		System.out.print(playArea.getStartLakeTile().getIndex()+" : ");
 		for ( Color c : playArea.getStartLakeTile().getColorOfFourSides()){
-			System.out.print(Color.getColorText(c, "\u2022")+" ");
+			System.out.print(Color.getColorText(c, Symbol.BULLET)+" ");
 		}
 		if(this.playArea.getStartLakeTile().isPlatform()){
-			System.out.print("\u273f");
+			System.out.print(Symbol.PLATFORM);
 		}
 		System.out.print(" \n\n");
 
@@ -343,21 +342,18 @@ public class Game implements Serializable {
 		System.out.println("\nValue Dedication Token : "+ total);
 		System.out.println("\nLake Tiles :");
 		for (int j = 0; j < player.getLakeTiles().size(); j++) {
-			System.out.print(j
-					+ 1
-					+ " : index :"
-					+ player.getLakeTiles().get(j)
-							.getIndex()
-					+ " ");
+			System.out.printf("%5s","No."+ (j+1));
+			System.out.print("-");
+			System.out.printf("%2s", player.getLakeTiles().get(j).getIndex());
+			System.out.print(" ");
 			ArrayList<Color> laketile_colors  = new ArrayList<Color>(player.getLakeTiles().get(j).getColorOfFourSides());
-			System.out.print(Color.getColorText(laketile_colors.get(0), "\u2191")+" ");//up
-			System.out.print(Color.getColorText(laketile_colors.get(1), "\u2192")+" ");//right
-			System.out.print(Color.getColorText(laketile_colors.get(2), "\u2193")+" ");//down
-			System.out.print(Color.getColorText(laketile_colors.get(3), "\u2190")+" ");//left
+			System.out.print(Color.getColorText(laketile_colors.get(0), Symbol.UP)+" ");//up
+			System.out.print(Color.getColorText(laketile_colors.get(1), Symbol.RIGHT)+" ");//right
+			System.out.print(Color.getColorText(laketile_colors.get(2), Symbol.DOWN)+" ");//down
+			System.out.print(Color.getColorText(laketile_colors.get(3), Symbol.LEFT)+" ");//left
 			
-			System.out.print("Platform : ");
 			if(player.getLakeTiles().get(j).isPlatform()){
-				System.out.print("\u273f");
+				System.out.print(Symbol.PLATFORM);
 			}
 			System.out.println();
 		}
@@ -467,14 +463,15 @@ public class Game implements Serializable {
 				for(Player player : players){
 					System.out.print(player.getName());
 					if(player.getIndex()==0){
-						System.out.print("\u2191 ");
+						System.out.print(Symbol.UP);
 					}else if(player.getIndex()==1){
-						System.out.print("\u2192 ");
+						System.out.print(Symbol.RIGHT);
 					}if(player.getIndex()==2){
-						System.out.print("\u2193 ");
+						System.out.print(Symbol.DOWN);
 					}if(player.getIndex()==3){
-						System.out.print("\u2190 ");
+						System.out.print(Symbol.LEFT);
 					}
+					System.out.print(" ");
 				}
 				System.out.println();
 				showCurrentPlayerLakeTile();
@@ -719,7 +716,7 @@ public class Game implements Serializable {
 		for (Color c : Color.values()){
 			try {
 				if(this.playArea.getSupply().lanternStacks.get(c).size() > 0){
-					System.out.println("Index :"+ i +" :"+Color.getColorText(c, "\u2022") + " : " +
+					System.out.println("Index :"+ i +" :"+Color.getColorText(c, Symbol.BULLET) + " : " +
 							this.playArea.getSupply().lanternStacks.get(c).size());
 					i++;
 				}
@@ -777,11 +774,11 @@ public class Game implements Serializable {
 					+ " ");
 			int i = 1;
 			for( Color c : current_player.getLakeTiles().get(0).getColorOfFourSides()){
-				System.out.print(Color.getColorText(c, "\u2022") + "P"+(i++));
+				System.out.print(Color.getColorText(c, Symbol.BULLET) + "P"+(i++));
 			}
 			System.out.print("platform::");
 			if(current_player.getLakeTiles().get(0).isPlatform()){
-				System.out.println("\u273f");
+				System.out.println(Symbol.PLATFORM);
 			}
 			if(j==1){
 				System.out.print( "Rotation : 0");
@@ -832,10 +829,10 @@ public class Game implements Serializable {
 			System.out.print("index : " + index + ":");
 			System.out.printf("%2s -",lake_tile.getIndex());
 			for(Color c : lake_tile.getColorOfFourSides()){
-				System.out.print(Color.getColorText(c, "\u2022")+" ");
+				System.out.print(Color.getColorText(c, Symbol.BULLET)+" ");
 			}
 			if(lake_tile.isPlatform()){
-				System.out.print("\u273f");
+				System.out.print(Symbol.PLATFORM);
 			}
 			System.out.println("");
 		}
@@ -847,10 +844,10 @@ public class Game implements Serializable {
 		for(int i = 0; i < sideOfLakeTile; i++){
 			System.out.print(i+":");
 			ArrayList<Color> four_side_colors = new ArrayList<Color>(l.getColorOfFourSides());
-			System.out.print(Color.getColorText(four_side_colors.get(0), "\u2191")+" ");
-			System.out.print(Color.getColorText(four_side_colors.get(1), "\u2192")+" ");
-			System.out.print(Color.getColorText(four_side_colors.get(2), "\u2193")+" ");
-			System.out.print(Color.getColorText(four_side_colors.get(3), "\u2190")+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(0), Symbol.UP)+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(1), Symbol.RIGHT)+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(2), Symbol.DOWN)+" ");
+			System.out.print(Color.getColorText(four_side_colors.get(3), Symbol.LEFT)+" ");
 			System.out.println();
 			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
 		}

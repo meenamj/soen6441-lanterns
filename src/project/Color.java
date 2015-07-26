@@ -52,12 +52,4 @@ public enum Color {
 			throw new Exception();
 		}
 	}
-	
-	public static void main(String args[]) throws Exception{
-		for(Color c : Color.values()){
-			String a = getColorText(c, "\u2022");
-			System.out.println(a);
-		}
-	}
-	
 }

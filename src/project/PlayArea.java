@@ -450,37 +450,35 @@ public class PlayArea implements Serializable {
 	 */
 	public void showLakeTileBoard() throws Exception {
 		System.out.println("-- Lake Tile Board --");
+
 		int[] size = getBoardSize();
-		System.out.println("x0"+size[0]+" y0"+size[1]+" x1"+size[2]+" y1"+size[3]);
 		for (int y = size[1]; y <= size[3]; y++) {
 			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-					for (int i = 0; i<17; i++) {
-						System.out.print("\u2715");
+					for (int i = 0; i < 17; i++) {
+						System.out.print(Symbol.NOT);
 					}
-					
+
 				} else {
 					System.out.print("[(" + x + "," + y + ")");
 					System.out.printf("%2s:", l.getIndex());
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
 					System.out.print(Color.getColorText(laketile_colors.get(0),
-							"\u2191") + " ");
+							Symbol.UP) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(1),
-							"\u2192") + " ");
+							Symbol.LEFT) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(2),
-							"\u2193") + " ");
+							Symbol.DOWN) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(3),
-							"\u2190") + " ");
-					// System.out.print("platform: ");
+							Symbol.RIGHT) + " ");
 					if (l.isPlatform()) {
-						System.out.print("\u273f");
+						System.out.print(Symbol.PLATFORM);
 					} else {
-						System.out.print("\u2715");
+						System.out.print(Symbol.NOT);
 					}
 					System.out.print("]");
-					// System.out.print(", rotation: " + l.getRotation());
 				}
 			}
 			System.out.println("");
@@ -490,7 +488,7 @@ public class PlayArea implements Serializable {
 	private int[] getBoardSize() {
 		int[] size = new int[4];
 		// check least x position
-		size[0]=lakeTilesOnBoard.length;
+		size[0] = lakeTilesOnBoard.length;
 		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
 			for (int x = 0; x < lakeTilesOnBoard[y].length; x++) {
 				if (lakeTilesOnBoard[x][y] != null && x < size[0]) {
@@ -499,7 +497,7 @@ public class PlayArea implements Serializable {
 			}
 		}
 		// check least y position
-		size[1]=lakeTilesOnBoard.length;
+		size[1] = lakeTilesOnBoard.length;
 		for (int x = 0; x < lakeTilesOnBoard.length; x++) {
 			for (int y = 0; y < lakeTilesOnBoard[x].length; y++) {
 				if (lakeTilesOnBoard[x][y] != null & y < size[1]) {
@@ -509,7 +507,7 @@ public class PlayArea implements Serializable {
 		}
 		// check most x position
 		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
-			for (int x = lakeTilesOnBoard[y].length-1; x >= 0; x--) {
+			for (int x = lakeTilesOnBoard[y].length - 1; x >= 0; x--) {
 				if (lakeTilesOnBoard[x][y] != null & x > size[2]) {
 					size[2] = x;
 				}
@@ -517,7 +515,7 @@ public class PlayArea implements Serializable {
 		}
 		// check least y position
 		for (int x = 0; x < lakeTilesOnBoard.length; x++) {
-			for (int y = lakeTilesOnBoard[x].length-1; y >= 0; y--) {
+			for (int y = lakeTilesOnBoard[x].length - 1; y >= 0; y--) {
 				if (lakeTilesOnBoard[x][y] != null & y > size[3]) {
 					size[3] = y;
 				}
@@ -584,7 +582,8 @@ public class PlayArea implements Serializable {
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(1);
-			System.out.print("(\u2190" + Color.getColorText(c, " ") + ") ");
+			System.out.print("(" + Symbol.LEFT + Color.getColorText(c, " ")
+					+ ") ");
 			// left
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
@@ -599,7 +598,8 @@ public class PlayArea implements Serializable {
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(2);
-			System.out.print("(\u2191" + Color.getColorText(c, " ") + ") ");
+			System.out.print("(" + Symbol.UP + Color.getColorText(c, " ")
+					+ ") ");
 			// up
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
@@ -614,7 +614,8 @@ public class PlayArea implements Serializable {
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(3);
-			System.out.print("(\u2192" + Color.getColorText(c, " ") + ") ");
+			System.out.print("(" + Symbol.RIGHT + Color.getColorText(c, " ")
+					+ ") ");
 			// right
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
@@ -629,7 +630,8 @@ public class PlayArea implements Serializable {
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(0);
-			System.out.print("(\u2193" + Color.getColorText(c, " ") + ") ");
+			System.out.print("(" + Symbol.DOWN + Color.getColorText(c, " ")
+					+ ") ");
 			// down
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
