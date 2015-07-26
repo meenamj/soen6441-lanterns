@@ -579,7 +579,9 @@ public class Game implements Serializable {
 						.get(Integer.parseInt(in));
 				System.out.println();
 				showPossibleRotation(active_laketile);
-
+				
+				showPlayerInformation(current_player);
+				
 				do {
 					in = inputscan.next();
 				} while (!in.equals("0") && !in.equals("1") && !in.equals("2")
