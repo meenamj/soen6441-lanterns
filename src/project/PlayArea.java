@@ -195,7 +195,7 @@ public class PlayArea implements Serializable {
 			}
 			Player p = players.remove();
 			p.getLanternCards().add(
-					supply.lanternStacks.get(lantern_color).pop());
+					supply.getLanternStack().get(lantern_color).pop());
 			players.add(p);
 		}
 		// rotate the laketile to the correct position on laketile board

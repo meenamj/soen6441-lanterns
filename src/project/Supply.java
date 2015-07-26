@@ -2,6 +2,7 @@ package project;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.Map.Entry;
 /** 
  * This supply class will be used for seven lantern stacks creation
  * @author Meenakshi
@@ -10,7 +11,7 @@ public class Supply implements Serializable{
 	/**
 	 * hashmap is used to keep all lantern stacks in supply
 	 */
-	public HashMap<Color, Stack<LanternCard>> lanternStacks = null;
+	private HashMap<Color, Stack<LanternCard>> lanternStacks = null;
 	
 	/**
 	 * Constructor of supply
@@ -61,5 +62,12 @@ public class Supply implements Serializable{
 	
 	public void setLanternStack(HashMap<Color, Stack<LanternCard>> lanternStacks){
 		this.lanternStacks = lanternStacks;
+	}
+	
+	public void getNumberColorListText() throws Exception{
+		for (Entry<Color, Stack<LanternCard>> c : lanternStacks.entrySet()){
+			System.out.print(Color.getColorText(c.getKey()," ")+c.getValue().size()+" ");
+		}
+		System.out.println();
 	}
 }
