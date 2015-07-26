@@ -250,7 +250,7 @@ public class Game implements Serializable {
 		System.out.println("\nLantern Card Supply :");
 		for (Color c : Color.values()) {
 			System.out.println(Color.getColorText(c, Symbol.BULLET) + " : "
-					+ this.playArea.getSupply().lanternStacks.get(c).size());
+					+ this.playArea.getSupply().getLanternStack().get(c).size());
 		}
 		System.out.println("Amount of Favor Token :"
 				+ this.playArea.getNumberOfFavorTokens());
@@ -395,12 +395,38 @@ public class Game implements Serializable {
 			Player current_player = players.element();
 			System.out.println("Player - " + current_player.getName()
 					+ " will start to play :");
-
+			try{
 			// check number of lake tile
 			while (current_player.getNumberOfLakeTile() < 3) {
 				System.out.println("Draw New LakeTile");
 				LakeTile new_laketile = playArea.getLakeTiles().pop();
 				current_player.getLakeTiles().add(new_laketile);
+			}
+			}catch(Exception e){
+				System.out.println("Lake Tile Stack is empty, so we get the winner");
+				int winner_honor = 0;
+				ArrayList<Player> winner_players = new ArrayList<Player>();
+				for(Player p:players){
+					if(p.countHonorValue()==winner_honor){
+						winner_players.add(p);
+					}
+					if(p.countHonorValue()>winner_honor){
+						winner_players = new ArrayList<Player>();
+						winner_players.add(p);
+						winner_honor = p.countHonorValue();
+					}
+				}
+				System.out.print("The winner");
+				if(winner_players.size()>1){
+					System.out.print("s are");
+				}else{
+					System.out.print("is");
+				}
+				for(Player winner :winner_players){
+					System.out.print(" "+winner.getName());
+				}
+				System.out.print(" with " + winner_honor + " honor value");
+				System.exit(0);
 			}
 			playArea.showLakeTileBoard();
 
@@ -611,7 +637,7 @@ public class Game implements Serializable {
 							if (active_laketile.getSideOfColor(Rotation.D0) == color_and_platform
 									.get(0)) {// get(0) is color
 								Stack<LanternCard> lantern_stack = playArea
-										.getSupply().lanternStacks
+										.getSupply().getLanternStack()
 										.get(color_and_platform.get(0));
 								current_player.getLanternCards().add(
 										lantern_stack.pop());
@@ -630,7 +656,7 @@ public class Game implements Serializable {
 							if (active_laketile.getSideOfColor(Rotation.D90) == color_and_platform
 									.get(0)) {
 								Stack<LanternCard> lantern_stack = playArea
-										.getSupply().lanternStacks
+										.getSupply().getLanternStack()
 										.get(color_and_platform.get(0));
 								current_player.getLanternCards().add(
 										lantern_stack.pop());
@@ -649,7 +675,7 @@ public class Game implements Serializable {
 							if (active_laketile.getSideOfColor(Rotation.D180) == color_and_platform
 									.get(0)) {
 								Stack<LanternCard> lantern_stack = playArea
-										.getSupply().lanternStacks
+										.getSupply().getLanternStack()
 										.get(color_and_platform.get(0));
 								current_player.getLanternCards().add(
 										lantern_stack.pop());
@@ -668,7 +694,7 @@ public class Game implements Serializable {
 							if (active_laketile.getSideOfColor(Rotation.D270) == color_and_platform
 									.get(0)) {
 								Stack<LanternCard> lantern_stack = playArea
-										.getSupply().lanternStacks
+										.getSupply().getLanternStack()
 										.get(color_and_platform.get(0));
 								current_player.getLanternCards().add(
 										lantern_stack.pop());
@@ -749,11 +775,13 @@ public class Game implements Serializable {
 		boolean flag = true;
 		do {
 			in = inputscan.next();
+			HashMap<Color,Stack<LanternCard>> supply = playArea.getSupply().getLanternStack();
 			for( int i =0 ; i < arrays.size(); i++){
 				if(in.equals(""+i)){
+					System.out.print("");
+					Stack<LanternCard> lantern_stack = supply.get(arrays.get(i).getColor());
+					lantern_stack.add(arrays.get(i));
 					lanternCards.remove(arrays.get(i));
-					playArea.getSupply().lanternStacks.get(arrays.get(i).getColor()).add(arrays.get(i));
-					
 					flag= false;
 				}
 			}
@@ -773,9 +801,9 @@ public class Game implements Serializable {
 		ArrayList<Color> buffer = new ArrayList<Color>();
 		for (Color c : Color.values()){
 			try {
-				if(this.playArea.getSupply().lanternStacks.get(c).size() > 0){
+				if(this.playArea.getSupply().getLanternStack().get(c).size() > 0){
 					System.out.println("Index :"+ i +" :"+Color.getColorText(c, Symbol.BULLET) + " : " +
-							this.playArea.getSupply().lanternStacks.get(c).size());
+							this.playArea.getSupply().getLanternStack().get(c).size());
 					buffer.add(c);
 					i++;
 				}
@@ -790,7 +818,9 @@ public class Game implements Serializable {
 			in = inputscan.next();
 			for( i =0 ; i < buffer.size(); i++){
 				if(in.equals(""+i)){
-					Stack<LanternCard> stack= playArea.getSupply().lanternStacks.remove(buffer.get(i));
+					Supply supply = playArea.getSupply();
+					HashMap<Color,Stack<LanternCard>> stacks_list = supply.getLanternStack();
+					Stack<LanternCard> stack = stacks_list.get(buffer.get(i));
 					player.getLanternCards().add(stack.pop());
 					flag= false;
 				}

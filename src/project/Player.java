@@ -473,6 +473,7 @@ public class Player implements Serializable {
 	{
 		return this.lakeTiles.size();
 	}
+<<<<<<< HEAD
 	public void drawFourOfAKindStackOnPlayArea()
 	{
 		this.dedicationTokens.add(fourOfAKindToken.pop());
@@ -487,4 +488,13 @@ public class Player implements Serializable {
 		this.dedicationTokens.add(sevenUniqueToken.pop());
 	}
 
+=======
+	
+	public int countHonorValue(){
+		int count=0;
+		for(DedicationToken dedication :dedicationTokens)
+			count+=dedication.getHonor();
+		return count;
+	}
+>>>>>>> origin/master
 }

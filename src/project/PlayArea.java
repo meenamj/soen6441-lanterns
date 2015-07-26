@@ -195,7 +195,7 @@ public class PlayArea implements Serializable {
 			}
 			Player p = players.remove();
 			p.getLanternCards().add(
-					supply.lanternStacks.get(lantern_color).pop());
+					supply.getLanternStack().get(lantern_color).pop());
 			players.add(p);
 		}
 		// rotate the laketile to the correct position on laketile board
@@ -456,8 +456,8 @@ public class PlayArea implements Serializable {
 			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-					for (int i = 0; i < 17; i++) {
-						System.out.print(Symbol.NOT);
+					for (int i = 0; i < 21; i++) {
+						System.out.print(" ");
 					}
 
 				} else {
