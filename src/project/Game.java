@@ -451,12 +451,12 @@ public class Game implements Serializable {
 
 			case 2:
 				System.out.println("What type of dedication do you want to make? ");
-				System.out.println(" 1. Four of A Kind");
-				System.out.println(" 2. Three Pair");
-				System.out.println(" 3. Seven Unique");
+				System.out.println(" 0. Four of A Kind");
+				System.out.println(" 1. Three Pair");
+				System.out.println(" 2. Seven Unique");
 				do {
 					choice = inputscan.next();
-				} while (!choice.equals("0") && !choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+				} while (!choice.equals("0") && !choice.equals("1") && !choice.equals("2"));
 				int choiceI = Integer.parseInt(choice);
 				current_player.makeDedication(choiceI);
 				break;

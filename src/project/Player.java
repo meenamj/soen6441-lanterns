@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * player is the person who play the game
@@ -61,6 +62,7 @@ public class Player implements Serializable {
 	 * 
 	 * @return name of player
 	 */
+	public static Scanner scan;
 
 	public String getName() {
 		return name;
@@ -235,7 +237,7 @@ public class Player implements Serializable {
 	{
 		switch (dedicationType) 
 		{
-			case 1:
+			case 0:
 				if(isFourOfAKind())
 				{
 					displayFourOfAKindChoice();
@@ -248,7 +250,7 @@ public class Player implements Serializable {
 				
 				//check and get four of kind lantern card for player and give dedicated token
 				break;
-			case 2:
+			case 1:
 				if(isThreePair())
 				{
 					
@@ -261,7 +263,7 @@ public class Player implements Serializable {
 				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
-			case 3:
+			case 2:
 				if(isSevenUnique())
 				{
 					
@@ -285,7 +287,6 @@ public class Player implements Serializable {
 	 */
 	public boolean isFourOfAKind()
 	{
-		
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 4)
@@ -293,7 +294,6 @@ public class Player implements Serializable {
 					fourOfaKindList.add(c);
 					canMakeDedication = true;
 				}
-			
 		}
 		return canMakeDedication;
 	}
@@ -306,8 +306,12 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : fourOfaKindList)
 		{
-			System.out.print("Select which of a kind color you would like to dedicate");
-			System.out.print(c.name());
+			int i = 0;
+			System.out.println("Select which of a kind color you would like to dedicate");
+			System.out.println(i +".  " +  c.name());
+			//Scanner inputscan = new Scanner(System.in);
+			//in = inputscan.next();
+			//i++;
 			removeFourOfAKindCard(c); //remove after player makes a choice
  
 		}
@@ -321,8 +325,10 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : threePairList)
 		{
-			System.out.print("Select which of a Three Pair color you would like to dedicate");
-			System.out.print(c.name());
+			int i = 0;
+			System.out.println("Select which of a Three Pair color you would like to dedicate");
+			System.out.println(i +"." +  c.name());
+			i++;
 			
 			removeThreePairCard(c); //remove only when player makes a choice
 		}
@@ -354,9 +360,14 @@ public class Player implements Serializable {
 		{
 			for(LanternCard lantern :this.lanternCards)
 			{
+				System.out.println("1:"+lantern.getColor()+" == "+ c);
 				if(lantern.getColor() == c)
 				{
-					lanternCards.remove(c);
+					System.out.println("2:"+lantern.getColor()+" == "+ c);
+					System.out.println("before" + lanternCards.size());
+					lanternCards.remove(lantern);
+					break;
+					//System.out.println("after" + lanternCards.size());
 				}
 				
 			}
@@ -372,7 +383,7 @@ public class Player implements Serializable {
 			{
 				if(lantern.getColor() == c)
 				{
-					lanternCards.remove(c);
+					lanternCards.remove(lantern);
 				}
 				
 			}
@@ -389,7 +400,7 @@ public class Player implements Serializable {
 			{
 				if(lantern.getColor() == c)
 				{
-					lanternCards.remove(c);
+					lanternCards.remove(lantern);
 				}
 				
 			}
