@@ -135,4 +135,20 @@ public class LakeTile implements Serializable {
 			colorOfFourSides.add(colorOfFourSides.remove());
 		}
 	}
+	
+	public Color getSideOfColor(Rotation r) throws Exception{
+		ArrayList<Color> color = new ArrayList<Color>(colorOfFourSides);
+		if(r.equals(Rotation.D0)){
+			return color.get(0);
+		}else if(r.equals(Rotation.D90)){
+			return color.get(1);
+		}else if(r.equals(Rotation.D180)){
+			return color.get(2);
+		}else if(r.equals(Rotation.D270)){
+			return color.get(3);
+		}else{
+			throw new Exception();
+		}
+		
+	}
 }

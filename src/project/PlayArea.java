@@ -35,7 +35,7 @@ public class PlayArea implements Serializable {
 	 * a start lake tile is placed in the play area since the game start
 	 */
 	private LakeTile startLakeTile = new LakeTile(27, Color.BLUE, Color.RED,
-			Color.WHITE, Color.BLACK, true);
+			Color.WHITE, Color.BLACK, false);
 	/**
 	 * a group of lake tiles in a stack on play area
 	 */
@@ -180,13 +180,13 @@ public class PlayArea implements Serializable {
 			players.add(players.remove());
 		}
 		int current_number_player = 0;
-		//add index to player
-		for (int i = 0; i < players.size(); i++){
+		// add index to player
+		for (int i = 0; i < players.size(); i++) {
 			Player p = players.remove();
 			p.setIndex(i);
 			players.add(p);
 		}
-		
+
 		for (Color lantern_color : color) {
 			if (current_number_player == players.size()) {
 				break;
@@ -450,14 +450,19 @@ public class PlayArea implements Serializable {
 	 */
 	public void showLakeTileBoard() throws Exception {
 		System.out.println("-- Lake Tile Board --");
-		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
-			for (int x = 0; x < lakeTilesOnBoard[y].length; x++) {
+		int[] size = getBoardSize();
+		System.out.println("x0"+size[0]+" y0"+size[1]+" x1"+size[2]+" y1"+size[3]);
+		for (int y = size[1]; y <= size[3]; y++) {
+			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-
+					for (int i = 0; i<17; i++) {
+						System.out.print("\u2715");
+					}
+					
 				} else {
 					System.out.print("[(" + x + "," + y + ")");
-					System.out.printf("%2s:",l.getIndex());
+					System.out.printf("%2s:", l.getIndex());
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
 					System.out.print(Color.getColorText(laketile_colors.get(0),
@@ -468,35 +473,57 @@ public class PlayArea implements Serializable {
 							"\u2193") + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(3),
 							"\u2190") + " ");
-					//System.out.print("platform: ");
+					// System.out.print("platform: ");
 					if (l.isPlatform()) {
 						System.out.print("\u273f");
-					}else{
+					} else {
 						System.out.print("\u2715");
 					}
 					System.out.print("]");
-					//System.out.print(", rotation: " + l.getRotation());
+					// System.out.print(", rotation: " + l.getRotation());
 				}
 			}
 			System.out.println("");
 		}
 	}
 
-	/**
-	 * To check if a lake tile is available in a row in the grid or not
-	 * 
-	 * @param nrow
-	 *            number of a row in the grid
-	 * @return if a lake tile found in a row then return true otherwise return
-	 *         false
-	 */
-
-	private boolean isLakeTileInRow(int nrow) {
-		for (int i = 0; i < lakeTilesOnBoard[nrow].length; i++) {
-			if (lakeTilesOnBoard[nrow][i] != null)
-				return true;
+	private int[] getBoardSize() {
+		int[] size = new int[4];
+		// check least x position
+		size[0]=lakeTilesOnBoard.length;
+		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
+			for (int x = 0; x < lakeTilesOnBoard[y].length; x++) {
+				if (lakeTilesOnBoard[x][y] != null && x < size[0]) {
+					size[0] = x;
+				}
+			}
 		}
-		return false;
+		// check least y position
+		size[1]=lakeTilesOnBoard.length;
+		for (int x = 0; x < lakeTilesOnBoard.length; x++) {
+			for (int y = 0; y < lakeTilesOnBoard[x].length; y++) {
+				if (lakeTilesOnBoard[x][y] != null & y < size[1]) {
+					size[1] = y;
+				}
+			}
+		}
+		// check most x position
+		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
+			for (int x = lakeTilesOnBoard[y].length-1; x >= 0; x--) {
+				if (lakeTilesOnBoard[x][y] != null & x > size[2]) {
+					size[2] = x;
+				}
+			}
+		}
+		// check least y position
+		for (int x = 0; x < lakeTilesOnBoard.length; x++) {
+			for (int y = lakeTilesOnBoard[x].length-1; y >= 0; y--) {
+				if (lakeTilesOnBoard[x][y] != null & y > size[3]) {
+					size[3] = y;
+				}
+			}
+		}
+		return size;
 	}
 
 	/**
@@ -545,49 +572,71 @@ public class PlayArea implements Serializable {
 		return index_list;
 	}
 
-	public HashMap<Rotation,Color> showAdjacentColor(Position pos) throws Exception {
-		HashMap<Rotation, Color> color_store = new HashMap<Rotation, Color>();
+	public HashMap<Rotation, Vector<Object>> showAdjacentColor(Position pos)
+			throws Exception {
+		HashMap<Rotation, Vector<Object>> color_store = new HashMap<Rotation, Vector<Object>>();
+		boolean isPlatform = false;
 		if (pos.getX() - 1 > 0
 				&& lakeTilesOnBoard[pos.getX() - 1][pos.getY()] != null) {
 			Queue color = lakeTilesOnBoard[pos.getX() - 1][pos.getY()]
 					.getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[pos.getX() - 1][pos.getY()]
+					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(1);
-			System.out.print(Color.getColorText(c, "\u2190")+" ");
-			//left
-			color_store.put(Rotation.D270, c);
+			System.out.print("(\u2190" + Color.getColorText(c, " ") + ") ");
+			// left
+			Vector<Object> color_and_platform = new Vector<Object>();
+			color_and_platform.add(c);
+			color_and_platform.add(isPlatform);
+			color_store.put(Rotation.D270, color_and_platform);
 		}
 		if (pos.getY() - 1 > 0
 				&& lakeTilesOnBoard[pos.getX()][pos.getY() - 1] != null) {
 			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY() - 1]
 					.getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[pos.getX()][pos.getY() - 1]
+					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(2);
-			System.out.print(Color.getColorText(c, "\u2191")+" ");
-			//up
-			color_store.put(Rotation.D0, c);
+			System.out.print("(\u2191" + Color.getColorText(c, " ") + ") ");
+			// up
+			Vector<Object> color_and_platform = new Vector<Object>();
+			color_and_platform.add(c);
+			color_and_platform.add(isPlatform);
+			color_store.put(Rotation.D0, color_and_platform);
 		}
 		if (pos.getX() + 1 < lakeTilesOnBoard.length
 				&& lakeTilesOnBoard[pos.getX() + 1][pos.getY()] != null) {
 			Queue color = lakeTilesOnBoard[pos.getX() + 1][pos.getY()]
 					.getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[pos.getX() + 1][pos.getY()]
+					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(3);
-			System.out.print(Color.getColorText(c, "\u2192")+" ");
-			//right
-			color_store.put(Rotation.D90, c);
+			System.out.print("(\u2192" + Color.getColorText(c, " ") + ") ");
+			// right
+			Vector<Object> color_and_platform = new Vector<Object>();
+			color_and_platform.add(c);
+			color_and_platform.add(isPlatform);
+			color_store.put(Rotation.D90, color_and_platform);
 		}
 		if (pos.getY() + 1 < lakeTilesOnBoard[0].length
 				&& lakeTilesOnBoard[pos.getX()][pos.getY() + 1] != null) {
 			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY() + 1]
 					.getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[pos.getX()][pos.getY() + 1]
+					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(0);
-			System.out.print(Color.getColorText(c, "\u2193")+" ");
-			//down
-			color_store.put(Rotation.D180, c);
+			System.out.print("(\u2193" + Color.getColorText(c, " ") + ") ");
+			// down
+			Vector<Object> color_and_platform = new Vector<Object>();
+			color_and_platform.add(c);
+			color_and_platform.add(isPlatform);
+			color_store.put(Rotation.D180, color_and_platform);
 		}
-		
+
 		System.out.println();
 		return color_store;
 	}
