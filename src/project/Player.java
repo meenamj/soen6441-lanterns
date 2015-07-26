@@ -243,7 +243,6 @@ public class Player implements Serializable {
 				if(isSevenUnique())
 				{
 					System.out.println("Player can perform Seven Unique dedication");
-						removeSevenUniqueCard();
 				}
 				else
 				{
@@ -359,14 +358,18 @@ public class Player implements Serializable {
 		}
 	}
 	
-	public void removeSevenUniqueCard()
+	public void removeSingleCard(Color c)
 	{
 		int count = 1;
-		while(count<=7)
+		while(count == 1)
 		{
-			for(Color c: Color.values())
+			for(LanternCard lantern :this.lanternCards)
 			{
+				if(lantern.getColor() == c)
+				{
 					lanternCards.remove(c);
+				}
+				
 			}
 			count++;
 		}
