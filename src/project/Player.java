@@ -246,7 +246,7 @@ public class Player implements Serializable {
 				else
 				{
 					System.out.println("Player can not perform Four Of a kind dedication");
-					System.out.println("Select another Option");
+					System.out.println("Please select another Option");
 					System.out.println("");
 				}
 				
@@ -262,20 +262,30 @@ public class Player implements Serializable {
 				else
 				{
 					System.out.println("Player can not perform Three Pair dedication");
-					System.out.println("Select another option");
+					System.out.println("Please select another option");
 					System.out.println("");
 				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
 			case 2:
 				if(isSevenUnique())
-				{
+				{ 
+					for(Color c: Color.values())
+					{
+							if(numOfCardColor(c) == 1)
+							{	
+								removeSingleCard(c);
+								
+							}	
+					}
+					
+					//remove 7 unique color from lantern card
 					
 				}
 				else
 				{
 					System.out.println("Player can not perform Seven Unique dedication");
-					System.out.println("Select another option");
+					System.out.println("Please select another option");
 					System.out.println("");
 				}
 				////check and get Seven Unique lantern card for user and give dedicated token
@@ -366,14 +376,11 @@ public class Player implements Serializable {
 		{
 			for(LanternCard lantern :this.lanternCards)
 			{
-				System.out.println("1:"+lantern.getColor()+" == "+ c);
+				
 				if(lantern.getColor() == c)
 				{
-					System.out.println("2:"+lantern.getColor()+" == "+ c);
-					System.out.println("before" + lanternCards.size());
 					lanternCards.remove(lantern);
 					break;
-					//System.out.println("after" + lanternCards.size());
 				}
 				
 			}
@@ -387,11 +394,11 @@ public class Player implements Serializable {
 		{
 			for(LanternCard lantern :this.lanternCards)
 			{
-				if(lantern.getColor() == c)
+				if(lantern.getColor() == c)				
 				{
 					lanternCards.remove(lantern);
-				}
-				
+					break;
+				}			
 			}
 			count++;
 		}
@@ -399,19 +406,15 @@ public class Player implements Serializable {
 	
 	public void removeSingleCard(Color c)
 	{
-		int count = 1;
-		while(count == 1)
-		{
 			for(LanternCard lantern :this.lanternCards)
 			{
 				if(lantern.getColor() == c)
 				{
 					lanternCards.remove(lantern);
+					break;
 				}
 				
 			}
-			count++;
-		}
 	}
 	
 	/**
