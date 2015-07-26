@@ -389,6 +389,7 @@ public class Game implements Serializable {
 	public void GamePlay() throws Exception{
 		int input = 0;
 		Scanner inputscan = new Scanner(System.in);
+		String choice;
 		boolean quit = false;
 		do{
 			Player current_player = players.element();
@@ -449,7 +450,15 @@ public class Game implements Serializable {
 				break;
 
 			case 2:
-				System.out.println("Dedication tokens part not implemented yet");
+				System.out.println("What type of dedication do you want to make? ");
+				System.out.println(" 1. Four of A Kind");
+				System.out.println(" 2. Three Pair");
+				System.out.println(" 3. Seven Unique");
+				do {
+					choice = inputscan.next();
+				} while (!choice.equals("0") && !choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+				int choiceI = Integer.parseInt(choice);
+				current_player.makeDedication(choiceI);
 				break;
 				
 			case 3:

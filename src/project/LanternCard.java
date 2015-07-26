@@ -35,4 +35,5 @@ public class LanternCard implements Serializable{
 		return c;
 	}
 	
+	
 }
