@@ -468,11 +468,11 @@ public class PlayArea implements Serializable {
 					System.out.print(Color.getColorText(laketile_colors.get(0),
 							Symbol.UP) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(1),
-							Symbol.LEFT) + " ");
+							Symbol.RIGHT) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(2),
 							Symbol.DOWN) + " ");
 					System.out.print(Color.getColorText(laketile_colors.get(3),
-							Symbol.RIGHT) + " ");
+							Symbol.LEFT) + " ");
 					if (l.isPlatform()) {
 						System.out.print(Symbol.PLATFORM);
 					} else {

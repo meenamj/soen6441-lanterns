@@ -231,74 +231,65 @@ public class Player implements Serializable {
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
+	
+	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack, Supply supply){
+		if(isThreePair())
+		{
+			
+			displayThreePair(supply);
+			
+		}
+		else
+		{
+			System.out.println("Player can not perform Three Pair dedication");
+			System.out.println("Please select another option");
+			System.out.println("");
+		}
+	}
+	
+	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack, Supply supply){
+		if(isSevenUnique())
+		{ 
+			for(Color c: Color.values())
+			{
+					if(numOfCardColor(c) >= 1)
+					{	
+						LanternCard l = removeSingleCard(c);
+						supply.getLanternStack().get(l).push(l);
+						//add lantern card back to supply
+						//add dedication token
+						drawSevenUniqueStackOnPlayArea(dedication_token_stack);
+					}	
+			}
+			
+			//remove 7 unique color from lantern card
+			
+		}
+		else
+		{
+			System.out.println("Player can not perform Seven Unique dedication");
+			System.out.println("Please select another option");
+			System.out.println("");
+		}
+		////check and get Seven Unique lantern card for user and give dedicated token
+	}
 	/**
 	 * Make a dedication by dedication type
 	 * @param dedicationType The type of dedication a player is willing to make
 	 */
-	public void makeDedication(int dedicationType)
+	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack, Supply supply)
 	{
-		switch (dedicationType) 
-		{
-			case 0:
-				if(isFourOfAKind())
-				{
-					displayFourOfAKindChoice();
-					
-				}
-				else
-				{
-					System.out.println("Player can not perform Four Of a kind dedication");
-					System.out.println("Please select another Option");
-					System.out.println("");
-				}
-				
-				//check and get four of kind lantern card for player and give dedicated token
-				break;
-			case 1:
-				if(isThreePair())
-				{
-					
-					displayThreePair();
-					
-				}
-				else
-				{
-					System.out.println("Player can not perform Three Pair dedication");
-					System.out.println("Please select another option");
-					System.out.println("");
-				}
-				//check and get three pair lantern card for user and give dedicated token
-				break;
-			case 2:
-				if(isSevenUnique())
-				{ 
-					for(Color c: Color.values())
-					{
-							if(numOfCardColor(c) >= 1)
-							{	
-								removeSingleCard(c);
-								//add lantern card back to supply
-								//add dedication token
-								drawSevenUniqueStackOnPlayArea();
-							}	
-					}
-					
-					//remove 7 unique color from lantern card
-					
-				}
-				else
-				{
-					System.out.println("Player can not perform Seven Unique dedication");
-					System.out.println("Please select another option");
-					System.out.println("");
-				}
-				////check and get Seven Unique lantern card for user and give dedicated token
-				break;
-			default:
-				System.out.println("You have select the incorrect dedication type");
-				
-		
-		}
+			if(isFourOfAKind())
+			{
+				displayFourOfAKindChoice(supply);			
+			}
+			else
+			{
+				System.out.println("Player can not perform Four Of a kind dedication");
+				System.out.println("Please select another Option");
+				System.out.println("");
+			}
+			//check and get four of kind lantern card for player and give dedicated token
 	}
 	
 	/**
@@ -322,7 +313,7 @@ public class Player implements Serializable {
 	 *  Display the four of kind  options a player has
 	 */
 	
-	public void displayFourOfAKindChoice()
+	public void displayFourOfAKindChoice(Supply supply)
 	{ 
 		for(Color c : fourOfaKindList)
 		{
@@ -332,7 +323,10 @@ public class Player implements Serializable {
 			//Scanner inputscan = new Scanner(System.in);
 			//in = inputscan.next();
 			//i++;
-			removeFourOfAKindCard(c); //remove after player makes a choice
+			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
+			for(LanternCard lantern : color_list){
+				supply.getLanternStack().get(lantern.getColor()).push(lantern);
+			}
 			//drawFourOfAKindStackOnPlayArea();
 
 			//add dedication token
@@ -345,7 +339,7 @@ public class Player implements Serializable {
 	/**
 	 * Displays three pair cards a player has
 	 */
-	public void displayThreePair()
+	public void displayThreePair(Supply supply)
 	{ 
 		for(Color c : threePairList)
 		{
@@ -354,7 +348,10 @@ public class Player implements Serializable {
 			System.out.println(i +"." +  c.name());
 			i++;
 			
-			removeThreePairCard(c); //remove only when player makes a choice
+			ArrayList<LanternCard> color_list = removeThreePairCard(c); //remove only when player makes a choice
+			for(LanternCard lantern : color_list){
+				supply.getLanternStack().get(lantern.getColor()).push(lantern);
+			}
 			//drawThreePairStackOnPlayArea();
 			//add dedication token
 			//add lantern card back to supply
@@ -380,9 +377,10 @@ public class Player implements Serializable {
 		return cardNo;
 	}
 	
-	public void removeFourOfAKindCard(Color c)
+	public ArrayList<LanternCard> removeFourOfAKindCard(Color c)
 	{
 		int count = 1;
+		ArrayList<LanternCard> lantern_list = new ArrayList<LanternCard>();
 		while(count<=4)
 		{
 			for(LanternCard lantern :this.lanternCards)
@@ -397,34 +395,42 @@ public class Player implements Serializable {
 			}
 			count++;
 		}
-	}
-	public void removeThreePairCard(Color c)
-	{
-		int count = 1;
-		while(count<=2)
-		{
-			for(LanternCard lantern :this.lanternCards)
-			{
-				if(lantern.getColor() == c)				
-				{
-					lanternCards.remove(lantern);
-					break;
-				}			
-			}
-			count++;
-		}
+		return lantern_list;
 	}
 	
-	public void removeSingleCard(Color c)
+	public ArrayList<LanternCard> removeThreePairCard(Color c)
 	{
+		int count = 1;
+		ArrayList<LanternCard> lantern_list = new ArrayList<LanternCard>();
+		while(count<=2)
+		{
 			for(LanternCard lantern :this.lanternCards)
 			{
 				if(lantern.getColor() == c)
 				{
 					lanternCards.remove(lantern);
+					lantern_list.add(lantern);
 					break;
 				}
 			}
+			count++;
+		}
+		return lantern_list;
+	}
+	
+	public LanternCard removeSingleCard(Color c)
+	{
+		LanternCard l = null;
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(lantern);
+					l=lantern;
+					break;
+				}
+			}
+			return l;
 	}
 
 	/**
@@ -473,22 +479,21 @@ public class Player implements Serializable {
 	{
 		return this.lakeTiles.size();
 	}
-<<<<<<< HEAD
-	public void drawFourOfAKindStackOnPlayArea()
+
+	public void drawFourOfAKindStackOnPlayArea(Stack<DedicationToken> fourOfAKindToken)
 	{
-		this.dedicationTokens.add(fourOfAKindToken.pop());
+		dedicationTokens.add(fourOfAKindToken.pop());
 	}
 	
-	public void drawThreePairStackOnPlayArea()
+	public void drawThreePairStackOnPlayArea(Stack<DedicationToken> threePairToken)
 	{
 		this.dedicationTokens.add(threePairToken.pop());
 	}
-	public void drawSevenUniqueStackOnPlayArea()
+	
+	public void drawSevenUniqueStackOnPlayArea(Stack<SevenUniqueToken> dedication_token_stack)
 	{
-		this.dedicationTokens.add(sevenUniqueToken.pop());
+		this.dedicationTokens.add(dedication_token_stack.pop());
 	}
-
-=======
 	
 	public int countHonorValue(){
 		int count=0;
@@ -496,5 +501,5 @@ public class Player implements Serializable {
 			count+=dedication.getHonor();
 		return count;
 	}
->>>>>>> origin/master
+
 }

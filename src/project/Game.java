@@ -325,11 +325,8 @@ public class Game implements Serializable {
 		System.out
 				.println(Color.getColorText(Color.ORANGE, " ") + orange + " ");
 
-		int total = 0;
-		for (int j = 0; j < player.getDedicationTokens().size(); j++) {
-			total += player.getDedicationTokens().get(j).getHonor();
-		}
-		System.out.println("\nValue Dedication Token : " + total);
+		
+		System.out.println("\nValue Dedication Token : " + player.countHonorValue());
 		System.out.println("\nLake Tiles :");
 		for (int j = 0; j < player.getLakeTiles().size(); j++) {
 			System.out.printf("%5s", "No." + (j + 1));
@@ -483,15 +480,15 @@ public class Game implements Serializable {
 
 			switch (input) {
 			case 1:
-				/*if(current_player.getNumberOfFavorTokens() < 2){
-					System.out.println("Sorry..you can not perform this action, because you do not have more than 2 favor tokens");
+				if((current_player.getNumberOfFavorTokens() < 2) && (current_player.getLanternCards().size() < 1)){
+					System.out.println("Sorry..you can not perform this action.");
 				}
-				else{*/
+				else{
 					//remove lantern card from player's hand and add that card to supply stack
 					playerLanternCard(current_player);
 					//remove lantern card from supply stack and add it to player's hand
 					supplyLanternCard(current_player);
-				//}
+				}
 				break;
 
 			case 2:
@@ -504,9 +501,15 @@ public class Game implements Serializable {
 					choice = inputscan.next();
 				} while (!choice.equals("0") && !choice.equals("1") && !choice.equals("2"));
 				int choiceI = Integer.parseInt(choice);
-				current_player.makeDedication(choiceI);
+				if(choiceI==0){
+					current_player.makeFourOfAKind(playArea.getFourOfAKindTokens(),playArea.getSupply());
+				}else if(choiceI==1){
+					current_player.makeThreePair(playArea.getThreePairTokens(),playArea.getSupply());
+				}else if(choiceI==2){
+					current_player.makeSevenUnique(playArea.getSevenUniqueTokens(),playArea.getSupply());
+				}
 				break;
-
+				
 			case 3:
 				System.out.println("Place a lake tile selected");
 				if (isNumberOfLanternCardsOnHandsOver()) {
@@ -589,6 +592,7 @@ public class Game implements Serializable {
 
 				// get lanterncard from supply stacks to each players after
 				// putting lake tile
+				
 				ArrayList<Player> players_list = new ArrayList<Player>(players);
 				HashMap<Color, Stack<LanternCard>> lanternStacks = playArea
 						.getSupply().getLanternStack();
