@@ -279,7 +279,7 @@ public class Player implements Serializable {
 								removeSingleCard(c);
 								//add lantern card back to supply
 								//add dedication token
-								drawSevenUniqueStackOnPlayArea();
+								//drawSevenUniqueStackOnPlayArea();
 							}	
 					}
 					
@@ -473,7 +473,14 @@ public class Player implements Serializable {
 	{
 		return this.lakeTiles.size();
 	}
-<<<<<<< HEAD
+
+	public int countHonorValue(){
+		int count=0;
+		for(DedicationToken dedication :dedicationTokens)
+			count+=dedication.getHonor();
+		return count;
+	}
+	/*
 	public void drawFourOfAKindStackOnPlayArea()
 	{
 		this.dedicationTokens.add(fourOfAKindToken.pop());
@@ -487,14 +494,7 @@ public class Player implements Serializable {
 	{
 		this.dedicationTokens.add(sevenUniqueToken.pop());
 	}
-
-=======
+	*/
 	
-	public int countHonorValue(){
-		int count=0;
-		for(DedicationToken dedication :dedicationTokens)
-			count+=dedication.getHonor();
-		return count;
-	}
->>>>>>> origin/master
+
 }
