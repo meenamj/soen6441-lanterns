@@ -2,12 +2,14 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * player is the person who play the game
  * 
- * @author none
+ * @author Idris
+ * @version 1.3
  */
 public class Player implements Serializable {
 	/**
@@ -37,6 +39,21 @@ public class Player implements Serializable {
 	/**
 	 * the current player
 	 */
+	
+	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
+	/**
+	 * The list of four of kind card a player has hand
+	 */
+	ArrayList<Color> threePairList = new ArrayList<Color>();
+	/**
+	 * The list of three pair card a player has on hand
+	 */
+	
+	boolean canMakeDedication = false;
+	/**
+	 * 
+	 */
+	Color c;
 	private boolean isCurrentPlayer;
 
 	/**
@@ -209,6 +226,218 @@ public class Player implements Serializable {
 		this.lakeTiles = lakeTiles;
 		this.dedicationTokens = dedicationTokens;
 		this.numberOfFavorTokens = numberOfFavorTokens;
+	}
+	/**
+	 * Make a dedication by dedication type
+	 * @param dedicationType The type of dedication a player is willing to make
+	 */
+	public void makeDedication(int dedicationType)
+	{
+		switch (dedicationType) 
+		{
+			case 1:
+				if(isFourOfAKind())
+				{
+					System.out.println("Player can perform Four Of a kind dedication");
+					displayFourOfAKindChoice();
+					
+				}
+				else
+				{
+					System.out.println("Player can not perform Four Of a kind dedication");
+				}
+				
+				//check and get four of kind lantern card for player and give dedicated token
+				break;
+			case 2:
+				if(isThreePair())
+				{
+					System.out.println("Player can perform three pair dedication");
+					displayThreePair();
+					
+				}
+				else
+				{
+					System.out.println("Player can not perform Three Pair dedication");
+				}
+				//check and get three pair lantern card for user and give dedicated token
+				break;
+			case 3:
+				if(isSevenUnique())
+				{
+					System.out.println("Player can perform Seven Unique dedication");
+				}
+				else
+				{
+					System.out.println("Player can not perform Seven Unique dedication");
+				}
+				////check and get Seven Unique lantern card for user and give dedicated token
+				break;
+			default:
+				System.out.println("You have select the incorrect dedication type");
+				
+		
+		}
+	}
+	
+	/**
+	 * Check if a player has a four of kind lantern card
+	 * @return true if player has a four of a kind card and false otherwise
+	 */
+	public boolean isFourOfAKind()
+	{
+		
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 4)
+				{	
+					fourOfaKindList.add(c);
+					canMakeDedication = true;
+				}
+			
+		}
+		return canMakeDedication;
+	}
+	
+	/**
+	 *  Display the four of kind  options a player has
+	 */
+	
+	public void displayFourOfAKindChoice()
+	{ 
+		for(Color c : fourOfaKindList)
+		{
+			System.out.print("Select which of a kind color you would like to dedicate");
+			System.out.print(c.name());
+			removeFourOfAKindCard(c); //remove after player makes a choice
+ 
+		}
+		
+	}
+
+	/**
+	 * Displays three pair cards a player has
+	 */
+	public void displayThreePair()
+	{ 
+		for(Color c : threePairList)
+		{
+			System.out.print("Select which of a Three Pair color you would like to dedicate");
+			System.out.print(c.name());
+			
+			removeThreePairCard(c); //remove only when player makes a choice
+		}
+	}
+	
+	/**
+	 * Check the number of card color a player has
+	 * @param c color of a card
+	 * @return the number of card for each color
+	 */
+	public int numOfCardColor(Color c)
+	{
+		int cardNo = 0;
+		for(LanternCard lantern :this.lanternCards)
+		{
+			if(lantern.getColor() == c)
+			{
+				cardNo++;	
+			}
+			
+		}
+		return cardNo;
+	}
+	
+	public void removeFourOfAKindCard(Color c)
+	{
+		int count = 1;
+		while(count<=4)
+		{
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(c);
+				}
+				
+			}
+			count++;
+		}
+	}
+	public void removeThreePairCard(Color c)
+	{
+		int count = 1;
+		while(count<=2)
+		{
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(c);
+				}
+				
+			}
+			count++;
+		}
+	}
+	
+	public void removeSingleCard(Color c)
+	{
+		int count = 1;
+		while(count == 1)
+		{
+			for(LanternCard lantern :this.lanternCards)
+			{
+				if(lantern.getColor() == c)
+				{
+					lanternCards.remove(c);
+				}
+				
+			}
+			count++;
+		}
+	}
+	
+	/**
+	 * Check if a player has a three pair
+	 * @return true if player has a three pair card and false otherwise
+	 */
+	public boolean isThreePair()
+	{
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 2)
+				{	
+					threePairList.add(c);
+					count++;
+				}	
+		}
+		if(count >= 3)
+		{
+			canMakeDedication = true;
+		}
+		return canMakeDedication;
+	}
+	/**
+	 * Check if a player has a seven Unique card
+	 * @return true if player has seven unique card and false otherwise
+	 */
+	public boolean isSevenUnique()
+	{
+		int count = 0;;
+		for(Color c: Color.values())
+		{
+				if(numOfCardColor(c) >= 1)
+				{	
+					count++;
+				}	
+		}
+		if(count >= 7)
+		{
+			canMakeDedication = true;
+		}
+		return canMakeDedication;
 	}
 
 	public int getNumberOfLakeTile() {
