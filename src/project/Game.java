@@ -403,6 +403,7 @@ public class Game implements Serializable {
 				current_player.getLakeTiles().add(new_laketile);
 			}
 			}catch(Exception e){
+				System.out.println("Lake Tile Stack is empty, so we get the winner");
 				int winner_honor = 0;
 				ArrayList<Player> winner_players = new ArrayList<Player>();
 				for(Player p:players){
