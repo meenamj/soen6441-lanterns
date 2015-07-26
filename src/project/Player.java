@@ -246,6 +246,8 @@ public class Player implements Serializable {
 				else
 				{
 					System.out.println("Player can not perform Four Of a kind dedication");
+					System.out.println("Select another Option");
+					System.out.println("");
 				}
 				
 				//check and get four of kind lantern card for player and give dedicated token
@@ -260,6 +262,8 @@ public class Player implements Serializable {
 				else
 				{
 					System.out.println("Player can not perform Three Pair dedication");
+					System.out.println("Select another option");
+					System.out.println("");
 				}
 				//check and get three pair lantern card for user and give dedicated token
 				break;
@@ -271,6 +275,8 @@ public class Player implements Serializable {
 				else
 				{
 					System.out.println("Player can not perform Seven Unique dedication");
+					System.out.println("Select another option");
+					System.out.println("");
 				}
 				////check and get Seven Unique lantern card for user and give dedicated token
 				break;
