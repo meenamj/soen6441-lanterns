@@ -3,6 +3,8 @@ package testing;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Vector;
 
 import org.junit.Before;
@@ -10,13 +12,14 @@ import org.junit.Test;
 
 import project.Color;
 import project.FourOfAKindToken;
+import project.LakeTile;
 import project.LanternCard;
 import project.PlayArea;
 import project.Player;
 
 public class PlayAreaTest {
 	private Player py1,py2,py3,py4;
-	private ArrayList<Player> fourPyList,threePyList,twoPyList;
+	private Queue<Player> fourPyList,threePyList,twoPyList;
 	@Before
 	 public void setUp(){
 	  py1 = new Player("Tester1");
@@ -47,24 +50,20 @@ public class PlayAreaTest {
 	  py4.getLanternCards().add(new LanternCard(Color.BLUE));
 	  py4.getLanternCards().add(new LanternCard(Color.PURPLE));
 	  py4.getLanternCards().add(new LanternCard(Color.PURPLE));
-;
 	  
-	  
-	  
-	  
-	  fourPyList = new ArrayList<Player>();
+	  fourPyList = new LinkedList<Player>();
 	  fourPyList.add(py1);
 	  fourPyList.add(py2);
 	  fourPyList.add(py3);
 	  fourPyList.add(py4);
 	  
-	  threePyList = new ArrayList<Player>();
+	  threePyList = new LinkedList<Player>();
 	  threePyList.add(py1);
 	  threePyList.add(py2);
 	  threePyList.add(py3);
 	  
 	  
-	  twoPyList = new ArrayList<Player>();
+	  twoPyList = new LinkedList<Player>();
 	  twoPyList.add(py1);
 	  twoPyList.add(py2); 
 	}
@@ -76,7 +75,7 @@ public class PlayAreaTest {
 		assertEquals("For two players, the amount of three pair tokens stack are not 6",6,pa.getThreePairTokens().size());
 		assertEquals("For two players, the amount of seven unique tokens stack are not 6",6,pa.getSevenUniqueTokens().size());
 		assertEquals("For two players, the amount of generic tokens stack are not 3",3 ,pa.getGenericTokens().size());
-		Vector<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
+		Queue<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
 		assertEquals("For two players, the amount of start lake tiles sides are not 4",4 , start_laketile_color.size());
 		assertTrue("For two players, all sides of start laketile color is not Red", start_laketile_color.contains(Color.RED));
 		assertEquals("For two players, the amount of lake tile stack before giving to players are not 22 but "+pa.getLakeTiles().size(),22 ,pa.getLakeTiles().size());
@@ -111,7 +110,7 @@ public class PlayAreaTest {
 		assertEquals("For three players, the amount of three pair tokens stack are not 8",8,pa.getThreePairTokens().size());
 		assertEquals("For three players, the amount of seven unique tokens stack are not 8",8,pa.getSevenUniqueTokens().size());
 		assertEquals("For three players, the amount of generic tokens stack are not 3",3 ,pa.getGenericTokens().size());
-		Vector<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
+		Queue<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
 		assertEquals("For three players, the amount of start lake tiles sides are not 4",4 , start_laketile_color.size());
 		assertTrue("For three players, all sides of start laketile color is not Red", start_laketile_color.contains(Color.RED));
 		assertEquals("For three players, the amount of lake tile stack before giving to players are not 27 but " + pa.getLakeTiles().size(),27 ,pa.getLakeTiles().size());
@@ -152,7 +151,7 @@ public class PlayAreaTest {
 		assertEquals("For four players, the amount of three pair tokens stack are not 9",9,pa.getThreePairTokens().size());
 		assertEquals("For four players, the amount of seven unique tokens stack are not 9",9,pa.getSevenUniqueTokens().size());
 		assertEquals("For four players, the amount of generic tokens stack are not 3",3 ,pa.getGenericTokens().size());
-		Vector<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
+		Queue<Color> start_laketile_color = pa.getStartLakeTile().getColorOfFourSides();
 		assertEquals("For four players, the amount of start lake tiles sides are not 4",4 , start_laketile_color.size());
 		assertTrue("For four players, all sides of start laketile color is not Red", start_laketile_color.contains(Color.RED));
 		assertEquals("For four players, the amount of lake tile stack before giving to players are not 32 but " + pa.getLakeTiles().size(),32 ,pa.getLakeTiles().size());
@@ -189,6 +188,18 @@ public class PlayAreaTest {
 		assertEquals(5,pa.getSevenUniqueTokens().pop().getHonor());
 		
 	}
+	
+	@Test
+	public void testPlatformOnBoard(){
+		PlayArea pa = new PlayArea(twoPyList);
+		LakeTile laketile1= new LakeTile(0, Color.WHITE, Color.ORANGE, Color., Color.RED,false);
+		LakeTile laketile2= new LakeTile(1, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
+		LakeTile laketile3= new LakeTile(2, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
+		LakeTile laketile4= new LakeTile(3, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
+		pa.getLakeTilesOnBoard()[];
+		twoPyList.g
+	}
+	
 	@Test 
 	public void testFourOfAKind()
 	{
