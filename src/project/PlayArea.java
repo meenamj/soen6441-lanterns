@@ -194,6 +194,7 @@ public class PlayArea implements Serializable {
 				current_number_player++;
 			}
 			Player p = players.remove();
+			
 			p.getLanternCards().add(
 					supply.getLanternStack().get(lantern_color).pop());
 			players.add(p);

@@ -232,11 +232,11 @@ public class Player implements Serializable {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
 	
-	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack, Supply supply){
+	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isThreePair())
 		{
 			
-			displayThreePair(supply);
+			displayThreePair(dedication_token_stack, generic_token_stack, supply);
 			
 		}
 		else
@@ -247,21 +247,26 @@ public class Player implements Serializable {
 		}
 	}
 	
-	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack, Supply supply){
+	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isSevenUnique())
 		{ 
+			//add lantern card back to supply
 			for(Color c: Color.values())
 			{
 					if(numOfCardColor(c) >= 1)
 					{	
 						LanternCard l = removeSingleCard(c);
+						
 						supply.getLanternStack().get(l).push(l);
-						//add lantern card back to supply
-						//add dedication token
-						drawSevenUniqueStackOnPlayArea(dedication_token_stack);
+						
 					}	
 			}
-			
+			//add dedication token
+			if(!dedication_token_stack.empty()){
+				dedicationTokens.add(dedication_token_stack.pop());
+			}else if(!generic_token_stack.empty()){
+				dedicationTokens.add(generic_token_stack.pop());
+			}
 			//remove 7 unique color from lantern card
 			
 		}
@@ -277,11 +282,11 @@ public class Player implements Serializable {
 	 * Make a dedication by dedication type
 	 * @param dedicationType The type of dedication a player is willing to make
 	 */
-	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack, Supply supply)
+	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply)
 	{
 			if(isFourOfAKind())
 			{
-				displayFourOfAKindChoice(supply);			
+				displayFourOfAKindChoice(dedication_token_stack,generic_token_stack,supply);
 			}
 			else
 			{
@@ -313,7 +318,7 @@ public class Player implements Serializable {
 	 *  Display the four of kind  options a player has
 	 */
 	
-	public void displayFourOfAKindChoice(Supply supply)
+	public void displayFourOfAKindChoice(Stack<FourOfAKindToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
 	{ 
 		for(Color c : fourOfaKindList)
 		{
@@ -325,12 +330,18 @@ public class Player implements Serializable {
 			//i++;
 			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
 			for(LanternCard lantern : color_list){
+				//add lantern card back to supply
 				supply.getLanternStack().get(lantern.getColor()).push(lantern);
 			}
 			//drawFourOfAKindStackOnPlayArea();
 
 			//add dedication token
-			//add lantern card back to supply
+			if(!dedication_token_stack.empty()){
+				dedicationTokens.add(dedication_token_stack.pop());
+			}else if(!generic_token_stack.empty()){
+				dedicationTokens.add(generic_token_stack.pop());
+			}
+			
  
 		}
 		
@@ -339,7 +350,7 @@ public class Player implements Serializable {
 	/**
 	 * Displays three pair cards a player has
 	 */
-	public void displayThreePair(Supply supply)
+	public void displayThreePair(Stack<ThreePairToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
 	{ 
 		for(Color c : threePairList)
 		{
@@ -352,8 +363,14 @@ public class Player implements Serializable {
 			for(LanternCard lantern : color_list){
 				supply.getLanternStack().get(lantern.getColor()).push(lantern);
 			}
+			
 			//drawThreePairStackOnPlayArea();
 			//add dedication token
+			if(!dedication_token_stack.empty()){
+				dedicationTokens.add(dedication_token_stack.pop());
+			}else if(!generic_token_stack.empty()){
+				dedicationTokens.add(generic_token_stack.pop());
+			}
 			//add lantern card back to supply
 		}
 	}
@@ -480,20 +497,6 @@ public class Player implements Serializable {
 		return this.lakeTiles.size();
 	}
 
-	public void drawFourOfAKindStackOnPlayArea(Stack<DedicationToken> fourOfAKindToken)
-	{
-		dedicationTokens.add(fourOfAKindToken.pop());
-	}
-	
-	public void drawThreePairStackOnPlayArea(Stack<DedicationToken> threePairToken)
-	{
-		this.dedicationTokens.add(threePairToken.pop());
-	}
-	
-	public void drawSevenUniqueStackOnPlayArea(Stack<SevenUniqueToken> dedication_token_stack)
-	{
-		this.dedicationTokens.add(dedication_token_stack.pop());
-	}
 	
 	public int countHonorValue(){
 		int count=0;
