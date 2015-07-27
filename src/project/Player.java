@@ -256,8 +256,7 @@ public class Player implements Serializable {
 					if(numOfCardColor(c) >= 1)
 					{	
 						LanternCard l = removeSingleCard(c);
-						
-						supply.getLanternStack().get(l).add(l);
+						supply.getLanternStack().get(l.getColor()).push(l);
 						
 					}	
 			}
