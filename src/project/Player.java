@@ -257,7 +257,7 @@ public class Player implements Serializable {
 					{	
 						LanternCard l = removeSingleCard(c);
 						
-						supply.getLanternStack().get(l).push(l);
+						supply.getLanternStack().get(l).add(l);
 						
 					}	
 			}
@@ -334,17 +334,14 @@ public class Player implements Serializable {
 				supply.getLanternStack().get(lantern.getColor()).push(lantern);
 			}
 			//drawFourOfAKindStackOnPlayArea();
-
-			//add dedication token
-			if(!dedication_token_stack.empty()){
-				dedicationTokens.add(dedication_token_stack.pop());
-			}else if(!generic_token_stack.empty()){
-				dedicationTokens.add(generic_token_stack.pop());
-			}
-			
- 
 		}
-		
+		//add dedication token
+		if(!dedication_token_stack.empty()){
+			dedicationTokens.add(dedication_token_stack.pop());
+		}else if(!generic_token_stack.empty()){
+			dedicationTokens.add(generic_token_stack.pop());
+		}
+		fourOfaKindList = new ArrayList<Color>();
 	}
 	
 	/**
@@ -361,18 +358,18 @@ public class Player implements Serializable {
 			
 			ArrayList<LanternCard> color_list = removeThreePairCard(c); //remove only when player makes a choice
 			for(LanternCard lantern : color_list){
+				//add lantern card back to supply
 				supply.getLanternStack().get(lantern.getColor()).push(lantern);
 			}
-			
-			//drawThreePairStackOnPlayArea();
-			//add dedication token
-			if(!dedication_token_stack.empty()){
-				dedicationTokens.add(dedication_token_stack.pop());
-			}else if(!generic_token_stack.empty()){
-				dedicationTokens.add(generic_token_stack.pop());
-			}
-			//add lantern card back to supply
 		}
+		//drawThreePairStackOnPlayArea();
+		//add dedication token
+		if(!dedication_token_stack.empty()){
+			dedicationTokens.add(dedication_token_stack.pop());
+		}else if(!generic_token_stack.empty()){
+			dedicationTokens.add(generic_token_stack.pop());
+		}
+		threePairList = new ArrayList<Color>();
 	}
 	
 	/**
