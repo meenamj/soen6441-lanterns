@@ -192,12 +192,12 @@ public class PlayAreaTest {
 	@Test
 	public void testPlatformOnBoard(){
 		PlayArea pa = new PlayArea(twoPyList);
-		LakeTile laketile1= new LakeTile(0, Color.WHITE, Color.ORANGE, Color., Color.RED,false);
+		LakeTile laketile1= new LakeTile(0, Color.WHITE, Color.ORANGE, Color.BLACK, Color.RED,false);
 		LakeTile laketile2= new LakeTile(1, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
 		LakeTile laketile3= new LakeTile(2, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
 		LakeTile laketile4= new LakeTile(3, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
 		pa.getLakeTilesOnBoard()[];
-		twoPyList.g
+		twoPyList.g;
 	}
 	
 	@Test 
