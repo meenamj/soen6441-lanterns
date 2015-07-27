@@ -969,29 +969,59 @@ public class Game implements Serializable {
 	}
 
 	public void getTheWinner() {
-		System.out.println("Lake Tile Stack is empty, so we get the winner");
+		System.out.println("All player hand are empty, so we get the winner");
 		int winner_honor = 0;
-		ArrayList<Player> winner_players = new ArrayList<Player>();
+		int winner_favor_token = 0;
+		int winner_lan_card = 0;
+		ArrayList<Player> winner_honor_players = new ArrayList<Player>();
+		ArrayList<Player> winner_favor_players = new ArrayList<Player>();
+		ArrayList<Player> winners = new ArrayList<Player>();
 		for (Player p : players) {
 			if (p.countHonorValue() == winner_honor) {
-				winner_players.add(p);
+				winner_honor_players.add(p);
 			}
 			if (p.countHonorValue() > winner_honor) {
-				winner_players = new ArrayList<Player>();
-				winner_players.add(p);
+				winner_honor_players = new ArrayList<Player>();
+				winner_honor_players.add(p);
 				winner_honor = p.countHonorValue();
 			}
 		}
+		
+		for (Player p: winner_honor_players){
+			if(p.getNumberOfFavorTokens() == winner_favor_token){
+				winner_favor_players.add(p);
+			}
+			if (p.countHonorValue() > winner_favor_token) {
+				winner_favor_players = new ArrayList<Player>();
+				winner_favor_players.add(p);
+				winner_favor_token = p.countHonorValue();
+			}
+		}
+		
+		for (Player p: winner_favor_players){
+			int current_lan_size = p.getLanternCards().size();
+			if(current_lan_size == winner_lan_card){
+				winners.add(p);
+			}
+			if(current_lan_size > winner_lan_card){
+				winners = new ArrayList<Player>();
+				winners.add(p);
+				winner_lan_card = current_lan_size;
+			}
+		}
+		
 		System.out.print("The winner");
-		if (winner_players.size() > 1) {
+		if (winners.size() > 1) {
 			System.out.print("s are");
 		} else {
 			System.out.print("is");
 		}
-		for (Player winner : winner_players) {
+		for (Player winner : winners) {
 			System.out.print(" " + winner.getName());
 		}
-		System.out.print(" with " + winner_honor + " honor value");
+		System.out.print(" with " + winner_honor + " honor value,");
+		System.out.print( winner_favor_token + " favor, and");
+		System.out.print( winner_lan_card + " lantern card");
 		System.exit(0);
 
 	}
