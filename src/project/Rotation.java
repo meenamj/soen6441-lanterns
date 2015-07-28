@@ -30,6 +30,12 @@ public enum Rotation {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
 	
+	/**
+	 * To get the rotation value for the specified degree value
+	 * @param rotation represents degree value in integer form
+	 * @return required rotation value
+	 * @throws Exception
+	 */
 	public static Rotation getRotation(int rotation) throws Exception{
 		if (rotation==0){
 			return D0;
