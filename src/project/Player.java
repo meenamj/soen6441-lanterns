@@ -377,6 +377,10 @@ public class Player implements Serializable {
 		return cardNo;
 	}
 	
+	/*
+	 * This method removes lantern card of four of a kind from player's hand
+	 * 
+	 */
 	public ArrayList<LanternCard> removeFourOfAKindCard(Color c)
 	{
 		int count = 1;
@@ -398,6 +402,11 @@ public class Player implements Serializable {
 		return lantern_list;
 	}
 	
+	/**
+	 * This method removes lantern card of three pair from player's hand and return it to supply
+	 * @param c color of lantern card
+	 * @return lanter card
+	 */
 	public ArrayList<LanternCard> removeThreePairCard(Color c)
 	{
 		int count = 1;
@@ -418,6 +427,11 @@ public class Player implements Serializable {
 		return lantern_list;
 	}
 	
+	/**
+	 * This method removes a single lantern card from payer's hand and return it to supply
+	 * @param c color of lantern card
+	 * @return lantern card
+	 */
 	public LanternCard removeSingleCard(Color c)
 	{
 		LanternCard l = null;
@@ -477,12 +491,19 @@ public class Player implements Serializable {
 		return canMakeDedication;
 	}
 
+	/**
+	 * This method get the number of lake tiles
+	 * @return
+	 */
 	public int getNumberOfLakeTile() 
 	{
 		return this.lakeTiles.size();
 	}
 
-	
+	/**
+	 * This method counts the honor value
+	 * @return return value
+	 */
 	public int countHonorValue(){
 		int count=0;
 		for(DedicationToken dedication :dedicationTokens)

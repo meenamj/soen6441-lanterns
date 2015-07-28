@@ -7,7 +7,8 @@ import java.util.Map.Entry;
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
- * @author none
+ * @author Nuttakit
+ * @version 2.0
  */
 
 public class Game implements Serializable {
@@ -36,7 +37,8 @@ public class Game implements Serializable {
 	 * 
 	 * @return the list of players
 	 */
-	public Queue<Player> getPlayers() {
+	public Queue<Player> getPlayers() 
+	{
 		return players;
 	}
 
@@ -46,7 +48,8 @@ public class Game implements Serializable {
 	 * @param players
 	 *            the list of players
 	 */
-	public void setPlayers(Queue<Player> players) {
+	public void setPlayers(Queue<Player> players) 
+	{
 		this.players = players;
 	}
 
@@ -55,7 +58,8 @@ public class Game implements Serializable {
 	 * 
 	 * @return PlayArea the area to place the card stacks and token piles
 	 */
-	public PlayArea getPlayArea() {
+	public PlayArea getPlayArea() 
+	{
 		return playArea;
 	}
 
@@ -166,6 +170,11 @@ public class Game implements Serializable {
 		game.play();
 	}
 
+	/**
+	 * This method displays the number of player allowed and collect number of player and their names
+	 * @return player name
+	 * @throws Exception use when player enters incorrect number of player
+	 */
 	public static Game putPlayerNamesOption() throws Exception 
 	{
 		Scanner scanner = new Scanner(System.in);
@@ -213,6 +222,10 @@ public class Game implements Serializable {
 		GameFile.save(g, fname);
 	}
 
+	/**
+	 * This method load game from saved file
+	 * @return  game
+	 */
 	public static Game loadGameOption()
 	{
 		Game game = null;
@@ -327,6 +340,11 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * Show player information such as name, active or inactve, lantern card Favor token and dedication token
+	 * @param player
+	 * @throws Exception
+	 */
 	public void showPlayerInformation(Player player) throws Exception 
 	{
 		System.out.print("Player name : " + player.getName());
@@ -480,7 +498,7 @@ public class Game implements Serializable {
 		}
 
 		String in = null;
-		boolean flag = true;
+		boolean existCard = true;
 		do {
 			in = inputscan.next();
 			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply()
@@ -494,10 +512,10 @@ public class Game implements Serializable {
 							.getColor());
 					lantern_stack.add(arrays.get(i));
 					lanternCards.remove(arrays.get(i));
-					flag = false;
+					existCard = false;
 				}
 			}
-		} while (flag);
+		} while (existCard);
 
 	}
 
@@ -643,6 +661,10 @@ public class Game implements Serializable {
 		return lanternCards > 12;
 	}
 
+	/**
+	 * Display the current lake tile on the board
+	 * @throws Exception
+	 */
 	public void showCurrentPlayerLakeTile() throws Exception 
 	{
 		ArrayList<LakeTile> current_player_laketiles = players.element()
@@ -665,6 +687,11 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * Shows the all the possible ways to rotate a lake tile
+	 * @param l laketile
+	 * @throws Exception
+	 */
 	public void showPossibleRotation(LakeTile l) throws Exception 
 	{
 		int sideOfLakeTile = 4;
@@ -687,6 +714,9 @@ public class Game implements Serializable {
 		}
 	}
 
+	/*
+	 * Main option for the player 
+	 */
 	public void gameCoreOption(Player current_player) throws Exception 
 	{
 		int input = Menu();
@@ -694,7 +724,7 @@ public class Game implements Serializable {
 		{
 		case 1:
 
-			exchangeLanCardMenu(current_player);
+			exchangeLanCard(current_player);
 			break;
 
 		case 2:
@@ -723,6 +753,9 @@ public class Game implements Serializable {
 
 	}
 
+	/*
+	 * Verify if a player can place a lake tile or not by the number of lantern card
+	 */
 	private void conditionToPlaceALakeTile(Player current_player)
 			throws Exception 
 	{
@@ -737,7 +770,12 @@ public class Game implements Serializable {
 		}
 	}
 
-	private void exchangeLanCardMenu(Player current_player) throws Exception 
+	/**
+	 * Exchange lantern card
+	 * @param current_player Active Player
+	 * @throws Exception
+	 */
+	private void exchangeLanCard(Player current_player) throws Exception 
 	{
 		if ((current_player.getNumberOfFavorTokens() < 2)
 				|| (current_player.getLanternCards().size() == 0))
@@ -756,6 +794,11 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method check if a player can place a lake tile and display position to place a lake tile
+	 * @param current_player
+	 * @throws Exception
+	 */
 	private void placeLakeTileMenu(Player current_player) throws Exception 
 	{
 		if (isNumberOfLanternCardsOnHandsOver()) 
@@ -824,6 +867,13 @@ public class Game implements Serializable {
 			getTheWinner();
 		}
 	}
+	
+	/**
+	 * This method distribute lantern card from supply to player
+	 * @param active_laketile lake tile from the stack
+	 * @param players_list list of player currently playing the game
+	 * @param lanternStacks lantern card stack 
+	 */
 
 	private void distributeLanternCard(LakeTile active_laketile,
 			ArrayList<Player> players_list,
@@ -878,6 +928,13 @@ public class Game implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * This method display the options a player can place the lake tile
+	 * @param list list of possible options
+	 * @param adjacent_color_list Adjacent color
+	 * @throws Exception
+	 */
 
 	private void optionOnBoard(ArrayList<Position> list,
 			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list)
@@ -896,6 +953,9 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method shows the player position
+	 */
 	private void showPlayerPosition() 
 	{
 		for (Player player : players) 
@@ -916,6 +976,10 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method display the menu for the types of dedication a player can make 
+	 * @param current_player active player
+	 */
 	private void makeADedicationMenu(Player current_player)
 	{
 		int choice;
@@ -946,6 +1010,13 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method give bonus lake tile if two color of the same are facing each other
+	 * @param current_player active player
+	 * @param active_laketile lake tile on the play area
+	 * @param adjacent_colors adjacent color
+	 * @throws Exception
+	 */
 	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
 	{
 		int favor_playarea = playArea.getNumberOfFavorTokens();
@@ -981,6 +1052,16 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method checks the direction to give bonus
+	 * @param r Degree of rotation
+	 * @param current_player active player
+	 * @param active_laketile lake tile on play area
+	 * @param favor_playarea player that get the bonus
+	 * @param color_platform color of platform
+	 * @return player that get the bonus
+	 * @throws Exception
+	 */
 	private int checkBonusDirection(Rotation r, Player current_player, LakeTile active_laketile,
 			int favor_playarea, Vector<Object> color_platform) throws Exception 
 	{
@@ -1014,6 +1095,9 @@ public class Game implements Serializable {
 		return favor_playarea;
 	}
 
+	/**
+	 * This method get and displays the winner of the game
+	 */
 	public void getTheWinner() {
 		System.out.println("All player hand are empty, so we get the winner");
 		int winner_honor = 0;
@@ -1088,6 +1172,11 @@ public class Game implements Serializable {
 
 	}
 
+	/**
+	 * This method check the input the user enters
+	 * @param n_option
+	 * @return
+	 */
 	public static int inputOption(int n_option)
 	{
 		Scanner inputscan = new Scanner(System.in);
