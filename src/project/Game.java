@@ -290,38 +290,11 @@ public class Game implements Serializable {
 			System.out.println();
 		}
 		System.out.println("Lantern Cards");
-		int black = 0;
-		int blue = 0;
-		int green = 0;
-		int red = 0;
-		int purple = 0;
-		int white = 0;
-		int orange = 0;
-		for (int j = 0; j < player.getLanternCards().size(); j++) {
-			if (player.getLanternCards().get(j).getColor() == Color.BLACK) {
-				black += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.BLUE) {
-				blue += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.GREEN) {
-				green += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.RED) {
-				red += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.PURPLE) {
-				purple += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.WHITE) {
-				white += 1;
-			} else if (player.getLanternCards().get(j).getColor() == Color.ORANGE) {
-				orange += 1;
-			}
+		for(Color c : Color.values()){
+			System.out.print(Color.getColorText(c, " ")+player.numOfCardColor(c));
 		}
-		System.out.print(Color.getColorText(Color.BLACK, " ") + black + " ");
-		System.out.print(Color.getColorText(Color.BLUE, " ") + blue + " ");
-		System.out.print(Color.getColorText(Color.GREEN, " ") + green + " ");
-		System.out.print(Color.getColorText(Color.RED, " ") + red + " ");
-		System.out.print(Color.getColorText(Color.PURPLE, " ") + purple + " ");
-		System.out.print(Color.getColorText(Color.WHITE, " ") + white + " ");
-		System.out
-				.println(Color.getColorText(Color.ORANGE, " ") + orange + " ");
+		System.out.println();
+		
 		System.out.println("Number of Favor Tokens::"
 				+ player.getNumberOfFavorTokens());
 		System.out.println("\nValue Dedication Token : "
@@ -395,43 +368,10 @@ public class Game implements Serializable {
 
 			// /code
 			System.out.println("Lantern Cards");
-			int black = 0;
-			int blue = 0;
-			int green = 0;
-			int red = 0;
-			int purple = 0;
-			int white = 0;
-			int orange = 0;
-			for (int j = 0; j < current_player.getLanternCards().size(); j++) {
-				if (current_player.getLanternCards().get(j).getColor() == Color.BLACK) {
-					black += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.BLUE) {
-					blue += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.GREEN) {
-					green += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.RED) {
-					red += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.PURPLE) {
-					purple += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.WHITE) {
-					white += 1;
-				} else if (current_player.getLanternCards().get(j).getColor() == Color.ORANGE) {
-					orange += 1;
-				}
+			for(Color c : Color.values()){
+				System.out.print(Color.getColorText(c, " ")+current_player.numOfCardColor(c));
 			}
-			System.out
-					.print(Color.getColorText(Color.BLACK, " ") + black + " ");
-			System.out.print(Color.getColorText(Color.BLUE, " ") + blue + " ");
-			System.out
-					.print(Color.getColorText(Color.GREEN, " ") + green + " ");
-			System.out.print(Color.getColorText(Color.RED, " ") + red + " ");
-			System.out.print(Color.getColorText(Color.PURPLE, " ") + purple
-					+ " ");
-			System.out
-					.print(Color.getColorText(Color.WHITE, " ") + white + " ");
-			System.out.println(Color.getColorText(Color.ORANGE, " ") + orange
-					+ " ");
-
+			System.out.println();
 			// //
 			gameCoreOption(current_player);
 
@@ -456,14 +396,14 @@ public class Game implements Serializable {
 
 		ArrayList<LanternCard> arrays = new ArrayList<LanternCard>();
 		for (int i = 0, counter = 0; i < lanternCards.size(); i++) {
-			boolean flag = false;
+			boolean existColor = false;
 			for (LanternCard array : arrays) {
 				if (array.getColor().equals(lanternCards.get(i).getColor())) {
-					flag = true;
+					existColor = true;
 					break;
 				}
 			}
-			if (!flag) {
+			if (!existColor) {
 				arrays.add(lanternCards.get(i));
 				System.out.println("Index:"
 						+ counter
@@ -662,157 +602,15 @@ public class Game implements Serializable {
 		switch (input) {
 		case 1:
 
-			if ((current_player.getNumberOfFavorTokens() < 2)
-					|| (current_player.getLanternCards().size() == 0)) {
-				System.out.println("Sorry..you can not perform this action.");
-			} else {
-				// remove lantern card from player's hand and add that card
-				// to supply stack
-				playerLanternCard(current_player);
-				// remove lantern card from supply stack and add it to
-				// player's hand
-				supplyLanternCard(current_player);
-			}
+			exchangeLanCardMenu(current_player);
 			break;
 
 		case 2:
-			int choice;
-			System.out.println("What type of dedication do you want to make? ");
-			System.out.println(" 0. Four of A Kind");
-			System.out.println(" 1. Three Pair");
-			System.out.println(" 2. Seven Unique");
-			do {
-				choice = inputOption(3);
-			} while (choice < 0 && choice > 2);
-			if (choice == 0) {
-				current_player.makeFourOfAKind(playArea.getFourOfAKindTokens(),
-						playArea.getGenericTokens(), playArea.getSupply());
-			} else if (choice == 1) {
-				current_player.makeThreePair(playArea.getThreePairTokens(),
-						playArea.getGenericTokens(), playArea.getSupply());
-			} else if (choice == 2) {
-				current_player.makeSevenUnique(playArea.getSevenUniqueTokens(),
-						playArea.getGenericTokens(), playArea.getSupply());
-			}
+			makeADedicationMenu(current_player);
 			break;
 
 		case 3:
-			if (isNumberOfLanternCardsOnHandsOver()) {
-				System.out.println("You must make a dedication token or discard cards");
-				gameCoreOption(current_player);
-			}
-			
-			System.out.println("Place a lake tile selected");
-			
-			// **discard card or return to menu.
-
-			// show player position
-			for (Player player : players) {
-				System.out.print(player.getName());
-				if (player.getIndex() == 0) {
-					System.out.print(Symbol.UP);
-				} else if (player.getIndex() == 1) {
-					System.out.print(Symbol.RIGHT);
-				}
-				if (player.getIndex() == 2) {
-					System.out.print(Symbol.DOWN);
-				}
-				if (player.getIndex() == 3) {
-					System.out.print(Symbol.LEFT);
-				}
-				System.out.print(" ");
-			}
-			System.out.println();
-			showCurrentPlayerLakeTile();
-			int in = inputOption(current_player.getLakeTiles().size());
-
-			// get the laketile which player wants to put then remove the
-			// tile on their hand
-			LakeTile active_laketile = current_player.getLakeTiles().remove(in);
-			ArrayList<Position> list = playArea
-					.showIndexAvailableToPutLakeTileOnBoard();
-			System.out.println("Available index :::");
-
-			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
-			for (int i = 0; i < list.size(); i++) {
-				Position index = list.get(i);
-				System.out.print("option " + i + " ::" + index.getText());
-
-				// show adjacent color
-				adjacent_color_list.add(playArea.showAdjacentColor(index));
-				System.out.println();
-			}
-			System.out.print("which position you want to put laketile::");
-			// input position and check
-
-			int pos_laketile_opt = inputOption(list.size());
-
-			placeALakeTile(list.get(pos_laketile_opt), active_laketile);
-			HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
-					.get(pos_laketile_opt);
-			System.out.println();
-			showPossibleRotation(active_laketile);
-
-			int rotation_opt = inputOption(4);
-			int rotation = rotation_opt * 90;
-			active_laketile.setRotation(Rotation.getRotation(rotation));
-			// change the side of lake tile to put on board
-			// / new
-			active_laketile.changeRotation(active_laketile.getRotation());
-
-			// get lanterncard from supply stacks to each players after
-			// putting lake tile
-
-			ArrayList<Player> players_list = new ArrayList<Player>(players);
-			HashMap<Color, Stack<LanternCard>> lanternStacks = playArea
-					.getSupply().getLanternStack();
-			LanternCard l = null;
-			for (int i = 0; i < players.size(); i++) {
-				Player getting_lanterncard_player = players_list.get(i);
-				int index = getting_lanterncard_player.getIndex();
-				ArrayList<Color> color_list = new ArrayList<Color>(
-						active_laketile.getColorOfFourSides());
-				if (index == 0) {
-					Stack<LanternCard> lanternCard = lanternStacks
-							.get(color_list.get(0));
-					if (!lanternCard.empty()) {
-						l = lanternCard.pop();
-						getting_lanterncard_player.getLanternCards().add(l);
-					}
-				} else if (index == 1) {
-					Stack<LanternCard> lanternCard = lanternStacks
-							.get(color_list.get(1));
-					if (!lanternCard.empty()) {
-						l = lanternCard.pop();
-						getting_lanterncard_player.getLanternCards().add(l);
-					}
-				} else if (index == 2) {
-					Stack<LanternCard> lanternCard = lanternStacks
-							.get(color_list.get(2));
-					if (!lanternCard.empty()) {
-						l = lanternCard.pop();
-						getting_lanterncard_player.getLanternCards().add(l);
-					}
-				} else if (index == 3) {
-					Stack<LanternCard> lanternCard = lanternStacks
-							.get(color_list.get(3));
-					if (!lanternCard.empty()) {
-						l = lanternCard.pop();
-						getting_lanterncard_player.getLanternCards().add(l);
-					}
-				}
-			}
-
-			getBonusPlaceLakeTile(current_player, active_laketile,
-					adjacent_colors);
-			showPlayerInformation(current_player);
-			// change turn
-			players.add(players.remove());
-			// to get the winner
-			ArrayList<LakeTile> laketile = players.element().getLakeTiles();
-			if (laketile.size() == 0) {
-				getTheWinner();
-			}
+			conditionToPlaceALakeTile(current_player);
 			break;
 		case 4:
 			saveGameOption(this);
@@ -833,101 +631,262 @@ public class Game implements Serializable {
 
 	}
 
-	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception {
-		int favor_playarea = playArea.getNumberOfFavorTokens();
-		// get bonus for adjacent and platform
-		for (int i = 0; i < adjacent_colors.size(); i++) {
-			for (Entry<Rotation, Vector<Object>> c : adjacent_colors.entrySet()) {
-				Vector<Object> color_platform = (Vector<Object>) c.getValue();
-				// up -adjacent laketile color and down - (active color)
-				if (c.getKey().equals(Rotation.D0)) {
-					// get(0) is color
-					if (active_laketile.getSideOfColor(Rotation.D0) == color_platform.get(0)) {
+	private void conditionToPlaceALakeTile(Player current_player)
+			throws Exception {
+		if(current_player.getLanternCards().size()>12)
+		{
+			System.out.println("You have more than twelve lantern cards");
+			System.out.println("You need to make a dedication or discard card");
+		}
+		else
+		{
+			placeLakeTileMenu(current_player);
+		}
+	}
 
-						Stack<LanternCard> lantern_stack = playArea.getSupply()
-								.getLanternStack()
-								.get(color_platform.get(0));
-						if (!lantern_stack.empty()) {
-							current_player.getLanternCards().add(
-									lantern_stack.pop());
-						}
-						if (active_laketile.isPlatform()&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-					}
-				} else if (c.getKey().equals(Rotation.D90)) {
-					if (active_laketile.getSideOfColor(Rotation.D90) == color_platform
-							.get(0)) {
-						Stack<LanternCard> lantern_stack = playArea.getSupply()
-								.getLanternStack()
-								.get(color_platform.get(0));
-						if (!lantern_stack.empty()) {
-							current_player.getLanternCards().add(
-									lantern_stack.pop());
-						}
-						if (active_laketile.isPlatform()&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-					}
-				} else if (c.getKey().equals(Rotation.D180)) {
-					if (active_laketile.getSideOfColor(Rotation.D180) == color_platform
-							.get(0)) {
-						Stack<LanternCard> lantern_stack = playArea.getSupply()
-								.getLanternStack()
-								.get(color_platform.get(0));
-						if (!lantern_stack.empty()) {
-							current_player.getLanternCards().add(
-									lantern_stack.pop());
-						}
-						if (active_laketile.isPlatform()&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-					}
-				} else if (c.getKey().equals(Rotation.D270)) {
-					if (active_laketile.getSideOfColor(Rotation.D270) == color_platform
-							.get(0)) {
-						Stack<LanternCard> lantern_stack = playArea.getSupply()
-								.getLanternStack()
-								.get(color_platform.get(0));
-						if (!lantern_stack.empty()) {
-							current_player.getLanternCards().add(
-									lantern_stack.pop());
-						}
-						if (active_laketile.isPlatform()&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
-							favor_playarea = favor_playarea -1 ;
-							playArea.setNumberOfFavorTokens(favor_playarea);
-							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
-						}
-					}
+	private void exchangeLanCardMenu(Player current_player) throws Exception {
+		if ((current_player.getNumberOfFavorTokens() < 2)
+				|| (current_player.getLanternCards().size() == 0)) {
+			System.out.println("Sorry..you can not perform this action.");
+		} else {
+			// remove lantern card from player's hand and add that card
+			// to supply stack
+			playerLanternCard(current_player);
+			// remove lantern card from supply stack and add it to
+			// player's hand
+			supplyLanternCard(current_player);
+		}
+	}
+
+	private void placeLakeTileMenu(Player current_player) throws Exception {
+		if (isNumberOfLanternCardsOnHandsOver()) {
+			System.out.println("You must make a dedication token or discard cards");
+			gameCoreOption(current_player);
+		}
+		
+		System.out.println("Place a lake tile selected");
+		
+		// **discard card or return to menu.
+
+		// show player position
+		showPlayerPosition();
+		System.out.println();
+		showCurrentPlayerLakeTile();
+		int in = inputOption(current_player.getLakeTiles().size());
+
+		// get the laketile which player wants to put then remove the
+		// tile on their hand
+		LakeTile active_laketile = current_player.getLakeTiles().remove(in);
+		ArrayList<Position> list = playArea
+				.showIndexAvailableToPutLakeTileOnBoard();
+		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
+		
+		optionOnBoard(list, adjacent_color_list);
+		System.out.print("which position you want to put laketile::");
+		// input position and check
+
+		int pos_laketile_opt = inputOption(list.size());
+
+		placeALakeTile(list.get(pos_laketile_opt), active_laketile);
+		HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
+				.get(pos_laketile_opt);
+		System.out.println();
+		showPossibleRotation(active_laketile);
+
+		int rotation_opt = inputOption(4);
+		int rotation = rotation_opt * 90;
+		active_laketile.setRotation(Rotation.getRotation(rotation));
+		// change the side of lake tile to put on board
+		// / new
+		active_laketile.changeRotation(active_laketile.getRotation());
+
+		// get lanterncard from supply stacks to each players after
+		// putting lake tile
+
+		ArrayList<Player> players_list = new ArrayList<Player>(players);
+		HashMap<Color, Stack<LanternCard>> lanternStacks = playArea
+				.getSupply().getLanternStack();
+		LanternCard l = null;
+
+		distributeLanternCard(active_laketile, players_list, lanternStacks);
+
+		getBonusPlaceLakeTile(current_player, active_laketile,
+				adjacent_colors);
+		
+		showPlayerInformation(current_player);
+		// change turn
+		players.add(players.remove());
+		// to get the winner
+		ArrayList<LakeTile> laketile = players.element().getLakeTiles();
+		if (laketile.size() == 0) {
+			getTheWinner();
+		}
+	}
+
+	private void distributeLanternCard(LakeTile active_laketile,
+			ArrayList<Player> players_list,
+			HashMap<Color, Stack<LanternCard>> lanternStacks) {
+		LanternCard l;
+		for (int i = 0; i < players.size(); i++) 
+		{
+			Player getting_lanterncard_player = players_list.get(i);
+			int index = getting_lanterncard_player.getIndex();
+			ArrayList<Color> color_list = new ArrayList<Color>(
+					active_laketile.getColorOfFourSides());
+			if (index == 0) 
+			{
+				Stack<LanternCard> lanternCard = lanternStacks
+						.get(color_list.get(0));
+				if (!lanternCard.empty())
+				{
+					l = lanternCard.pop();
+					getting_lanterncard_player.getLanternCards().add(l);
+				}
+			} else if (index == 1) 
+			{
+				Stack<LanternCard> lanternCard = lanternStacks
+						.get(color_list.get(1));
+				if (!lanternCard.empty()) 
+				{
+					l = lanternCard.pop();
+					getting_lanterncard_player.getLanternCards().add(l);
+				}
+			} else if (index == 2) 
+			{
+				Stack<LanternCard> lanternCard = lanternStacks
+						.get(color_list.get(2));
+				if (!lanternCard.empty()) 
+				{
+					l = lanternCard.pop();
+					getting_lanterncard_player.getLanternCards().add(l);
+				}
+			} else if (index == 3) 
+			{
+				Stack<LanternCard> lanternCard = lanternStacks
+						.get(color_list.get(3));
+				if (!lanternCard.empty()) 
+				{
+					l = lanternCard.pop();
+					getting_lanterncard_player.getLanternCards().add(l);
 				}
 			}
 		}
+	}
+
+	private void optionOnBoard(ArrayList<Position> list,
+			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list)
+			throws Exception {
+		System.out.println("Available index :::");
+		for (int i = 0; i < list.size(); i++) 
+		{
+			Position index = list.get(i);
+			System.out.print("option " + i + " ::" + index.getText());
+
+			// show adjacent color
+			adjacent_color_list.add(playArea.showAdjacentColor(index));
+			System.out.println();
+		}
+	}
+
+	private void showPlayerPosition() {
+		for (Player player : players) {
+			System.out.print(player.getName());
+			if (player.getIndex() == 0) {
+				System.out.print(Symbol.UP);
+			} else if (player.getIndex() == 1) {
+				System.out.print(Symbol.RIGHT);
+			}
+			if (player.getIndex() == 2) {
+				System.out.print(Symbol.DOWN);
+			}
+			if (player.getIndex() == 3) {
+				System.out.print(Symbol.LEFT);
+			}
+			System.out.print(" ");
+		}
+	}
+
+	private void makeADedicationMenu(Player current_player) {
+		int choice;
+		System.out.println("What type of dedication do you want to make? ");
+		System.out.println(" 0. Four of A Kind");
+		System.out.println(" 1. Three Pair");
+		System.out.println(" 2. Seven Unique");
+		do {
+			choice = inputOption(3);
+		} while (choice < 0 && choice > 2);
+		if (choice == 0) {
+			current_player.makeFourOfAKind(playArea.getFourOfAKindTokens(),
+					playArea.getGenericTokens(), playArea.getSupply());
+		} else if (choice == 1) {
+			current_player.makeThreePair(playArea.getThreePairTokens(),
+					playArea.getGenericTokens(), playArea.getSupply());
+		} else if (choice == 2) {
+			current_player.makeSevenUnique(playArea.getSevenUniqueTokens(),
+					playArea.getGenericTokens(), playArea.getSupply());
+		}
+	}
+
+	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
+	{
+		int favor_playarea = playArea.getNumberOfFavorTokens();
+		// get bonus for adjacent and platform
+		for (int i = 0; i < adjacent_colors.size(); i++) 
+		{
+			for (Entry<Rotation, Vector<Object>> c : adjacent_colors.entrySet()) 
+			{
+				Vector<Object> color_platform = (Vector<Object>) c.getValue();
+				// up -adjacent laketile color and down - (active color)
+				if (c.getKey().equals(Rotation.D0)) 
+				{
+					favor_playarea = checkBonusDirection(Rotation.D0, current_player,
+							active_laketile, favor_playarea, color_platform);
+				} else if (c.getKey().equals(Rotation.D90)) 
+				{
+					
+					favor_playarea = checkBonusDirection(Rotation.D90, current_player,
+							active_laketile, favor_playarea, color_platform);
+				} else if (c.getKey().equals(Rotation.D180)) 
+				{
+					favor_playarea = checkBonusDirection(Rotation.D180, current_player,
+							active_laketile, favor_playarea, color_platform);
+					
+				} 
+				else if (c.getKey().equals(Rotation.D270)) 
+				{
+					favor_playarea = checkBonusDirection(Rotation.D270, current_player,
+							active_laketile, favor_playarea, color_platform);
+					
+				}
+			}
+		}
+	}
+
+	private int checkBonusDirection(Rotation r, Player current_player, LakeTile active_laketile,
+			int favor_playarea, Vector<Object> color_platform) throws Exception {
+		// get(0) is color
+		if (active_laketile.getSideOfColor(r) == color_platform.get(0)) 
+		{
+
+			Stack<LanternCard> lantern_stack = playArea.getSupply()
+					.getLanternStack()
+					.get(color_platform.get(0));
+			if (!lantern_stack.empty()) {
+				current_player.getLanternCards().add(
+						lantern_stack.pop());
+			}
+			if (active_laketile.isPlatform()&&favor_playarea>0) {
+				favor_playarea = favor_playarea -1 ;
+				playArea.setNumberOfFavorTokens(favor_playarea);
+				current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+			}
+			if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
+				favor_playarea = favor_playarea -1 ;
+				playArea.setNumberOfFavorTokens(favor_playarea);
+				current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+			}
+		}
+		return favor_playarea;
 	}
 
 	public void getTheWinner() {

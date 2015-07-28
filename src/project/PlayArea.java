@@ -210,7 +210,7 @@ public class PlayArea implements Serializable {
 	 *            the number of players
 	 */
 	private void initializeLakeTiles(int numberOfPlayers) {
-		int numberOfLTToRemove = 0;
+		int numberOfLTToRemove = numLakeTileRemove(numberOfPlayers);
 		boolean[] position = { true, true, true, true };
 		// Add start lake tile to the on board list
 		// lakeTilesOnBoard.add(startLakeTile);
@@ -223,8 +223,13 @@ public class PlayArea implements Serializable {
 		// shuffle lakeTiles
 		Collections.shuffle(lakeTiles);
 
-		// the number of available lakeTiles will depend on the number of
-		// players
+		for (int i = 0; i < numberOfLTToRemove; i++) {
+			lakeTiles.remove(0);
+		}
+	}
+
+	private int numLakeTileRemove(int numberOfPlayers) {
+		int numberOfLTToRemove = 0;
 		if (numberOfPlayers == 2) {
 			numberOfLTToRemove = 13;
 		} else if (numberOfPlayers == 3) {
@@ -232,10 +237,7 @@ public class PlayArea implements Serializable {
 		} else if (numberOfPlayers == 4) {
 			numberOfLTToRemove = 3;
 		}
-
-		for (int i = 0; i < numberOfLTToRemove; i++) {
-			lakeTiles.remove(0);
-		}
+		return numberOfLTToRemove;
 	}
 
 	/**
@@ -535,40 +537,39 @@ public class PlayArea implements Serializable {
 		ArrayList<Position> index_list = new ArrayList<Position>();
 		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
 			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {
-				// check all the available lake tile on board with a condition
-				boolean flag = false;
-				if (j + 1 < lakeTilesOnBoard[i].length)// is the index(j+1)
-														// greater than the
-														// array index?
-					if (lakeTilesOnBoard[i][j + 1] != null) {// check the
-																// available
-						flag = true;
-					}
-				if (i + 1 < lakeTilesOnBoard.length)// is the index(i+1) greater
-													// than the array index?
-					if (lakeTilesOnBoard[i + 1][j] != null) {
-						flag = true;
-					}
-				if (j - 1 > 0)// is the index(j-1) less than the array index?
-					if (lakeTilesOnBoard[i][j - 1] != null) {
-						flag = true;
-					}
-				if (i - 1 > 0)// is the index(i-1) less than the array index?
-					if (lakeTilesOnBoard[i - 1][j] != null) {
-						flag = true;
-					}
-				// is there a lake tile on this position?
-				if (lakeTilesOnBoard[i][j] instanceof LakeTile) {
-					flag = false;
-				}
+				boolean lakeTileEmpty = isLakeTileEmpty(i, j);
 				// add index
-				if (flag) {
+				if (lakeTileEmpty) {
 					Position index = new Position(i, j);
 					index_list.add(index);
 				}
 			}
 		}
 		return index_list;
+	}
+
+	private boolean isLakeTileEmpty(int i, int j) {
+		boolean flag = false;
+		if (j + 1 < lakeTilesOnBoard[i].length)
+			if (lakeTilesOnBoard[i][j + 1] != null) {
+				flag = true;
+			}
+		if (i + 1 < lakeTilesOnBoard.length)
+			if (lakeTilesOnBoard[i + 1][j] != null) {
+				flag = true;
+			}
+		if (j - 1 > 0)
+			if (lakeTilesOnBoard[i][j - 1] != null) {
+				flag = true;
+			}
+		if (i - 1 > 0)
+			if (lakeTilesOnBoard[i - 1][j] != null) {
+				flag = true;
+			}
+		if (lakeTilesOnBoard[i][j] instanceof LakeTile) {
+			flag = false;
+		}
+		return flag;
 	}
 
 	public HashMap<Rotation, Vector<Object>> showAdjacentColor(Position pos)
