@@ -1098,15 +1098,14 @@ public class Game implements Serializable {
 	/**
 	 * This method get and displays the winner of the game
 	 */
-	public void getTheWinner() {
-		System.out.println("All player hand are empty, so we get the winner");
+	public String getTheWinner() {
 		int winner_honor = 0;
 		int winner_favor_token = 0;
 		int winner_lan_card = 0;
 		ArrayList<Player> winner_honor_players = new ArrayList<Player>();
 		ArrayList<Player> winner_favor_players = new ArrayList<Player>();
 		ArrayList<Player> winners = new ArrayList<Player>();
-		
+		String winnerStr = "The winner";
 		for (Player p : players) 
 		{
 			if (p.countHonorValue() == winner_honor)
@@ -1127,11 +1126,11 @@ public class Game implements Serializable {
 			{
 				winner_favor_players.add(p);
 			}
-			if (p.countHonorValue() > winner_favor_token)
+			if (p.getNumberOfFavorTokens() > winner_favor_token)
 			{
 				winner_favor_players = new ArrayList<Player>();
 				winner_favor_players.add(p);
-				winner_favor_token = p.countHonorValue();
+				winner_favor_token = p.getNumberOfFavorTokens();
 			}
 		}
 
@@ -1148,28 +1147,39 @@ public class Game implements Serializable {
 				winner_lan_card = current_lan_size;
 			}
 		}
-
-		System.out.print("The winner");
 		
 		if (winners.size() > 1) 
 		{
-			System.out.print("s are");
+			winnerStr += "s are";
 		} 
 		
 		else 
 		{
-			System.out.print("is");
+			winnerStr += " is";
 		}
 		
-		for (Player winner : winners) 
+		for (int i = 0; i<winners.size();i++)
 		{
-			System.out.print(" " + winner.getName());
+			if(i==0){
+				winnerStr += (" "+winners.get(i).getName());
+			}
+			else if(i<winners.size()-1)
+			{
+				winnerStr += (", "+winners.get(i).getName());
+			}
+			else
+			{
+				winnerStr += (" and " + winners.get(i).getName());
+			}
+			
+			if(i!=winners.size()-1){
+				
+			}
 		}
-		System.out.print(" with " + winner_honor + " honor value,");
-		System.out.print(winner_favor_token + " favor, and");
-		System.out.print(winner_lan_card + " lantern card");
-		System.exit(0);
-
+		winnerStr +=" with " + winner_honor + " honor value, ";
+		winnerStr +=winner_favor_token + " favor, and ";
+		winnerStr +=winner_lan_card + " lantern card";
+		return winnerStr;
 	}
 
 	/**
