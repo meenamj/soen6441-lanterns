@@ -1,9 +1,20 @@
 package project;
 
+/**
+ * Position class is used to represent position of lake tiles with all information
+ * on the game board based on x and y coordinates and to get and set position of lake tiles on the board 
+ * @author n_bhut
+ *
+ */
 public class Position {
 	private int x;
 	private int y;
 	
+	/**
+	 * Constructor of position class
+	 * @param x
+	 * @param y
+	 */
 	public Position(int x, int y){
 		this.x = x;
 		this.y = y;
