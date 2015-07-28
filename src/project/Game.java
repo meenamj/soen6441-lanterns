@@ -440,7 +440,8 @@ public class Game implements Serializable {
 
 			System.out.println("Number of Favor Tokens::"
 					+ current_player.getNumberOfFavorTokens());
-
+			System.out.println("\nValue Dedication Token : "
+					+ current_player.countHonorValue());
 			// /code
 			System.out.println("Lantern Cards");
 			
