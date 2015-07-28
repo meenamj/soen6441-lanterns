@@ -239,7 +239,6 @@ public class Player implements Serializable {
 		else
 		{
 			System.out.println("Player can not perform Three Pair dedication");
-			System.out.println("Please select another option");
 			System.out.println("");
 		}
 	}
@@ -264,12 +263,11 @@ public class Player implements Serializable {
 				dedicationTokens.add(generic_token_stack.pop());
 			}
 			//remove 7 unique color from lantern card
-			
+			System.out.println("Your seven unique dedication has been made");
 		}
 		else
 		{
 			System.out.println("Player can not perform Seven Unique dedication");
-			System.out.println("Please select another option");
 			System.out.println("");
 		}
 		////check and get Seven Unique lantern card for user and give dedicated token
@@ -287,7 +285,6 @@ public class Player implements Serializable {
 			else
 			{
 				System.out.println("Player can not perform Four Of a kind dedication");
-				System.out.println("Please select another Option");
 				System.out.println("");
 			}
 			//check and get four of kind lantern card for player and give dedicated token
@@ -319,12 +316,6 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : fourOfaKindList)
 		{
-			int i = 0;
-			System.out.println("Select which of a kind color you would like to dedicate");
-			System.out.println(i +".  " +  c.name());
-			//Scanner inputscan = new Scanner(System.in);
-			//in = inputscan.next();
-			//i++;
 			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
 			for(LanternCard lantern : color_list){
 				//add lantern card back to supply
@@ -339,6 +330,7 @@ public class Player implements Serializable {
 			dedicationTokens.add(generic_token_stack.pop());
 		}
 		fourOfaKindList = new ArrayList<Color>();
+		System.out.println("Your four of a kind dedication has been made");
 	}
 	
 	/**
@@ -348,10 +340,6 @@ public class Player implements Serializable {
 	{ 
 		for(Color c : threePairList)
 		{
-			int i = 0;
-			System.out.println("Select which of a Three Pair color you would like to dedicate");
-			System.out.println(i +"." +  c.name());
-			i++;
 			
 			ArrayList<LanternCard> color_list = removeThreePairCard(c); //remove only when player makes a choice
 			for(LanternCard lantern : color_list){
@@ -367,6 +355,7 @@ public class Player implements Serializable {
 			dedicationTokens.add(generic_token_stack.pop());
 		}
 		threePairList = new ArrayList<Color>();
+		System.out.println("Your three pair dedication has been made");
 	}
 	
 	/**
