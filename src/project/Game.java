@@ -865,7 +865,8 @@ public class Game implements Serializable {
 		
 		if (laketile.size() == 0) 
 		{
-			getTheWinner();
+			System.out.println(getTheWinner());
+			System.exit(0);
 		}
 	}
 	
