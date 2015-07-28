@@ -330,7 +330,8 @@ public class Game implements Serializable {
 		System.out.print(Color.getColorText(Color.WHITE, " ") + white + " ");
 		System.out
 				.println(Color.getColorText(Color.ORANGE, " ") + orange + " ");
-
+		System.out.println("Number of Favor Tokens::"
+				+ player.getNumberOfFavorTokens());
 		System.out.println("\nValue Dedication Token : "
 				+ player.countHonorValue());
 		System.out.println("\nLake Tiles :");
@@ -408,12 +409,12 @@ public class Game implements Serializable {
 
 			System.out.println("Number of Favor Tokens::"
 					+ current_player.getNumberOfFavorTokens());
-
+			
 			int total = 0;
 			for (int j = 0; j < current_player.getDedicationTokens().size(); j++) {
 				total += current_player.getDedicationTokens().get(j).getHonor();
 			}
-			System.out.println("\nValue Dedication Token : " + total);
+			//System.out.println("\nValue Dedication Token : " + total);
 
 			// /code
 			System.out.println("Lantern Cards");
