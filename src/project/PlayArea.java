@@ -427,16 +427,6 @@ public class PlayArea implements Serializable {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
 
-	// Methods for build-2 starts
-	// 1) count the number of the lantern card the player has
-	// 2) Display all the open positions like (index, color, platform,
-	// true/false , facing player)
-	// 3) show the lake tile in his hand like (Color-facing player, color-facing
-	// player,color-facing player,
-	// color-facing player)
-	// 4) get all the tiles and information around a tile user has put
-	// 5) distribute bonuses based on the tile a user put
-
 	/**
 	 * To get all the lake tiles available on the board
 	 * 
@@ -447,7 +437,7 @@ public class PlayArea implements Serializable {
 	}
 
 	/**
-	 * get all open positions on the board
+	 * display all open positions on the board based on the current arrangements of the lake tiles
 	 * 
 	 * @throws Exception
 	 */
@@ -488,6 +478,11 @@ public class PlayArea implements Serializable {
 		}
 	}
 
+	/**
+	 * size of the game board is dynamic, so this method checks for the board size
+	 * in both directions and displays only the required board grid
+	 * @return
+	 */
 	private int[] getBoardSize() {
 		int[] size = new int[4];
 		// check least x position
@@ -572,6 +567,13 @@ public class PlayArea implements Serializable {
 		return flag;
 	}
 
+	/**
+	 * takes the position of the lake tile as an input and checks for all adjacent lake tiles
+	 * and get information of those lake tiles
+	 * @param pos position of the current lake tile
+	 * @return HashMap of  
+	 * @throws Exception
+	 */
 	public HashMap<Rotation, Vector<Object>> showAdjacentColor(Position pos)
 			throws Exception {
 		HashMap<Rotation, Vector<Object>> color_store = new HashMap<Rotation, Vector<Object>>();
