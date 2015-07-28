@@ -16,7 +16,6 @@ public class Game implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static Scanner scan;
 	/**
 	 * the list of players in the game
 	 */
@@ -134,20 +133,15 @@ public class Game implements Serializable {
 	 */
 	public static void main(String args[]) throws Exception {
 		Game game = null;
-		Scanner scanner = new Scanner(System.in);
 		System.out.println("1. New Game");
 		System.out.println("2. Download");
 		System.out.println("3. Exit");
-		String in = null;
-		do {
-			in = scanner.next();
-		} while (!in.equals("1") && !in.equals("2") && !in.equals("3"));
-		if (in.equals("1")) {
-			game = putPlayerNamesOption(scanner, in);
-		} else if (in.equals("2")) {
-			game = loadGameOption(scanner, in);
+		int in = game.inputOption(3);
+		if (in == 1) {
+			game = putPlayerNamesOption();
+		} else if (in == 2) {
+			game = loadGameOption();
 			game.showInformation();
-	
 		} else {
 			System.out.print("Goodbye");
 			System.exit(0);
@@ -156,11 +150,15 @@ public class Game implements Serializable {
 		game.play();
 	}
 
-	public static Game putPlayerNamesOption(Scanner scanner, String in)
-			throws Exception {
+	public static Game putPlayerNamesOption() throws Exception {
+		Scanner scanner = new Scanner(System.in);
+		String in = null;
 		String[] names = null;
 		System.out.print("How many players? (select 2,3 or 4) : ");
 		do {
+			if (in != null) {
+				System.out.println(in + " is not in the option");
+			}
 			in = scanner.next();
 		} while (!in.equals("2") && !in.equals("3") && !in.equals("4"));
 
@@ -173,9 +171,10 @@ public class Game implements Serializable {
 		return new Game(names);
 	}
 
-	public static void saveGameOption(Game game, Scanner scanner, String in) {
+	public static void saveGameOption(Game game) {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("Put File Name To Save");
-		Game.saveGame(game, scanner.next());
+		Game.saveGame(game, scan.next());
 	}
 
 	/**
@@ -190,13 +189,15 @@ public class Game implements Serializable {
 		GameFile.save(g, fname);
 	}
 
-	public static Game loadGameOption(Scanner scanner, String in) {
+	public static Game loadGameOption() {
 		Game game = null;
+		Scanner scanner = new Scanner(System.in);
+		String in = null;
 		System.out.println("Put File Name");
 		game = Game.loadGame(scanner.next());
 		if (game == null) {
 			System.out.println("Put Another File Name");
-			game = loadGameOption(scanner, in);
+			game = loadGameOption();
 		}
 		return game;
 	}
@@ -358,10 +359,6 @@ public class Game implements Serializable {
 	 * @return in input selected by user
 	 */
 	public static int Menu() {
-		@SuppressWarnings("resource")
-		Scanner inputscan = new Scanner(System.in);
-		String in;
-
 		System.out.println("Select the one of the options(0-3):");
 		System.out.println(" 0. Exit");
 		System.out.println(" 1. Exchange a Lantern Card (optional) ");
@@ -369,11 +366,7 @@ public class Game implements Serializable {
 		System.out.println(" 3. Place a Lake Tile (mandatory) ");
 		System.out.println(" 4. Save Game ");
 		System.out.println(" 5. Load Game ");
-		do {
-			in = inputscan.next();
-		} while (!in.equals("0") && !in.equals("1") && !in.equals("2")
-				&& !in.equals("3") && !in.equals("4") && !in.equals("5"));
-		return Integer.parseInt(in);
+		return inputOption(6);
 	}
 
 	/**
@@ -383,7 +376,6 @@ public class Game implements Serializable {
 	 */
 	public void play() throws Exception {
 		int input = 0;
-		Scanner inputscan = new Scanner(System.in);
 		String choice;
 		boolean quit = false;
 		do {
@@ -400,12 +392,6 @@ public class Game implements Serializable {
 
 			System.out.println("Number of Favor Tokens::"
 					+ current_player.getNumberOfFavorTokens());
-			
-			int total = 0;
-			for (int j = 0; j < current_player.getDedicationTokens().size(); j++) {
-				total += current_player.getDedicationTokens().get(j).getHonor();
-			}
-			//System.out.println("\nValue Dedication Token : " + total);
 
 			// /code
 			System.out.println("Lantern Cards");
@@ -458,7 +444,7 @@ public class Game implements Serializable {
 	 * 
 	 * @param player
 	 *            active player object
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
 	public void playerLanternCard(Player player) throws Exception {
@@ -479,8 +465,11 @@ public class Game implements Serializable {
 			}
 			if (!flag) {
 				arrays.add(lanternCards.get(i));
-				System.out.println("Index:" + counter + " : "
-						+ Color.getColorText(lanternCards.get(i).getColor()," ") + " ");
+				System.out.println("Index:"
+						+ counter
+						+ " : "
+						+ Color.getColorText(lanternCards.get(i).getColor(),
+								" ") + " ");
 				counter++;
 			}
 		}
@@ -670,10 +659,9 @@ public class Game implements Serializable {
 
 	public void gameCoreOption(Player current_player) throws Exception {
 		int input = Menu();
-		String choice = null;
-		Scanner inputscan = new Scanner(System.in);
 		switch (input) {
 		case 1:
+
 			if ((current_player.getNumberOfFavorTokens() < 2)
 					|| (current_player.getLanternCards().size() == 0)) {
 				System.out.println("Sorry..you can not perform this action.");
@@ -688,35 +676,34 @@ public class Game implements Serializable {
 			break;
 
 		case 2:
-
+			int choice;
 			System.out.println("What type of dedication do you want to make? ");
 			System.out.println(" 0. Four of A Kind");
 			System.out.println(" 1. Three Pair");
 			System.out.println(" 2. Seven Unique");
 			do {
-				choice = inputscan.next();
-			} while (!choice.equals("0") && !choice.equals("1")
-					&& !choice.equals("2"));
-			int choiceI = Integer.parseInt(choice);
-			if (choiceI == 0) {
+				choice = inputOption(3);
+			} while (choice < 0 && choice > 2);
+			if (choice == 0) {
 				current_player.makeFourOfAKind(playArea.getFourOfAKindTokens(),
 						playArea.getGenericTokens(), playArea.getSupply());
-			} else if (choiceI == 1) {
+			} else if (choice == 1) {
 				current_player.makeThreePair(playArea.getThreePairTokens(),
 						playArea.getGenericTokens(), playArea.getSupply());
-			} else if (choiceI == 2) {
+			} else if (choice == 2) {
 				current_player.makeSevenUnique(playArea.getSevenUniqueTokens(),
 						playArea.getGenericTokens(), playArea.getSupply());
 			}
 			break;
 
 		case 3:
-			System.out.println("Place a lake tile selected");
 			if (isNumberOfLanternCardsOnHandsOver()) {
-				System.out
-						.println("You must make a dedication token or discard cards");
+				System.out.println("You must make a dedication token or discard cards");
 				gameCoreOption(current_player);
 			}
+			
+			System.out.println("Place a lake tile selected");
+			
 			// **discard card or return to menu.
 
 			// show player position
@@ -737,20 +724,11 @@ public class Game implements Serializable {
 			}
 			System.out.println();
 			showCurrentPlayerLakeTile();
-			String in;
-			boolean flag = true;
-			do {
-				in = inputscan.next();
-				for (int i = 0; i < current_player.getLakeTiles().size(); i++) {
-					if (in.equals("" + i)) {
-						flag = false;
-					}
-				}
-			} while (flag);
+			int in = inputOption(current_player.getLakeTiles().size());
+
 			// get the laketile which player wants to put then remove the
 			// tile on their hand
-			LakeTile active_laketile = current_player.getLakeTiles().remove(
-					Integer.parseInt(in));
+			LakeTile active_laketile = current_player.getLakeTiles().remove(in);
 			ArrayList<Position> list = playArea
 					.showIndexAvailableToPutLakeTileOnBoard();
 			System.out.println("Available index :::");
@@ -766,26 +744,17 @@ public class Game implements Serializable {
 			}
 			System.out.print("which position you want to put laketile::");
 			// input position and check
-			flag = true;
-			do {
-				in = inputscan.next();
-				for (int i = 0; i < list.size(); i++) {
-					if (in.equals("" + i)) {
-						flag = false;
-					}
-				}
-			} while (flag);
-			placeALakeTile(list.get(Integer.parseInt(in)), active_laketile);
+
+			int pos_laketile_opt = inputOption(list.size());
+
+			placeALakeTile(list.get(pos_laketile_opt), active_laketile);
 			HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
-					.get(Integer.parseInt(in));
+					.get(pos_laketile_opt);
 			System.out.println();
 			showPossibleRotation(active_laketile);
 
-			do {
-				in = inputscan.next();
-			} while (!in.equals("0") && !in.equals("1") && !in.equals("2")
-					&& !in.equals("3"));
-			int rotation = Integer.parseInt(in) * 90;
+			int rotation_opt = inputOption(4);
+			int rotation = rotation_opt * 90;
 			active_laketile.setRotation(Rotation.getRotation(rotation));
 			// change the side of lake tile to put on board
 			// / new
@@ -834,119 +803,22 @@ public class Game implements Serializable {
 				}
 			}
 
-			// get bonus for adjacent and platform
-			for (int i = 0; i < adjacent_colors.size(); i++) {
-
-				for (Entry<Rotation, Vector<Object>> c : adjacent_colors
-						.entrySet()) {
-					Vector<Object> color_and_platform = (Vector<Object>) c
-							.getValue();
-					if (c.getKey().equals(Rotation.D0)) {// up -adjacent
-															// laketile
-															// color and
-															// down -
-															// (active
-															// color)
-						if (active_laketile.getSideOfColor(Rotation.D0) == color_and_platform
-								.get(0)) {// get(0) is color
-							Stack<LanternCard> lantern_stack = playArea
-									.getSupply().getLanternStack()
-									.get(color_and_platform.get(0));
-							if (!lantern_stack.empty()) {
-								current_player.getLanternCards().add(
-										lantern_stack.pop());
-							}
-							if (active_laketile.isPlatform()) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-							if ((Boolean) color_and_platform.get(1)) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-						}
-					} else if (c.getKey().equals(Rotation.D90)) {
-						if (active_laketile.getSideOfColor(Rotation.D90) == color_and_platform
-								.get(0)) {
-							Stack<LanternCard> lantern_stack = playArea
-									.getSupply().getLanternStack()
-									.get(color_and_platform.get(0));
-							if (!lantern_stack.empty()) {
-								current_player.getLanternCards().add(
-										lantern_stack.pop());
-							}
-							if (active_laketile.isPlatform()) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-							if ((Boolean) color_and_platform.get(1)) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-						}
-					} else if (c.getKey().equals(Rotation.D180)) {
-						if (active_laketile.getSideOfColor(Rotation.D180) == color_and_platform
-								.get(0)) {
-							Stack<LanternCard> lantern_stack = playArea
-									.getSupply().getLanternStack()
-									.get(color_and_platform.get(0));
-							if (!lantern_stack.empty()) {
-								current_player.getLanternCards().add(
-										lantern_stack.pop());
-							}
-							if (active_laketile.isPlatform()) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-							if ((Boolean) color_and_platform.get(1)) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-						}
-					} else if (c.getKey().equals(Rotation.D270)) {
-						if (active_laketile.getSideOfColor(Rotation.D270) == color_and_platform
-								.get(0)) {
-							Stack<LanternCard> lantern_stack = playArea
-									.getSupply().getLanternStack()
-									.get(color_and_platform.get(0));
-							if (!lantern_stack.empty()) {
-								current_player.getLanternCards().add(
-										lantern_stack.pop());
-							}
-							if (active_laketile.isPlatform()) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-							if ((Boolean) color_and_platform.get(1)) {
-								current_player
-										.setNumberOfFavorTokens(current_player
-												.getNumberOfFavorTokens() + 1);
-							}
-						}
-					}
-				}
-			}
+			getBonusPlaceLakeTile(current_player, active_laketile,
+					adjacent_colors);
 			showPlayerInformation(current_player);
 			// change turn
 			players.add(players.remove());
-			//to get the winner
+			// to get the winner
 			ArrayList<LakeTile> laketile = players.element().getLakeTiles();
-			if(laketile.size()==0){
+			if (laketile.size() == 0) {
 				getTheWinner();
 			}
 			break;
 		case 4:
-			saveGameOption(this, inputscan, "" + input);
+			saveGameOption(this);
 			break;
 		case 5:
-			Game g = loadGameOption(inputscan, "" + input);
+			Game g = loadGameOption();
 			g.play();
 			break;
 		case 0:
@@ -959,6 +831,103 @@ public class Game implements Serializable {
 			break;
 		}
 
+	}
+
+	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception {
+		int favor_playarea = playArea.getNumberOfFavorTokens();
+		// get bonus for adjacent and platform
+		for (int i = 0; i < adjacent_colors.size(); i++) {
+			for (Entry<Rotation, Vector<Object>> c : adjacent_colors.entrySet()) {
+				Vector<Object> color_platform = (Vector<Object>) c.getValue();
+				// up -adjacent laketile color and down - (active color)
+				if (c.getKey().equals(Rotation.D0)) {
+					// get(0) is color
+					if (active_laketile.getSideOfColor(Rotation.D0) == color_platform.get(0)) {
+
+						Stack<LanternCard> lantern_stack = playArea.getSupply()
+								.getLanternStack()
+								.get(color_platform.get(0));
+						if (!lantern_stack.empty()) {
+							current_player.getLanternCards().add(
+									lantern_stack.pop());
+						}
+						if (active_laketile.isPlatform()&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+					}
+				} else if (c.getKey().equals(Rotation.D90)) {
+					if (active_laketile.getSideOfColor(Rotation.D90) == color_platform
+							.get(0)) {
+						Stack<LanternCard> lantern_stack = playArea.getSupply()
+								.getLanternStack()
+								.get(color_platform.get(0));
+						if (!lantern_stack.empty()) {
+							current_player.getLanternCards().add(
+									lantern_stack.pop());
+						}
+						if (active_laketile.isPlatform()&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+					}
+				} else if (c.getKey().equals(Rotation.D180)) {
+					if (active_laketile.getSideOfColor(Rotation.D180) == color_platform
+							.get(0)) {
+						Stack<LanternCard> lantern_stack = playArea.getSupply()
+								.getLanternStack()
+								.get(color_platform.get(0));
+						if (!lantern_stack.empty()) {
+							current_player.getLanternCards().add(
+									lantern_stack.pop());
+						}
+						if (active_laketile.isPlatform()&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+					}
+				} else if (c.getKey().equals(Rotation.D270)) {
+					if (active_laketile.getSideOfColor(Rotation.D270) == color_platform
+							.get(0)) {
+						Stack<LanternCard> lantern_stack = playArea.getSupply()
+								.getLanternStack()
+								.get(color_platform.get(0));
+						if (!lantern_stack.empty()) {
+							current_player.getLanternCards().add(
+									lantern_stack.pop());
+						}
+						if (active_laketile.isPlatform()&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+						if ((Boolean) color_platform.get(1)&&favor_playarea>0) {
+							favor_playarea = favor_playarea -1 ;
+							playArea.setNumberOfFavorTokens(favor_playarea);
+							current_player.setNumberOfFavorTokens(current_player.getNumberOfFavorTokens() + 1);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void getTheWinner() {
@@ -979,9 +948,9 @@ public class Game implements Serializable {
 				winner_honor = p.countHonorValue();
 			}
 		}
-		
-		for (Player p: winner_honor_players){
-			if(p.getNumberOfFavorTokens() == winner_favor_token){
+
+		for (Player p : winner_honor_players) {
+			if (p.getNumberOfFavorTokens() == winner_favor_token) {
 				winner_favor_players.add(p);
 			}
 			if (p.countHonorValue() > winner_favor_token) {
@@ -990,19 +959,19 @@ public class Game implements Serializable {
 				winner_favor_token = p.countHonorValue();
 			}
 		}
-		
-		for (Player p: winner_favor_players){
+
+		for (Player p : winner_favor_players) {
 			int current_lan_size = p.getLanternCards().size();
-			if(current_lan_size == winner_lan_card){
+			if (current_lan_size == winner_lan_card) {
 				winners.add(p);
 			}
-			if(current_lan_size > winner_lan_card){
+			if (current_lan_size > winner_lan_card) {
 				winners = new ArrayList<Player>();
 				winners.add(p);
 				winner_lan_card = current_lan_size;
 			}
 		}
-		
+
 		System.out.print("The winner");
 		if (winners.size() > 1) {
 			System.out.print("s are");
@@ -1013,9 +982,27 @@ public class Game implements Serializable {
 			System.out.print(" " + winner.getName());
 		}
 		System.out.print(" with " + winner_honor + " honor value,");
-		System.out.print( winner_favor_token + " favor, and");
-		System.out.print( winner_lan_card + " lantern card");
+		System.out.print(winner_favor_token + " favor, and");
+		System.out.print(winner_lan_card + " lantern card");
 		System.exit(0);
 
+	}
+
+	public static int inputOption(int n_option) {
+		Scanner inputscan = new Scanner(System.in);
+		String in = null;
+		boolean flag = true;
+		do {
+			if (in != null) {
+				System.out.println(in + " is not in the option");
+			}
+			in = inputscan.next();
+			for (int i = 0; i < n_option; i++) {
+				if (in.equals("" + i)) {
+					flag = false;
+				}
+			}
+		} while (flag);
+		return Integer.parseInt(in);
 	}
 }
