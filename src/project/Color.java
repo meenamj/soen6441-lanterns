@@ -33,6 +33,14 @@ public enum Color {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}
 	
+	/**
+	 * ANSI escapes sequence plug-in for eclipse to print the color on the console,
+	 * this method get the color name in string format and return the ANSI color code for that color
+	 * @param c color value
+	 * @param text a text value need to be printed inside the color block
+	 * @return ANSI value of the color
+	 * @throws Exception
+	 */
 	public static String getColorText(Color c, String text) throws Exception{
 		if(c.equals(Color.ORANGE)){ 
 			return "\u001b[1;37m\u001b[43m"+text+"\u001b[47m\u001b[0m";
