@@ -42,19 +42,16 @@ public class Player implements Serializable {
 	 * the current player
 	 */
 	
-	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
 	/**
 	 * The list of four of kind card a player has hand
 	 */
-	ArrayList<Color> threePairList = new ArrayList<Color>();
+	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
+	
 	/**
 	 * The list of three pair card a player has on hand
 	 */
-	
-	boolean canMakeDedication = false;
-	/**
-	 * 
-	 */
+	ArrayList<Color> threePairList = new ArrayList<Color>();
+
 	Color c;
 	
 	private boolean isCurrentPlayer;
@@ -302,6 +299,7 @@ public class Player implements Serializable {
 	 */
 	public boolean isFourOfAKind()
 	{
+		boolean canMakeDedication=false;
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 4)
@@ -452,6 +450,7 @@ public class Player implements Serializable {
 	 */
 	public boolean isThreePair()
 	{
+		boolean canMakeDedication=false;
 		int count = 0;;
 		for(Color c: Color.values())
 		{
@@ -473,6 +472,7 @@ public class Player implements Serializable {
 	 */
 	public boolean isSevenUnique()
 	{
+		boolean canMakeDedication=false;
 		int count = 0;;
 		for(Color c: Color.values())
 		{
