@@ -196,8 +196,11 @@ public class PlayAreaTest {
 		LakeTile laketile2= new LakeTile(1, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
 		LakeTile laketile3= new LakeTile(2, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
 		LakeTile laketile4= new LakeTile(3, Color.RED, Color.GREEN, Color.BLACK, Color.RED,false);
-		pa.getLakeTilesOnBoard()[];
-		twoPyList.g;
+		pa.getLakeTilesOnBoard()[32][32] = laketile1;
+		pa.getLakeTilesOnBoard()[33][32] = laketile2;
+		pa.getLakeTilesOnBoard()[34][32] = laketile3;
+		pa.getLakeTilesOnBoard()[35][32] = laketile4;
+		assertNotNull(pa.getLakeTilesOnBoard());
 	}
 	
 	@Test 
