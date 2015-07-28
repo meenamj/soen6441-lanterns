@@ -229,6 +229,12 @@ public class Player implements Serializable {
 		this.numberOfFavorTokens = numberOfFavorTokens;
 	}
 	
+	/**
+	 * to make a dedication of the type "Three Pair"
+	 * @param dedication_token_stack
+	 * @param generic_token_stack
+	 * @param supply
+	 */
 	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isThreePair())
 		{
@@ -242,7 +248,13 @@ public class Player implements Serializable {
 			System.out.println("");
 		}
 	}
-	
+		
+	/**
+	 * to make a dedication of the type "Seven Unique"
+	 * @param dedication_token_stack
+	 * @param generic_token_stack
+	 * @param supply
+	 */
 	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isSevenUnique())
 		{ 
@@ -272,9 +284,12 @@ public class Player implements Serializable {
 		}
 		////check and get Seven Unique lantern card for user and give dedicated token
 	}
+
 	/**
-	 * Make a dedication by dedication type
-	 * @param dedicationType The type of dedication a player is willing to make
+	 * to make a dedication of the type "Four Of A Kind"
+	 * @param dedication_token_stack
+	 * @param generic_token_stack
+	 * @param supply
 	 */
 	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply)
 	{
