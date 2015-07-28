@@ -396,9 +396,10 @@ public class Player implements Serializable {
 		return cardNo;
 	}
 	
-	/*
+	/**
 	 * This method removes lantern card of four of a kind from player's hand
-	 * 
+	 * @param c
+	 * @return
 	 */
 	public ArrayList<LanternCard> removeFourOfAKindCard(Color c)
 	{
@@ -424,7 +425,7 @@ public class Player implements Serializable {
 	/**
 	 * This method removes lantern card of three pair from player's hand and return it to supply
 	 * @param c color of lantern card
-	 * @return lanter card
+	 * @return lantern card
 	 */
 	public ArrayList<LanternCard> removeThreePairCard(Color c)
 	{
