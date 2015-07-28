@@ -467,9 +467,10 @@ public class Game implements Serializable {
 	 * 
 	 * @param player
 	 *            active player object
+	 * @throws Exception 
 	 * 
 	 */
-	public void playerLanternCard(Player player) {
+	public void playerLanternCard(Player player) throws Exception {
 		Scanner inputscan = new Scanner(System.in);
 		System.out.println("Choose a lantern card you want to exchange");
 		ArrayList<LanternCard> lanternCards = player.getLanternCards();
@@ -488,7 +489,7 @@ public class Game implements Serializable {
 			if (!flag) {
 				arrays.add(lanternCards.get(i));
 				System.out.println("Index:" + counter + " : "
-						+ lanternCards.get(i).getColor() + " ");
+						+ Color.getColorText(lanternCards.get(i).getColor()," ") + " ");
 				counter++;
 			}
 		}
@@ -683,7 +684,7 @@ public class Game implements Serializable {
 		switch (input) {
 		case 1:
 			if ((current_player.getNumberOfFavorTokens() < 2)
-					&& (current_player.getLanternCards().size() < 1)) {
+					|| (current_player.getLanternCards().size() == 0)) {
 				System.out.println("Sorry..you can not perform this action.");
 			} else {
 				// remove lantern card from player's hand and add that card
