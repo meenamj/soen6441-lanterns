@@ -297,12 +297,16 @@ public class Player implements Serializable {
 	public boolean isFourOfAKind()
 	{
 		boolean canMakeDedication=false;
+		int count=1;
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 4)
-				{	
-					fourOfaKindList.add(c);
-					canMakeDedication = true;
+				{	if(count <=1)
+					{
+						fourOfaKindList.add(c);
+						canMakeDedication = true;
+						count++;
+					}
 				}
 		}
 		return canMakeDedication;
@@ -458,8 +462,11 @@ public class Player implements Serializable {
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 2)
-				{	
-					threePairList.add(c);
+				{
+					if(count<=2)
+					{	
+						threePairList.add(c);
+					}
 					count++;
 				}	
 		}
