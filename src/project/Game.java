@@ -147,16 +147,7 @@ public class Game implements Serializable {
 		} else if (in.equals("2")) {
 			game = loadGameOption(scanner, in);
 			game.showInformation();
-			System.out
-					.print("Do you want to shuffle the laketile stack? Y/N : ");
-			do {
-				in = scanner.next();
-			} while (!in.toUpperCase().equals("Y")
-					&& !in.toUpperCase().equals("N"));
-			if (in.toUpperCase().equals("Y")) {
-				Collections.shuffle(game.playArea.getLakeTiles());
-				game.showInformation();
-			}
+	
 		} else {
 			System.out.print("Goodbye");
 			System.exit(0);
