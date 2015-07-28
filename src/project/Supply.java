@@ -9,7 +9,8 @@ import java.util.Map.Entry;
  */
 public class Supply implements Serializable{
 	/**
-	 * hashmap is used to keep all lantern stacks in supply
+	 * HashMap is used to keep all lantern stacks in supply
+	 * color represents key and the value represents stack of LanternCard instances related to the key color
 	 */
 	private HashMap<Color, Stack<LanternCard>> lanternStacks = null;
 	
@@ -56,14 +57,27 @@ public class Supply implements Serializable{
 		}
 	}
 	
+	/**
+	 * To fetch all the lantern cards from the supply
+	 * @return lantern card stack
+	 */
 	public HashMap<Color, Stack<LanternCard>> getLanternStack(){
 		return lanternStacks;
 	}
 	
+	/**
+	 * to put lantern cards back in the supply
+	 * @param lanternStacks lantern card stack to be added in the supply
+	 */
 	public void setLanternStack(HashMap<Color, Stack<LanternCard>> lanternStacks){
 		this.lanternStacks = lanternStacks;
 	}
 	
+	/**
+	 * Prints number of the lantern cards (with color)
+	 * available of each color in the current supply stack
+	 * @throws Exception
+	 */
 	public void getNumberColorListText() throws Exception{
 		for (Entry<Color, Stack<LanternCard>> c : lanternStacks.entrySet()){
 			System.out.print(Color.getColorText(c.getKey()," ")+c.getValue().size()+" ");
