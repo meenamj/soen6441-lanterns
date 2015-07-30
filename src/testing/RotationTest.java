@@ -64,13 +64,4 @@ public class RotationTest {
 
 		assertNotNull(result);
 	}
-	
-	@Test
-	public void testRandomRandom()
-		throws Exception {
-		Rotation result = Rotation.random();
-		assertEquals("D180", result.name());
-		assertEquals("D180", result.toString());
-		assertEquals(2, result.ordinal());
-	}
 }
