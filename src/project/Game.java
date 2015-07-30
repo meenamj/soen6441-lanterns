@@ -148,20 +148,20 @@ public class Game implements Serializable {
 	public static void main(String args[]) throws Exception 
 	{
 		Game game = null;
-		System.out.println("1. New Game");
-		System.out.println("2. Download");
-		System.out.println("3. Exit");
+		System.out.println("0. New Game");
+		System.out.println("1. Download");
+		System.out.println("2. Exit");
 		int in = game.inputOption(3);
 		
-		if (in == 1) 
+		if (in == 0) 
 		{
 			game = putPlayerNamesOption();
 		} 
-		else if (in == 2)
+		else if (in == 1)
 		{
 			game = loadGameOption();
 			game.showInformation();
-		} else 
+		} else
 		{
 			System.out.print("Goodbye");
 			System.exit(0);
