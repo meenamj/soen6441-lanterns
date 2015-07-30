@@ -34,7 +34,7 @@ public enum Rotation {
 	 * To get the rotation value for the specified degree value
 	 * @param rotation represents degree value in integer form
 	 * @return required rotation value
-	 * @throws Exception
+	 * @throws Exception if the rotation is not from the degree list [0,90,180.270]
 	 */
 	public static Rotation getRotation(int rotation) throws Exception{
 		if (rotation==0){

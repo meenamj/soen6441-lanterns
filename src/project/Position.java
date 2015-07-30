@@ -12,8 +12,8 @@ public class Position {
 	
 	/**
 	 * Constructor of position class
-	 * @param x
-	 * @param y
+	 * @param x x-coordinate on the board
+	 * @param y y-coordinate on the board
 	 */
 	public Position(int x, int y){
 		this.x = x;

@@ -39,7 +39,7 @@ public enum Color {
 	 * @param c color value
 	 * @param text a text value need to be printed inside the color block
 	 * @return ANSI value of the color
-	 * @throws Exception
+	 * @throws Exception if the color does not exist
 	 */
 	public static String getColorText(Color c, String text) throws Exception{
 		if(c.equals(Color.ORANGE)){ 

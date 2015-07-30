@@ -341,9 +341,9 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Show player information such as name, active or inactve, lantern card Favor token and dedication token
-	 * @param player
-	 * @throws Exception
+	 * Show player information such as name, active or inactive, lantern card Favor token and dedication token
+	 * @param player active player 
+	 * @throws Exception if the color does not exist
 	 */
 	public void showPlayerInformation(Player player) throws Exception 
 	{
@@ -418,7 +418,7 @@ public class Game implements Serializable {
 	/**
 	 * Start Game
 	 * 
-	 * @throws Exception
+	 * @throws Exception if the color does not exist
 	 */
 	public void play() throws Exception 
 	{
@@ -463,7 +463,7 @@ public class Game implements Serializable {
 	 * 
 	 * @param player
 	 *            active player object
-	 * @throws Exception
+	 * @throws Exception if the player does not exist
 	 * 
 	 */
 	public void exchangePlayerLanternCard(Player player) throws Exception 
@@ -585,10 +585,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * display the lake tile a player need to put next for example : 1. (Index,
-	 * RED -P1, BLUE - P2, BLACK -P3, PURPLE- P4, Rotation)
-	 * 
-	 * @throws Exception
+	 * display the lake tile a player need to put next 
+	 * @throws Exception if the player does not exist
 	 */
 	public void showPlayerLakeTile() throws Exception 
 	{
@@ -894,41 +892,11 @@ public class Game implements Serializable {
 			int index = getting_lanterncard_player.getIndex();
 			ArrayList<Color> color_list = new ArrayList<Color>(
 					active_laketile.getColorOfFourSides());
-			if (index == 0) 
+			if (index >= 0 && index < players.size()) 
 			{
 				Stack<LanternCard> lanternCard = lanternStacks
-						.get(color_list.get(0));
+						.get(color_list.get(index));
 				if (!lanternCard.empty())
-				{
-					l = lanternCard.pop();
-					getting_lanterncard_player.getLanternCards().add(l);
-				}
-			} 
-			else if (index == 1) 
-			{
-				Stack<LanternCard> lanternCard = lanternStacks
-						.get(color_list.get(1));
-				if (!lanternCard.empty()) 
-				{
-					l = lanternCard.pop();
-					getting_lanterncard_player.getLanternCards().add(l);
-				}
-			} 
-			else if (index == 2) 
-			{
-				Stack<LanternCard> lanternCard = lanternStacks
-						.get(color_list.get(2));
-				if (!lanternCard.empty()) 
-				{
-					l = lanternCard.pop();
-					getting_lanterncard_player.getLanternCards().add(l);
-				}
-			} 
-			else if (index == 3) 
-			{
-				Stack<LanternCard> lanternCard = lanternStacks
-						.get(color_list.get(3));
-				if (!lanternCard.empty()) 
 				{
 					l = lanternCard.pop();
 					getting_lanterncard_player.getLanternCards().add(l);
@@ -973,11 +941,9 @@ public class Game implements Serializable {
 				System.out.print(Symbol.UP);
 			} else if (player.getIndex() == 1) {
 				System.out.print(Symbol.RIGHT);
-			}
-			if (player.getIndex() == 2) {
+			} else if (player.getIndex() == 2) {
 				System.out.print(Symbol.DOWN);
-			}
-			if (player.getIndex() == 3) {
+			} else if (player.getIndex() == 3) {
 				System.out.print(Symbol.LEFT);
 			}
 			System.out.print(" ");
@@ -1194,7 +1160,7 @@ public class Game implements Serializable {
 
 	/**
 	 * This method check the input the user provides
-	 * @param n_option
+	 * @param n_option user input
 	 * @return integer value of the option selected
 	 */
 	public static int inputOption(int n_option)

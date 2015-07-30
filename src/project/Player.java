@@ -229,9 +229,9 @@ public class Player implements Serializable {
 	
 	/**
 	 * to make a dedication of the type "Three Pair"
-	 * @param dedication_token_stack
-	 * @param generic_token_stack
-	 * @param supply
+	 * @param dedication_token_stack to draw a three pair token on play area
+	 * @param generic_token_stack to draw a generic token when three pair token stack are empty.
+	 * @param supply to put a lantern card to the supply stacks after make dedication.
 	 */
 	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isThreePair())
@@ -249,9 +249,9 @@ public class Player implements Serializable {
 		
 	/**
 	 * to make a dedication of the type "Seven Unique"
-	 * @param dedication_token_stack
-	 * @param generic_token_stack
-	 * @param supply
+	 * @param dedication_token_stack to draw a seven unique token on play area.
+	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
+	 * @param supply to put a lantern card to the supply stacks after make dedication.
 	 */
 	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
 		if(isSevenUnique())
@@ -285,9 +285,9 @@ public class Player implements Serializable {
 
 	/**
 	 * to make a dedication of the type "Four Of A Kind"
-	 * @param dedication_token_stack
-	 * @param generic_token_stack
-	 * @param supply
+	 * @param dedication_token_stack to draw a four of a kind token on play area.
+	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
+	 * @param supply to put a lantern card to the supply stacks after make dedication.
 	 */
 	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply)
 	{
@@ -326,9 +326,12 @@ public class Player implements Serializable {
 	}
 	
 	/**
-	 *  Display the four of kind  options a player has
+	 * Display the four of kind  options a player has
+	 * @param dedication_token_stack to draw a four of a kind token on play area.
+	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
+	 * @param supply to put a lantern card to the supply stacks after make dedication.
 	 */
-	
+	 
 	public void displayFourOfAKindChoice(Stack<FourOfAKindToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
 	{ 
 		for(Color c : fourOfaKindList)
@@ -352,6 +355,9 @@ public class Player implements Serializable {
 	
 	/**
 	 * Displays three pair cards a player has
+	 * @param dedication_token_stack to draw a four of a kind token on play area.
+	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
+	 * @param supply to put a lantern card to the supply stacks after make dedication.
 	 */
 	public void displayThreePair(Stack<ThreePairToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
 	{ 

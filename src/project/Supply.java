@@ -76,7 +76,7 @@ public class Supply implements Serializable{
 	/**
 	 * Prints number of the lantern cards (with color)
 	 * available of each color in the current supply stack
-	 * @throws Exception
+	 * @throws Exception if the color does not exist
 	 */
 	public void getNumberColorListText() throws Exception{
 		for (Entry<Color, Stack<LanternCard>> c : lanternStacks.entrySet()){

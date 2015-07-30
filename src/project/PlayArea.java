@@ -439,7 +439,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * display all open positions on the board based on the current arrangements of the lake tiles
 	 * 
-	 * @throws Exception
+	 * @throws Exception if the color does not exist
 	 */
 	public void showLakeTileBoard() throws Exception {
 		System.out.println("-- Lake Tile Board --");
@@ -572,7 +572,7 @@ public class PlayArea implements Serializable {
 	 * and get information of those lake tiles
 	 * @param pos position of the current lake tile
 	 * @return HashMap of  
-	 * @throws Exception
+	 * @throws Exception if the color does not exist
 	 */
 	public HashMap<Rotation, Vector<Object>> showAdjacentColor(Position pos)
 			throws Exception {
