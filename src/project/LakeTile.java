@@ -4,14 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
-import java.util.Vector;
 
 /**
  * Lake tile is a card to place to the game After that player can get lantern
  * cards following the direction of the placed lake tile.
  * 
- * @author
+ * @author none
  */
 public class LakeTile implements Serializable {
 
@@ -39,15 +37,19 @@ public class LakeTile implements Serializable {
 	/**
 	 * Constructor of a lake tile Generate a lake tile with random color for
 	 * each sides
-	 * 
-	 * @param true for this lake tiles is a start lake tile
+	 * @param index Id of the Lake Tile
+	 * @param c1 color represented at a side1
+	 * @param c2 color represented at a side2
+	 * @param c3 color represented at a side3
+	 * @param c4 color represented at a side4
+	 * @param platform if a platform is available on the lake tile or not
 	 */
 	public LakeTile(int index, Color c1, Color c2, Color c3, Color c4,
 			boolean platform) {
 		Queue<Color> cos = new LinkedList<Color>();
 		this.index = index;
 		isAvailablePosition = new boolean[]{true,true,true,true};
-		// start laketile
+		// start lake tile
 		if (index == 27) {
 			setRotation(Rotation.D270);
 		}
@@ -59,7 +61,7 @@ public class LakeTile implements Serializable {
 		this.hasPlatform = platform;
 	}
 
-	/*
+	/**
 	 * Get four color of lake tiles
 	 * 
 	 * @return four colors of a lake tile
@@ -68,10 +70,9 @@ public class LakeTile implements Serializable {
 		return colorOfFourSides;
 	}
 
-	/*
+	/**
 	 * Set four color of lake tiles
-	 * 
-	 * @param four colors of a lake tile
+	 * @param colorOfFourSides four color represented at each side of the lake tile
 	 */
 	public void setColorOfFourSides(Queue<Color> colorOfFourSides) {
 		this.colorOfFourSides = colorOfFourSides;

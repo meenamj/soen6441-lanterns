@@ -466,7 +466,7 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 * 
 	 */
-	public void playerLanternCard(Player player) throws Exception 
+	public void exchangePlayerLanternCard(Player player) throws Exception 
 	{
 		Scanner inputscan = new Scanner(System.in);
 		System.out.println("Choose a lantern card you want to exchange");
@@ -526,7 +526,7 @@ public class Game implements Serializable {
 	 * @param player
 	 *            active player object1
 	 */
-	public void supplyLanternCard(Player player)
+	public void exchangeSupplyLanternCard(Player player)
 	{
 		Scanner inputscan = new Scanner(System.in);
 		System.out.println("\nLantern Card Supply :");
@@ -574,11 +574,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * get number of lantern cards a player has, to check it should not exceed
-	 * 12
-	 * 
-	 * @param playerID
-	 *            Id of the player
+	 * get number of lantern cards a player has, to check it should not 
+	 * exceed 12
 	 * @return count number of the lantern card a player has
 	 */
 	public int getNumberOfLanternCardsOnHand() 
@@ -629,11 +626,10 @@ public class Game implements Serializable {
 	/**
 	 * Get all the tiles around a tile provided
 	 * 
-	 * @param x
-	 *            position of x-coordinates
-	 * @param y
-	 *            position of y-coordinates
-	 * 
+	 * @param x	position of x-coordinates
+	 * @param y position of y-coordinates
+	 * @return list_laketiles list of all the lake tiles available 
+	 * 			around a lake tile on board
 	 */
 	public ArrayList<LakeTile> getTilesAround(int x, int y) 
 	{
@@ -647,6 +643,8 @@ public class Game implements Serializable {
 
 	/**
 	 * Execute this method, if the third option is selected by player.
+	 * @param pos Position instance
+	 * @param lakeTile LakeTile instance
 	 */
 	public void placeALakeTile(Position pos, LakeTile lakeTile) 
 	{
@@ -664,7 +662,7 @@ public class Game implements Serializable {
 
 	/**
 	 * Display the current lake tile on the board
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	public void showCurrentPlayerLakeTile() throws Exception 
 	{
@@ -690,8 +688,8 @@ public class Game implements Serializable {
 
 	/**
 	 * Shows the all the possible ways to rotate a lake tile
-	 * @param l laketile
-	 * @throws Exception
+	 * @param l LakeTile
+	 * @throws Exception exception
 	 */
 	public void showPossibleRotation(LakeTile l) throws Exception 
 	{
@@ -715,8 +713,10 @@ public class Game implements Serializable {
 		}
 	}
 
-	/*
-	 * Main option for the player 
+	/**
+	 * The active player may perform each of these actions once per turn
+	 * @param current_player active player
+	 * @throws Exception exception
 	 */
 	public void gameCoreOption(Player current_player) throws Exception 
 	{
@@ -754,8 +754,12 @@ public class Game implements Serializable {
 
 	}
 
-	/*
-	 * Verify if a player can place a lake tile or not by the number of lantern card
+	/**
+	 * If a player begins his turn with more than 12 Lantern
+	 * Cards, he must make a dedication or discard cards until
+	 * he has 12 or fewer cards before placing a Lake Tile. 
+	 * @param current_player active player
+	 * @throws Exception exception
 	 */
 	private void conditionToPlaceALakeTile(Player current_player)
 			throws Exception 
@@ -763,7 +767,7 @@ public class Game implements Serializable {
 		if(current_player.getLanternCards().size()>12)
 		{
 			System.out.println("You have more than twelve lantern cards");
-			System.out.println("You need to make a dedication or discard card");
+			System.out.println("You need to make a dedication or discard a lantern card");
 		}
 		else
 		{
@@ -772,9 +776,9 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Exchange lantern card
+	 * Exchange a lantern card option
 	 * @param current_player Active Player
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	private void exchangeLanCard(Player current_player) throws Exception 
 	{
@@ -782,16 +786,18 @@ public class Game implements Serializable {
 				|| (current_player.getLanternCards().size() == 0))
 		{
 			System.out.println("Sorry..you can not perform this action.");
+			System.out.println("you do not have enough favor tokens or you " +
+					"don't have a lantern card to exchange.");
 		} 
 		
 		else 
 		{
 			// remove lantern card from player's hand and add that card
 			// to supply stack
-			playerLanternCard(current_player);
+			exchangePlayerLanternCard(current_player);
 			// remove lantern card from supply stack and add it to
 			// player's hand
-			supplyLanternCard(current_player);
+			exchangeSupplyLanternCard(current_player);
 		}
 	}
 
@@ -1017,7 +1023,7 @@ public class Game implements Serializable {
 	 * @param current_player active player
 	 * @param active_laketile lake tile on the play area
 	 * @param adjacent_colors adjacent color
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
 	{
@@ -1062,7 +1068,7 @@ public class Game implements Serializable {
 	 * @param favor_playarea player that get the bonus
 	 * @param color_platform color of platform
 	 * @return player that get the bonus
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	private int checkBonusDirection(Rotation r, Player current_player, LakeTile active_laketile,
 			int favor_playarea, Vector<Object> color_platform) throws Exception 
@@ -1099,6 +1105,8 @@ public class Game implements Serializable {
 
 	/**
 	 * This method get and displays the winner of the game
+	 * @return string with the winner name, number of favor tokens and number of lantern
+	 * cards
 	 */
 	public String getTheWinner() {
 		int winner_honor = 0;
@@ -1185,9 +1193,9 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * This method check the input the user enters
+	 * This method check the input the user provides
 	 * @param n_option
-	 * @return
+	 * @return integer value of the option selected
 	 */
 	public static int inputOption(int n_option)
 	{

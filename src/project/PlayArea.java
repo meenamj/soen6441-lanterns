@@ -481,7 +481,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * size of the game board is dynamic, so this method checks for the board size
 	 * in both directions and displays only the required board grid
-	 * @return
+	 * @return size of the board
 	 */
 	private int[] getBoardSize() {
 		int[] size = new int[4];

@@ -56,13 +56,13 @@ public class Player implements Serializable {
 	
 	private boolean isCurrentPlayer;
 
+	public static Scanner scan;
+
 	/**
 	 * Get name of player
 	 * 
 	 * @return name of player
 	 */
-	public static Scanner scan;
-
 	public String getName() {
 		return name;
 	}
@@ -87,10 +87,8 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Set name of player
-	 * 
-	 * @param name
-	 *            of player
+	 * Set index of player
+	 * @param index of player
 	 */
 	public void setIndex(int index) {
 		this.index = index;
@@ -398,8 +396,8 @@ public class Player implements Serializable {
 	
 	/**
 	 * This method removes lantern card of four of a kind from player's hand
-	 * @param c
-	 * @return
+	 * @param c color instance
+	 * @return list of lantern cards
 	 */
 	public ArrayList<LanternCard> removeFourOfAKindCard(Color c)
 	{
@@ -474,7 +472,7 @@ public class Player implements Serializable {
 	public boolean isThreePair()
 	{
 		boolean canMakeDedication=false;
-		int count = 0;;
+		int count = 0;
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 2)
@@ -499,7 +497,7 @@ public class Player implements Serializable {
 	public boolean isSevenUnique()
 	{
 		boolean canMakeDedication=false;
-		int count = 0;;
+		int count = 0;
 		for(Color c: Color.values())
 		{
 				if(numOfCardColor(c) >= 1)
@@ -516,7 +514,7 @@ public class Player implements Serializable {
 
 	/**
 	 * This method get the number of lake tiles
-	 * @return
+	 * @return number of lake tiles
 	 */
 	public int getNumberOfLakeTile() 
 	{
