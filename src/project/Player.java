@@ -49,14 +49,12 @@ public class Player implements Serializable {
 	/**
 	 * The list of four of kind card a player has hand
 	 */
-	ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
+	private ArrayList<Color> fourOfaKindList = new ArrayList<Color>();
 	
 	/**
 	 * The list of three pair card a player has on hand
 	 */
-	ArrayList<Color> threePairList = new ArrayList<Color>();
-
-	Color c;
+	private ArrayList<Color> threePairList = new ArrayList<Color>();
 
 	public static Scanner scan;
 
@@ -370,7 +368,7 @@ public class Player implements Serializable {
 	public int numOfCardColor(Color c)
 	{
 		int cardNo = 0;
-		for(LanternCard lantern :this.lanternCards)
+		for(LanternCard lantern : lanternCards)
 		{
 			if(lantern.getColor() == c)
 			{
@@ -392,7 +390,7 @@ public class Player implements Serializable {
 		ArrayList<LanternCard> lantern_list = new ArrayList<LanternCard>();
 		while(count<=4)
 		{
-			for(LanternCard lantern :this.lanternCards)
+			for(LanternCard lantern : lanternCards)
 			{
 				
 				if(lantern.getColor() == c)
