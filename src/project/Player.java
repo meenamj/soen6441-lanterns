@@ -227,16 +227,12 @@ public class Player implements Serializable {
 	
 	/**
 	 * to make a dedication of the type "Three Pair"
-	 * @param dedication_token_stack to draw a three pair token on play area
-	 * @param generic_token_stack to draw a generic token when three pair token stack are empty.
-	 * @param supply to put a lantern card to the supply stacks after make dedication.
+	 * @param play_area to draw a three pair token on play area
 	 */
-	public void makeThreePair(Stack<ThreePairToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
+	public void makeThreePair(PlayArea play_area){
 		if(isThreePair())
 		{
-			
-			displayThreePair(dedication_token_stack, generic_token_stack, supply);
-			
+			displayThreePair(play_area);
 		}
 		else
 		{
@@ -247,13 +243,14 @@ public class Player implements Serializable {
 		
 	/**
 	 * to make a dedication of the type "Seven Unique"
-	 * @param dedication_token_stack to draw a seven unique token on play area.
-	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
-	 * @param supply to put a lantern card to the supply stacks after make dedication.
+	 * @param play_area to draw a seven unique token on play area.
 	 */
-	public void makeSevenUnique(Stack<SevenUniqueToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply){
+	public void makeSevenUnique(PlayArea play_area){
 		if(isSevenUnique())
 		{ 
+			Stack<SevenUniqueToken> seven_unique_stack = play_area.getSevenUniqueTokens();
+			Stack<GenericToken> generic_stack = play_area.getGenericTokens();
+			Supply supply = play_area.getSupply();
 			//add lantern card back to supply
 			for(Color c: Color.values())
 			{
@@ -265,10 +262,10 @@ public class Player implements Serializable {
 					}	
 			}
 			//add dedication token
-			if(!dedication_token_stack.empty()){
-				dedicationTokens.add(dedication_token_stack.pop());
-			}else if(!generic_token_stack.empty()){
-				dedicationTokens.add(generic_token_stack.pop());
+			if(!seven_unique_stack.empty()){
+				dedicationTokens.add(seven_unique_stack.pop());
+			}else if(!generic_stack.empty()){
+				dedicationTokens.add(generic_stack.pop());
 			}
 			//remove 7 unique color from lantern card
 			System.out.println("Your seven unique dedication has been made");
@@ -283,15 +280,13 @@ public class Player implements Serializable {
 
 	/**
 	 * to make a dedication of the type "Four Of A Kind"
-	 * @param dedication_token_stack to draw a four of a kind token on play area.
-	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
-	 * @param supply to put a lantern card to the supply stacks after make dedication.
+	 * @param play_area to draw a four of a kind token on play area.
 	 */
-	public void makeFourOfAKind(Stack<FourOfAKindToken> dedication_token_stack,Stack<GenericToken> generic_token_stack, Supply supply)
+	public void makeFourOfAKind(PlayArea play_area)
 	{
 			if(isFourOfAKind())
 			{
-				displayFourOfAKindChoice(dedication_token_stack,generic_token_stack,supply);
+				displayFourOfAKindChoice(play_area);
 			}
 			else
 			{
@@ -325,13 +320,14 @@ public class Player implements Serializable {
 	
 	/**
 	 * Display the four of kind  options a player has
-	 * @param dedication_token_stack to draw a four of a kind token on play area.
-	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
-	 * @param supply to put a lantern card to the supply stacks after make dedication.
+	 * @param play_area to draw a four of a kind token on play area.
 	 */
 	 
-	public void displayFourOfAKindChoice(Stack<FourOfAKindToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
+	public void displayFourOfAKindChoice(PlayArea play_area)
 	{ 
+		Stack<FourOfAKindToken> four_kind_stack = play_area.getFourOfAKindTokens();
+		Stack<GenericToken> generic_stack = play_area.getGenericTokens();
+		Supply supply = play_area.getSupply();
 		for(Color c : fourOfaKindList)
 		{
 			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
@@ -342,10 +338,10 @@ public class Player implements Serializable {
 			//drawFourOfAKindStackOnPlayArea();
 		}
 		//add dedication token
-		if(!dedication_token_stack.empty()){
-			dedicationTokens.add(dedication_token_stack.pop());
-		}else if(!generic_token_stack.empty()){
-			dedicationTokens.add(generic_token_stack.pop());
+		if(!four_kind_stack.empty()){
+			dedicationTokens.add(four_kind_stack.pop());
+		}else if(!generic_stack.empty()){
+			dedicationTokens.add(generic_stack.pop());
 		}
 		fourOfaKindList = new ArrayList<Color>();
 		System.out.println("Your four of a kind dedication has been made");
@@ -353,12 +349,14 @@ public class Player implements Serializable {
 	
 	/**
 	 * Displays three pair cards a player has
-	 * @param dedication_token_stack to draw a four of a kind token on play area.
-	 * @param generic_token_stack to draw a generic token when seven unique token stack are empty.
-	 * @param supply to put a lantern card to the supply stacks after make dedication.
+	 * @param play_area to draw a four of a kind token on play area.
 	 */
-	public void displayThreePair(Stack<ThreePairToken> dedication_token_stack, Stack<GenericToken> generic_token_stack, Supply supply)
+	public void displayThreePair(PlayArea play_area)
 	{ 
+		Stack<ThreePairToken> three_pair_stack = play_area.getThreePairTokens();
+		Stack<GenericToken> generic_stack = play_area.getGenericTokens();
+		Supply supply = play_area.getSupply();
+		
 		for(Color c : threePairList)
 		{
 			
@@ -370,10 +368,10 @@ public class Player implements Serializable {
 		}
 		//drawThreePairStackOnPlayArea();
 		//add dedication token
-		if(!dedication_token_stack.empty()){
-			dedicationTokens.add(dedication_token_stack.pop());
-		}else if(!generic_token_stack.empty()){
-			dedicationTokens.add(generic_token_stack.pop());
+		if(!three_pair_stack.empty()){
+			dedicationTokens.add(three_pair_stack.pop());
+		}else if(!generic_stack.empty()){
+			dedicationTokens.add(generic_stack.pop());
 		}
 		threePairList = new ArrayList<Color>();
 		System.out.println("Your three pair dedication has been made");

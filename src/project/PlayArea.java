@@ -526,7 +526,7 @@ public class PlayArea implements Serializable {
 	 * @return coordinates of available positions to put a lake tile on the
 	 *         board
 	 */
-	public ArrayList<Position> showIndexAvailableToPutLakeTileOnBoard() {
+	public ArrayList<Position> getPositionAvailableLakeTileOnBoard() {
 		ArrayList<Position> index_list = new ArrayList<Position>();
 		for (int i = 0; i < lakeTilesOnBoard.length; i++) {
 			for (int j = 0; j < lakeTilesOnBoard[i].length; j++) {

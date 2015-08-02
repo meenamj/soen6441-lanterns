@@ -528,7 +528,7 @@ public class Game implements Serializable {
 			}
 		}
 		String in = null;
-		boolean flag = true;
+		boolean validation = false;
 		do 
 		{
 			in = inputscan.next();
@@ -541,10 +541,10 @@ public class Game implements Serializable {
 							.getLanternStacks();
 					Stack<LanternCard> stack = stacks_list.get(buffer.get(i));
 					player.getLanternCards().add(stack.pop());
-					flag = false;
+					validation = true;
 				}
 			}
-		} while (flag);
+		} while (!validation);
 
 	}
 
@@ -560,40 +560,46 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * display the lake tile a player need to put next 
+	 * text of the lake tile a player need to put next ( 4 sides )
+	 * @return String the information of player lake tile 
 	 * @throws Exception if the player does not exist
 	 */
-	public void showPlayerLakeTile() throws Exception 
+	public String getPlayerLakeTileText() throws Exception 
 	{
+		String text = "";
 		for (int j = 1; j < 5; j++) 
 		{
 			Player current_player = players.element();
-			System.out.print(j + " : index :"
-					+ current_player.getLakeTiles().get(0).getIndex() + " ");
+			text += j + " : index :";
+			LakeTile player_laketile = current_player.getLakeTiles().get(0);
+			text += player_laketile.getIndex();
+			text += " ";
 			int i = 1;
-			for (Color c : current_player.getLakeTiles().get(0)
-					.getColorOfFourSides()) 
+			for (Color c : player_laketile.getColorOfFourSides()) 
 			{
-				System.out.print(Color.getColorText(c, Symbol.BULLET) + "P"
-						+ (i++));
+				text += Color.getColorText(c, Symbol.BULLET);
+				text += "P"+(i++);
 			}
 			System.out.print("platform::");
 			
-			if (current_player.getLakeTiles().get(0).isPlatform()) 
+			if (player_laketile.isPlatform()) 
 			{
-				System.out.println(Symbol.PLATFORM);
+				text += Symbol.PLATFORM;
+				text += "\n";
 			}
 			
 			if (j == 1) {
-				System.out.print("Rotation : 0");
+				text += "Rotation : 0";
 			} else if (j == 2) {
-				System.out.print("Rotation : 90");
+				text += "Rotation : 90";
 			} else if (j == 3) {
-				System.out.print("Rotation : 180");
+				text += "Rotation : 180";
 			} else if (j == 4) {
-				System.out.print("Rotation : 270");
+				text += "Rotation : 270";
 			}
 		}
+		
+		return text;
 	}
 
 	/**
@@ -616,56 +622,63 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Display the current lake tile on the board
+	 * text of all lake tiles of the current player
+	 * @return information of all current lake tiles to put on the board
 	 * @throws Exception exception
 	 */
-	public void showCurrentPlayerLakeTile() throws Exception 
+	public String getCurrentPlayerLakeTileText() throws Exception 
 	{
+		String text = "";
 		ArrayList<LakeTile> current_player_laketiles = players.element()
 				.getLakeTiles();
 		for (LakeTile lake_tile : current_player_laketiles)
 		{
 			int index = current_player_laketiles.indexOf(lake_tile);
-			System.out.print("index : " + index + ":");
-			System.out.printf("%2s -", lake_tile.getIndex());
+			text += "index : " + index + ":";
+			text += String.format("%2s -", lake_tile.getIndex());
 			
 			for (Color c : lake_tile.getColorOfFourSides())
 			{
-				System.out.print(Color.getColorText(c, Symbol.BULLET) + " ");
+				text += Color.getColorText(c, Symbol.BULLET);
+				text += " ";
 			}
 			if (lake_tile.isPlatform()) 
 			{
-				System.out.print(Symbol.PLATFORM);
+				text += Symbol.PLATFORM;
 			}
-			System.out.println("");
+			text += "\n";
 		}
+		return text;
 	}
 
 	/**
-	 * Shows the all the possible ways to rotate a lake tile
+	 * text of all the possible ways to rotate a lake tile
 	 * @param l LakeTile
+	 * @return String information of possible ways to rotate
 	 * @throws Exception exception
 	 */
-	public void showPossibleRotation(LakeTile l) throws Exception 
+	public String getPossibleRotationText(LakeTile l) throws Exception 
 	{
+		String text = "";
 		int sideOfLakeTile = 4;
-		System.out.println("How do you want to rotate the lake tile?");
+		text += "How do you want to rotate the lake tile?";
 		for (int i = 0; i < sideOfLakeTile; i++)
 		{
-			System.out.print(i + ":");
+			text += i + ":";
 			ArrayList<Color> four_side_colors = new ArrayList<Color>(
 					l.getColorOfFourSides());
-			System.out.print(Color.getColorText(four_side_colors.get(0),
-					Symbol.UP) + " ");
-			System.out.print(Color.getColorText(four_side_colors.get(1),
-					Symbol.RIGHT) + " ");
-			System.out.print(Color.getColorText(four_side_colors.get(2),
-					Symbol.DOWN) + " ");
-			System.out.print(Color.getColorText(four_side_colors.get(3),
-					Symbol.LEFT) + " ");
-			System.out.println();
+			text += Color.getColorText(four_side_colors.get(0),Symbol.UP);
+			text += " ";
+			text += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT);
+			text += " ";
+			text += Color.getColorText(four_side_colors.get(2),Symbol.DOWN);
+			text += " ";
+			Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
+			text += " ";
+			text += "\n";
 			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
 		}
+		return text;
 	}
 
 	/**
@@ -781,16 +794,16 @@ public class Game implements Serializable {
 		// **discard card or return to menu.
 
 		// show player position
-		showPlayerPosition();
+		System.out.println(getPlayerPositionText());
 		System.out.println();
-		showCurrentPlayerLakeTile();
+		System.out.println(getCurrentPlayerLakeTileText());
 		int in = inputOption(current_player.getLakeTiles().size());
 
 		// get the laketile which player wants to put then remove the
 		// tile on their hand
 		LakeTile active_laketile = current_player.getLakeTiles().remove(in);
 		ArrayList<Position> list = playArea
-				.showIndexAvailableToPutLakeTileOnBoard();
+				.getPositionAvailableLakeTileOnBoard();
 		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
 		
 		optionOnBoard(list, adjacent_color_list);
@@ -803,7 +816,7 @@ public class Game implements Serializable {
 		HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
 				.get(pos_laketile_opt);
 		System.out.println();
-		showPossibleRotation(active_laketile);
+		System.out.println(getPossibleRotationText(active_laketile));
 
 		int rotation_opt = inputOption(4);
 		int rotation = rotation_opt * 90;
@@ -815,15 +828,14 @@ public class Game implements Serializable {
 		// get lanterncard from supply stacks to each players after
 		// putting lake tile
 
-		ArrayList<Player> players_list = new ArrayList<Player>(players);
+		
 		HashMap<Color, Stack<LanternCard>> lanternStacks = playArea
 				.getSupply().getLanternStacks();
 		LanternCard l = null;
 
-		distributeLanternCard(active_laketile, players_list, lanternStacks);
+		distributeLanternCard(active_laketile, lanternStacks);
 
-		getBonusPlaceLakeTile(current_player, active_laketile,
-				adjacent_colors);
+		getBonusPlaceLakeTile(active_laketile, adjacent_colors);
 		
 		current_player.getInformationText(current_player);
 		// change turn
@@ -841,15 +853,13 @@ public class Game implements Serializable {
 	/**
 	 * This method distribute lantern card from supply to player
 	 * @param active_laketile lake tile from the stack
-	 * @param players_list list of player currently playing the game
 	 * @param lanternStacks lantern card stack 
 	 */
 
 	private void distributeLanternCard(LakeTile active_laketile,
-			ArrayList<Player> players_list,
 			HashMap<Color, Stack<LanternCard>> lanternStacks) 
 	{
-		LanternCard l;
+		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		for (int i = 0; i < players.size(); i++) 
 		{
 			Player getting_lanterncard_player = players_list.get(i);
@@ -862,7 +872,7 @@ public class Game implements Serializable {
 						.get(color_list.get(index));
 				if (!lanternCard.empty())
 				{
-					l = lanternCard.pop();
+					LanternCard l = lanternCard.pop();
 					getting_lanterncard_player.getLanternCards().add(l);
 				}
 			}
@@ -887,7 +897,7 @@ public class Game implements Serializable {
 			Position index = list.get(i);
 			System.out.print("option " + i + " ::" + index.getText());
 
-			// show adjacent color
+			// show information beside the possible lake tile
 			HashMap<Rotation, Vector<Object>> color_platform = playArea.getAdjacentColor(index);
 			System.out.println(playArea.getAdjacentColorText(color_platform));
 			adjacent_color_list.add(color_platform);
@@ -898,23 +908,26 @@ public class Game implements Serializable {
 
 	/**
 	 * This method shows the player position
+	 * @return String show direction of player
 	 */
-	private void showPlayerPosition() 
+	private String getPlayerPositionText() 
 	{
+		String text = "";
 		for (Player player : players) 
 		{
-			System.out.print(player.getName());
+			text += player.getName();
 			if (player.getIndex() == 0) {
-				System.out.print(Symbol.UP);
+				text += Symbol.UP;
 			} else if (player.getIndex() == 1) {
-				System.out.print(Symbol.RIGHT);
+				text += Symbol.RIGHT;
 			} else if (player.getIndex() == 2) {
-				System.out.print(Symbol.DOWN);
+				text += Symbol.DOWN;
 			} else if (player.getIndex() == 3) {
-				System.out.print(Symbol.LEFT);
+				text += Symbol.LEFT;
 			}
-			System.out.print(" ");
+			text += " ";
 		}
+		return text;
 	}
 
 	/**
@@ -936,18 +949,15 @@ public class Game implements Serializable {
 		
 		if (choice == 0) 
 		{
-			current_player.makeFourOfAKind(playArea.getFourOfAKindTokens(),
-					playArea.getGenericTokens(), playArea.getSupply());
+			current_player.makeFourOfAKind(playArea);
 		} 
 		else if (choice == 1) 
 		{
-			current_player.makeThreePair(playArea.getThreePairTokens(),
-					playArea.getGenericTokens(), playArea.getSupply());
+			current_player.makeThreePair(playArea);
 		} 
 		else if (choice == 2)
 		{
-			current_player.makeSevenUnique(playArea.getSevenUniqueTokens(),
-					playArea.getGenericTokens(), playArea.getSupply());
+			current_player.makeSevenUnique(playArea);
 		}
 	}
 
@@ -958,7 +968,7 @@ public class Game implements Serializable {
 	 * @param adjacent_colors adjacent color
 	 * @throws Exception exception
 	 */
-	public void getBonusPlaceLakeTile(Player current_player, LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
+	public void getBonusPlaceLakeTile(LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
 	{
 		// get bonus for adjacent and platform
 		for (int i = 0; i < adjacent_colors.size(); i++) 
@@ -969,23 +979,19 @@ public class Game implements Serializable {
 				// up -adjacent laketile color and down - (active color)
 				if (c.getKey().equals(Rotation.D0)) 
 				{
-					getBonusDirection(Rotation.D0, current_player,
-							active_laketile, color_platform);
+					getBonusDirection(Rotation.D0, active_laketile, color_platform);
 				} else if (c.getKey().equals(Rotation.D90)) 
 				{
 					
-					getBonusDirection(Rotation.D90, current_player,
-							active_laketile, color_platform);
+					getBonusDirection(Rotation.D90, active_laketile, color_platform);
 				} else if (c.getKey().equals(Rotation.D180)) 
 				{
-					getBonusDirection(Rotation.D180, current_player,
-							active_laketile, color_platform);
+					getBonusDirection(Rotation.D180, active_laketile, color_platform);
 					
 				} 
 				else if (c.getKey().equals(Rotation.D270)) 
 				{
-					getBonusDirection(Rotation.D270, current_player,
-							active_laketile, color_platform);
+					getBonusDirection(Rotation.D270, active_laketile, color_platform);
 					
 				}
 			}
@@ -996,22 +1002,19 @@ public class Game implements Serializable {
 	 * This method checks the direction to give bonus
 	 * Comparing one color side of player's laketile with adjacent color
 	 * @param r Degree of rotation
-	 * @param current_player active player
 	 * @param active_laketile lake tile on play area
-	 * @param favor_playarea player that get the bonus
 	 * @param color_platform color of platform
 	 * @throws Exception exception
 	 */
-	private void getBonusDirection(Rotation r, Player current_player, LakeTile active_laketile,
+	private void getBonusDirection(Rotation r, LakeTile active_laketile,
 			Vector<Object> color_platform) throws Exception 
 	{
-		 
+		Player current_player = players.element();
 		Color side_color = active_laketile.getSideOfColor(r);
 		if (side_color == color_platform.get(0)) 
 		{
 
-			Stack<LanternCard> lantern_stack = playArea.getSupply()
-					.getLanternStacks()
+			Stack<LanternCard> lantern_stack = playArea.getSupply().getLanternStacks()
 					.get(color_platform.get(0));
 			
 			if (!lantern_stack.empty()) {
@@ -1134,7 +1137,7 @@ public class Game implements Serializable {
 	{
 		Scanner inputscan = new Scanner(System.in);
 		String in = null;
-		boolean flag = true;
+		boolean validation = false;
 		do
 		{
 			if (in != null) 
@@ -1146,11 +1149,11 @@ public class Game implements Serializable {
 			{
 				if (in.equals("" + i)) 
 				{
-					flag = false;
+					validation = true;
 				}
 			}
 		}
-		while (flag);
+		while (!validation);
 		return Integer.parseInt(in);
 	}
 }
