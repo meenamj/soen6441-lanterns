@@ -57,11 +57,15 @@ public class Supply extends HashMap<Color, Stack<LanternCard>>implements Seriali
 	 * available of each color in the current supply stack
 	 * @throws Exception if the color does not exist
 	 */
-	public void getNumberColorListText() throws Exception{
+	public String getNumberColorListText() throws Exception{
+		String text = "";
 		for (Entry<Color, Stack<LanternCard>> c : this.entrySet()){
-			System.out.print(Color.getColorText(c.getKey()," ")+c.getValue().size()+" ");
+			text += Color.getColorText(c.getKey()," ");
+			text += c.getValue().size();
+			text += " ";
 		}
-		System.out.println();
+		text += "\n";
+		return text;
 	}
 	
 	public boolean validate(int num_player){

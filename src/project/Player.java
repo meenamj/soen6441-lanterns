@@ -2,8 +2,11 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  * player is the person who play the game
@@ -574,4 +577,283 @@ public class Player implements Serializable {
 		text += "\n\n";
 		return text;
 	}
+	
+	
+	
+	
+	/**
+	 * Selection and removal of a lantern card form supply stack
+	 * 
+	 * @param player
+	 *            active player object1
+	 */
+	public void exchangeSupplyLanternCard(PlayArea playArea)
+	{
+		Scanner inputscan = new Scanner(System.in);
+		System.out.println("\nLantern Card Supply :");
+		int i = 0;
+		ArrayList<Color> buffer = new ArrayList<Color>();
+		for (Color c : Color.values()) 
+		{
+			try {
+				if (playArea.getSupply().get(c).size() > 0) {
+					System.out.println("Index :"
+							+ i
+							+ " :"
+							+ Color.getColorText(c, Symbol.BULLET)
+							+ " : "
+							+ playArea.getSupply().get(c).size());
+					buffer.add(c);
+					i++;
+				}
+
+			} catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		String in = null;
+		boolean validation = false;
+		do 
+		{
+			in = inputscan.next();
+			for (i = 0; i < buffer.size(); i++) 
+			{
+				if (in.equals("" + i)) 
+				{
+					Supply supply = playArea.getSupply();
+					Stack<LanternCard> stack = supply.get(buffer.get(i));
+					getLanternCards().add(stack.pop());
+					validation = true;
+				}
+			}
+		} while (!validation);
+
+	}
+	
+	/**
+	 * Exchange a lantern card option
+	 * @param playArea play area
+	 * @throws Exception exception
+	 */
+	public void exchangeLanCard(PlayArea playArea) throws Exception 
+	{
+		if ((getNumberOfFavorTokens() < 2)
+				|| (getLanternCards().size() == 0))
+		{
+			System.out.println("Sorry..you can not perform this action.");
+			System.out.println("you do not have enough favor tokens or you " +
+					"don't have a lantern card to exchange.");
+		} 
+		
+		else 
+		{
+			// remove lantern card from player's hand and add that card
+			// to supply stack
+			exchangePlayerLanternCard(playArea);
+			// remove lantern card from supply stack and add it to
+			// player's hand
+			exchangeSupplyLanternCard(playArea);
+		}
+	}
+	
+
+	/**
+	 * Selection and removal of a lantern card form player's stack
+	 * 
+	 * @param player
+	 *            active player object
+	 * @throws Exception if the player does not exist
+	 * 
+	 */
+	public void exchangePlayerLanternCard(PlayArea playArea) throws Exception 
+	{
+		Scanner inputscan = new Scanner(System.in);
+		System.out.println("Choose a lantern card you want to exchange");
+		ArrayList<LanternCard> lanternCards = getLanternCards();
+
+		System.out.println();
+
+		ArrayList<LanternCard> arrays = new ArrayList<LanternCard>();
+		
+		for (int i = 0, counter = 0; i < lanternCards.size(); i++) 
+		{
+			boolean existColor = false;
+			for (LanternCard array : arrays) {
+				if (array.getColor().equals(lanternCards.get(i).getColor())) 
+				{
+					existColor = true;
+					break;
+				}
+			}
+			if (!existColor) 
+			{
+				arrays.add(lanternCards.get(i));
+				System.out.println("Index:"
+						+ counter
+						+ " : "
+						+ Color.getColorText(lanternCards.get(i).getColor(),
+								" ") + " ");
+				counter++;
+			}
+		}
+
+		String in = null;
+		boolean existCard = true;
+		do {
+			in = inputscan.next();
+			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply();
+			for (int i = 0; i < arrays.size(); i++) 
+			{
+				if (in.equals("" + i)) 
+				{
+					System.out.print("");
+					Stack<LanternCard> lantern_stack = supply.get(arrays.get(i)
+							.getColor());
+					lantern_stack.add(arrays.get(i));
+					lanternCards.remove(arrays.get(i));
+					existCard = false;
+				}
+			}
+		} while (existCard);
+
+	}
+
+	/**
+	 * This method check if a player can place a lake tile and display position to place a lake tile
+	 * @param current_player
+	 * @throws Exception
+	 */
+	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	{
+		
+		// get the laketile which player wants to put then remove the
+		// tile on their hand
+		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
+		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
+		optionOnBoard(list, adjacent_color_list, play_area);
+		return adjacent_color_list;
+		
+		
+	}
+	
+	
+	public void setRotationOnActiveLakeTile(LakeTile active_laketile,int rotation_input) throws Exception{
+		//method2
+		
+		int rotation = rotation_input * 90;
+		active_laketile.setRotation(Rotation.getRotation(rotation));
+		// change the side of lake tile to put on board
+		// / new
+		active_laketile.changeRotation(active_laketile.getRotation());
+	}
+	
+	public HashMap<Rotation, Vector<Object>> getPossibleRotation(ArrayList<Position> list,
+			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
+			PlayArea play_area, LakeTile active_laketile,int pos_laketile_opt){
+	////method1
+			placeALakeTile(list.get(pos_laketile_opt), active_laketile, play_area);
+			HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
+					.get(pos_laketile_opt);
+			return adjacent_colors;
+	}
+	
+	/**
+	 * text of all lake tiles of the current player
+	 * @return information of all current lake tiles to put on the board
+	 * @throws Exception exception
+	 */
+	public String getCurrentPlayerLakeTileText() throws Exception 
+	{
+		String text = "";
+		for (LakeTile lake_tile : getLakeTiles())
+		{
+			int index = getLakeTiles().indexOf(lake_tile);
+			text += "index : " + index + ":";
+			text += String.format("%2s -", lake_tile.getIndex());
+			
+			for (Color c : lake_tile.getColorOfFourSides())
+			{
+				text += Color.getColorText(c, Symbol.BULLET);
+				text += " ";
+			}
+			if (lake_tile.isPlatform()) 
+			{
+				text += Symbol.PLATFORM;
+			}
+			text += "\n";
+		}
+		return text;
+	}
+	
+	/**
+	 * text of all the possible ways to rotate a lake tile
+	 * @param l LakeTile
+	 * @return String information of possible ways to rotate
+	 * @throws Exception exception
+	 */
+	public String getPossibleRotationText(LakeTile l) throws Exception 
+	{
+		String text = "";
+		int sideOfLakeTile = 4;
+		text += "How do you want to rotate the lake tile?\n";
+		for (int i = 0; i < sideOfLakeTile; i++)
+		{
+			text += i + ":";
+			ArrayList<Color> four_side_colors = new ArrayList<Color>(
+					l.getColorOfFourSides());
+			text += Color.getColorText(four_side_colors.get(0),Symbol.UP);
+			text += " ";
+			text += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT);
+			text += " ";
+			text += Color.getColorText(four_side_colors.get(2),Symbol.DOWN);
+			text += " ";
+			text += Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
+			text += " ";
+			text += "\n";
+			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
+		}
+		return text;
+	}
+	
+	/**
+	 * Execute this method, if the third option is selected by player.
+	 * @param pos Position instance
+	 * @param lakeTile LakeTile instance
+	 */
+	public void placeALakeTile(Position pos, LakeTile lakeTile, PlayArea playArea) 
+	{
+		int x = pos.getX();
+		int y = pos.getY();
+		playArea.getLakeTilesOnBoard()[x][y] = lakeTile;
+	}
+	
+	/**
+	 * This method display the options a player can place the lake tile
+	 * @param list list of possible options
+	 * @param adjacent_color_list Adjacent color
+	 * @throws Exception
+	 */
+
+	public void optionOnBoard(ArrayList<Position> list,
+			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
+			PlayArea play_area)
+			throws Exception
+	{
+		System.out.println("Available index :::");
+		
+		for (int i = 0; i < list.size(); i++) 
+		{
+			Position index = list.get(i);
+			System.out.print("option " + i + " ::" + index.getText());
+
+			// show information beside the possible lake tile
+			HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
+			System.out.println(play_area.getAdjacentColorText(color_platform));
+			adjacent_color_list.add(color_platform);
+			System.out.println();
+		}
+		
+	}
+
 }
