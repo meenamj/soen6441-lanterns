@@ -3,13 +3,8 @@ package testing;
 import static org.junit.Assert.*;
 
 import java.io.File;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-
-import project.Color;
 import project.Game;
 import project.GameFile;
 
@@ -17,7 +12,9 @@ public class GameFileTest {
 	private Game gSave,gLoad;
 	private File f = null;
 	@Before public void setUp() throws Exception{
-		gSave = new Game("Player1","Player2");
+		String[] player_names = {"Player1","Player2"};
+		int[] strategies = {0,0};
+		gSave = new Game(player_names , strategies);
 		gSave.startGame();
 	}
 	

@@ -20,25 +20,33 @@ public class GameTest {
 
 	@Test
 	public void testTwoPlayersInGame() throws Exception {
-		Game g = new Game("Player1","Player2");
+		String[] player_names = {"Player1","Player2"};
+		int[] strategies = {0,0};
+		Game g = new Game(player_names , strategies);
 		assertEquals("not 2 Players in the game ", 2, g.getPlayers().size());
 	}
 	
 	@Test
 	public void testThreePlayersInGame() throws Exception {
-		Game g = new Game("Player1","Player2","Player3");
+		String[] player_names = {"Player1","Player2","Player3"};
+		int[] strategies = {0,0,0};
+		Game g = new Game(player_names , strategies);
 		assertEquals("not 3 Players in the game ", 3, g.getPlayers().size());
 	}
 	
 	@Test
 	public void testFourPlayersInGame() throws Exception {
-		Game g = new Game("Player1","Player2","Player3","Player4");
+		String[] player_names = {"Player1","Player2","Player3", "Player4"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		assertEquals("not 4 Players in the game ", 4, g.getPlayers().size());
 	}
 	
 	@Test
 	public void testWinnerInGame() throws Exception{
-		Game g = new Game("A","A","A","A");
+		String[] player_names = {"A","A","A", "A"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		FourOfAKindToken four = new FourOfAKindToken(8);
 		ArrayList<DedicationToken> dedicationList = new ArrayList<DedicationToken>() ;
 		dedicationList.add(four);
@@ -48,7 +56,9 @@ public class GameTest {
 	
 	@Test
 	public void testTwoWinnersInGame() throws Exception{
-		Game g = new Game("A","A","A","A");
+		String[] player_names = {"A","A","A", "A"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ArrayList<DedicationToken> dedicationList1 = new ArrayList<DedicationToken>() ;
@@ -63,7 +73,9 @@ public class GameTest {
 	
 	@Test
 	public void testThreeWinnersInGame() throws Exception{
-		Game g = new Game("A","A","A","A");
+		String[] player_names = {"A","A","A", "A"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -83,7 +95,9 @@ public class GameTest {
 	
 	@Test
 	public void testOneWinnerInGameSameHonorValue() throws Exception{
-		Game g = new Game("A","A","A","A");
+		String[] player_names = {"A","A","A", "A"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -105,7 +119,9 @@ public class GameTest {
 	
 	@Test
 	public void testOneWinnerInGameSameHonorValueAndFavor() throws Exception{
-		Game g = new Game("A","A","A","A");
+		String[] player_names = {"A","A","A", "A"};
+		int[] strategies = {0,0,0,0};
+		Game g = new Game(player_names , strategies);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -130,7 +146,9 @@ public class GameTest {
 	
 	@Test
 	public void testNumberOfLanternCardsOnHandsOver() throws Exception{
-		Game g = new Game("Player1","Player2");//get one lantern card from start lake tile
+		String[] player_names = {"Player1","Player2"};
+		int[] strategies = {0,0};
+		Game g = new Game(player_names , strategies);//get one lantern card from start lake tile
 		ArrayList<LanternCard> playercard = g.getPlayers().element().getLanternCards();
 		HashMap<Color, Stack<LanternCard>> lanternstacks  = g.getPlayArea().getSupply();
 		LanternCard greenlantern1 = lanternstacks.get(Color.GREEN).pop();

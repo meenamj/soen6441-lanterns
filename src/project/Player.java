@@ -8,6 +8,9 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
 
+import project.strategy.Strategy;
+
+
 /**
  * player is the person who play the game
  * 
@@ -26,6 +29,10 @@ public class Player implements Serializable {
 	 */
 	private String name;
 	
+	/**
+	 * strategy
+	 */
+	private Strategy strategy;
 	/**
 	 * the amount of favor tokens which player has now
 	 */
@@ -94,6 +101,11 @@ public class Player implements Serializable {
 		this.index = index;
 	}
 
+	
+	public Strategy getStrategy(){
+		return strategy;
+	}
+	
 	/**
 	 * Get number of favor token on player hand
 	 * 
@@ -176,12 +188,13 @@ public class Player implements Serializable {
 	 * @param name
 	 *            the name of game players
 	 */
-	public Player(String name) {
+	public Player(String name, Strategy strategy) {
 		this.name = name;
 		lanternCards = new ArrayList<LanternCard>();
 		lakeTiles = new ArrayList<LakeTile>();
 		dedicationTokens = new ArrayList<DedicationToken>();
 		numberOfFavorTokens = 0;
+		this.strategy = strategy;
 	}
 
 	/**
@@ -853,5 +866,4 @@ public class Player implements Serializable {
 		}
 		
 	}
-
 }

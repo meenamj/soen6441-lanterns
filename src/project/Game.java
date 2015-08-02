@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.strategy.Human;
+import project.strategy.Random;
+
+
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
@@ -21,6 +25,7 @@ public class Game implements Serializable {
 	 * the list of players' name in the game
 	 */
 	private String[] playersNames;
+	private int[] strategies;
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
@@ -79,10 +84,10 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 *             used when the players are more than 4 or less than 1
 	 */
-	public Game(String... playersNames) throws Exception 
+	public Game(String[] playersNames, int[] strategies) throws Exception 
 	{
 		this.playersNames = playersNames;
-
+		this.strategies = strategies;
 		if (playersNames.length > 1 && playersNames.length < 5) 
 		{
 			startGame();
@@ -127,7 +132,12 @@ public class Game implements Serializable {
 		// create players according to number of players
 		for (int i = 0; i < names.length; i++) 
 		{
-			player = new Player(names[i]);
+			if(strategies[i]==0){
+				player = new Player(names[i], new Human());
+			}
+			else if(strategies[i]==1){
+				player = new Player(names[i], new Random());
+			}
 			// initialize all the stuff for the new player
 			players.add(player);
 		}
@@ -152,7 +162,7 @@ public class Game implements Serializable {
 		System.out.println("0. New Game");
 		System.out.println("1. Download");
 		System.out.println("2. Exit");
-		int in = inputOption(3);
+		int in = new Human().inputOption(3);
 		Game game = null;
 		if (in == 0) 
 		{
@@ -212,13 +222,15 @@ public class Game implements Serializable {
 
 		int nplayer = Integer.parseInt(in);
 		names = new String[nplayer];
-		
+		int[] strategies = new int[nplayer];
 		for (int i = 0; i < nplayer; i++) 
 		{
 			System.out.println("Player[" + i + "] name:");
 			names[i] = new String(scanner.next());
+			System.out.println("0) Human 1) Random");
+			strategies[i] = new Human().inputOption(2);
 		}
-		return new Game(names);
+		return new Game(names, strategies);
 	}
 
 	public static void saveGameOption(Game game) 
@@ -378,7 +390,7 @@ public class Game implements Serializable {
 	 * 
 	 * @return in input selected by user
 	 */
-	public static int Menu() {
+	public int Menu() {
 		System.out.println("Select the one of the options(0-3):");
 		System.out.println(" 0. Exit");
 		System.out.println(" 1. Exchange a Lantern Card (optional) ");
@@ -386,7 +398,8 @@ public class Game implements Serializable {
 		System.out.println(" 3. Place a Lake Tile (mandatory) ");
 		System.out.println(" 4. Save Game ");
 		System.out.println(" 5. Load Game ");
-		return inputOption(6);
+		Player current_player = getPlayers().element();
+		return current_player.getStrategy().inputOption(6);
 	}
 
 	/**
@@ -540,7 +553,7 @@ public class Game implements Serializable {
 				
 				System.out.println();
 				System.out.println(current_player.getCurrentPlayerLakeTileText());
-				int input1 = inputOption(current_player.getLakeTiles().size());
+				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size());
 				LakeTile active_laketile = current_player.getLakeTiles().remove(input1);
 				ArrayList<Position> list = playArea.getPositionAvailableLakeTileOnBoard();
 				
@@ -549,12 +562,12 @@ public class Game implements Serializable {
 				System.out.print("which position you want to put laketile::");
 				// input position and check
 				
-				int pos_laketile_opt = inputOption(list.size());
+				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size());
 				HashMap<Rotation, Vector<Object>> adjacent_colors = current_player.getPossibleRotation(list, adjacent_color_list, playArea, active_laketile, pos_laketile_opt);
 				///
 				System.out.println(current_player.getPossibleRotationText(active_laketile));
 				
-				int rotation_opt = inputOption(4);
+				int rotation_opt = current_player.getStrategy().inputOption(4);
 				current_player.setRotationOnActiveLakeTile(active_laketile, rotation_opt);
 				///
 				
@@ -675,7 +688,7 @@ public class Game implements Serializable {
 		System.out.println(" 2. Seven Unique");
 		do 
 		{
-			choice = inputOption(3);
+			choice = current_player.getStrategy().inputOption(3);
 		} 
 		while (choice < 0 && choice > 2);
 		
@@ -856,34 +869,5 @@ public class Game implements Serializable {
 		winnerStr +=winner_favor_token + " favor, and ";
 		winnerStr +=winner_lan_card + " lantern card";
 		return winnerStr;
-	}
-
-	/**
-	 * This method check the input the user provides
-	 * @param n_option user input
-	 * @return integer value of the option selected
-	 */
-	public static int inputOption(int n_option)
-	{
-		Scanner inputscan = new Scanner(System.in);
-		String in = null;
-		boolean validation = false;
-		do
-		{
-			if (in != null) 
-			{
-				System.out.println(in + " is not in the option");
-			}
-			in = inputscan.next();
-			for (int i = 0; i < n_option; i++)
-			{
-				if (in.equals("" + i)) 
-				{
-					validation = true;
-				}
-			}
-		}
-		while (!validation);
-		return Integer.parseInt(in);
 	}
 }

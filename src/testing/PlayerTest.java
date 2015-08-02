@@ -11,13 +11,14 @@ import project.Color;
 import project.FourOfAKindToken;
 import project.LanternCard;
 import project.Player;
+import project.strategy.Human;
 
 public class PlayerTest {
 	private Player player;
 
 	@Before
 	public void setUp() {
-		player = new Player("Tester1");
+		player = new Player("Tester1", new Human());
 	}
 	
 	@Test
