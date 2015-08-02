@@ -132,7 +132,7 @@ public class GameTest {
 	public void testNumberOfLanternCardsOnHandsOver() throws Exception{
 		Game g = new Game("Player1","Player2");//get one lantern card from start lake tile
 		ArrayList<LanternCard> playercard = g.getPlayers().element().getLanternCards();
-		HashMap<Color, Stack<LanternCard>> lanternstacks  = g.getPlayArea().getSupply().getLanternStack();
+		HashMap<Color, Stack<LanternCard>> lanternstacks  = g.getPlayArea().getSupply().getLanternStacks();
 		LanternCard greenlantern1 = lanternstacks.get(Color.GREEN).pop();
 		LanternCard greenlantern2 = lanternstacks.get(Color.GREEN).pop();
 		LanternCard bluelantern1 = lanternstacks.get(Color.BLUE).pop();
