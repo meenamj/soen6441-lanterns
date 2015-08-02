@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Scanner;
 /**
  * this class is used to manage the game file\
  * 
@@ -53,5 +54,18 @@ public final class GameFile {
 			return null;
 		}
 
+	}
+	
+	public static void main(String args[]){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println(":: Developer Console ::");
+		System.out.println("input file name ::");
+		String filename = scanner.next();
+		Game game = load(filename);
+		System.out.println("set number of favor token on play area ::");
+		String favor_token = scanner.next();
+		game.getPlayArea().setNumberOfFavorTokens(Integer.parseInt(favor_token));
+		System.out.println(":: Saved ::");
+		save(game, filename);
 	}
 }

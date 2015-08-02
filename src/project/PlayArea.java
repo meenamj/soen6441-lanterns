@@ -2,13 +2,13 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 /**
  * play area is a place for players to put a lake tile and draw dedication
@@ -196,7 +196,7 @@ public class PlayArea implements Serializable {
 			Player p = players.remove();
 			
 			p.getLanternCards().add(
-					supply.getLanternStack().get(lantern_color).pop());
+					supply.getLanternStacks().get(lantern_color).pop());
 			players.add(p);
 		}
 		// rotate the laketile to the correct position on laketile board
@@ -441,41 +441,39 @@ public class PlayArea implements Serializable {
 	 * 
 	 * @throws Exception if the color does not exist
 	 */
-	public void showLakeTileBoard() throws Exception {
-		System.out.println("-- Lake Tile Board --");
+	public String showLakeTileBoardText() throws Exception {
+		String text = "-- Lake Tile Board --\n";
 
 		int[] size = getBoardSize();
 		for (int y = size[1]; y <= size[3]; y++) {
 			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-					for (int i = 0; i < 21; i++) {
-						System.out.print(" ");
-					}
-
+					text += String.format("%21s", "");
 				} else {
-					System.out.print("[(" + x + "," + y + ")");
-					System.out.printf("%2s:", l.getIndex());
+					text+="[(" + x + "," + y + ")";
+					text += String.format("%2s", l.getIndex());
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
-					System.out.print(Color.getColorText(laketile_colors.get(0),
-							Symbol.UP) + " ");
-					System.out.print(Color.getColorText(laketile_colors.get(1),
-							Symbol.RIGHT) + " ");
-					System.out.print(Color.getColorText(laketile_colors.get(2),
-							Symbol.DOWN) + " ");
-					System.out.print(Color.getColorText(laketile_colors.get(3),
-							Symbol.LEFT) + " ");
+					text += Color.getColorText(laketile_colors.get(0),
+							Symbol.UP) + " ";
+					text += Color.getColorText(laketile_colors.get(1),
+							Symbol.RIGHT) + " ";
+					text += Color.getColorText(laketile_colors.get(2),
+							Symbol.DOWN) + " ";
+					text += Color.getColorText(laketile_colors.get(3),
+							Symbol.LEFT) + " ";
 					if (l.isPlatform()) {
-						System.out.print(Symbol.PLATFORM);
+						text += Symbol.PLATFORM;
 					} else {
-						System.out.print(Symbol.NOT);
+						text += Symbol.NOT;
 					}
-					System.out.print("]");
+					text += "]";
 				}
 			}
-			System.out.println("\n");
+			text+="\n";
 		}
+		return text;
 	}
 
 	/**
@@ -571,80 +569,91 @@ public class PlayArea implements Serializable {
 	 * takes the position of the lake tile as an input and checks for all adjacent lake tiles
 	 * and get information of those lake tiles
 	 * @param pos position of the current lake tile
-	 * @return HashMap of  
+	 * @return HashMap adjacent color and platform of lake tile on board around the lake tile position.
 	 * @throws Exception if the color does not exist
 	 */
-	public HashMap<Rotation, Vector<Object>> showAdjacentColor(Position pos)
+	public HashMap<Rotation, Vector<Object>> getAdjacentColor(Position pos)
 			throws Exception {
-		HashMap<Rotation, Vector<Object>> color_store = new HashMap<Rotation, Vector<Object>>();
+		HashMap<Rotation, Vector<Object>> color_platform_store = new HashMap<Rotation, Vector<Object>>();
 		boolean isPlatform = false;
-		if (pos.getX() - 1 > 0
-				&& lakeTilesOnBoard[pos.getX() - 1][pos.getY()] != null) {
-			Queue color = lakeTilesOnBoard[pos.getX() - 1][pos.getY()]
-					.getColorOfFourSides();
-			isPlatform = lakeTilesOnBoard[pos.getX() - 1][pos.getY()]
-					.isPlatform();
-			ArrayList<Color> l = new ArrayList<Color>(color);
-			Color c = l.get(1);
-			System.out.print("(" + Symbol.LEFT + Color.getColorText(c, " ")
-					+ ") ");
+		int x = pos.getX();
+		int y = pos.getY();
+		String text = "";
+		if (pos.getX() - 1 > 0 && lakeTilesOnBoard[x-1][y] != null) {
+			Queue color = lakeTilesOnBoard[x-1][y].getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[x-1][y].isPlatform();
+			ArrayList<Color> list = new ArrayList<Color>(color);
+			Color c = list.get(1);
+			
 			// left
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
 			color_and_platform.add(isPlatform);
-			color_store.put(Rotation.D270, color_and_platform);
+			color_platform_store.put(Rotation.D270, color_and_platform);
 		}
-		if (pos.getY() - 1 > 0
-				&& lakeTilesOnBoard[pos.getX()][pos.getY() - 1] != null) {
-			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY() - 1]
-					.getColorOfFourSides();
-			isPlatform = lakeTilesOnBoard[pos.getX()][pos.getY() - 1]
-					.isPlatform();
+		if (pos.getY() - 1 > 0 && lakeTilesOnBoard[x][y-1] != null) {
+			Queue color = lakeTilesOnBoard[x][y-1].getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[x][y-1].isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(2);
-			System.out.print("(" + Symbol.UP + Color.getColorText(c, " ")
-					+ ") ");
+			
 			// up
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
 			color_and_platform.add(isPlatform);
-			color_store.put(Rotation.D0, color_and_platform);
+			color_platform_store.put(Rotation.D0, color_and_platform);
 		}
-		if (pos.getX() + 1 < lakeTilesOnBoard.length
-				&& lakeTilesOnBoard[pos.getX() + 1][pos.getY()] != null) {
-			Queue color = lakeTilesOnBoard[pos.getX() + 1][pos.getY()]
-					.getColorOfFourSides();
-			isPlatform = lakeTilesOnBoard[pos.getX() + 1][pos.getY()]
+		if (x + 1 < lakeTilesOnBoard.length && lakeTilesOnBoard[x+1][y] != null) {
+			Queue color = lakeTilesOnBoard[x+1][y].getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[x+1][y]
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(3);
-			System.out.print("(" + Symbol.RIGHT + Color.getColorText(c, " ")
-					+ ") ");
+			
 			// right
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
 			color_and_platform.add(isPlatform);
-			color_store.put(Rotation.D90, color_and_platform);
+			color_platform_store.put(Rotation.D90, color_and_platform);
 		}
-		if (pos.getY() + 1 < lakeTilesOnBoard[0].length
-				&& lakeTilesOnBoard[pos.getX()][pos.getY() + 1] != null) {
-			Queue color = lakeTilesOnBoard[pos.getX()][pos.getY() + 1]
-					.getColorOfFourSides();
-			isPlatform = lakeTilesOnBoard[pos.getX()][pos.getY() + 1]
-					.isPlatform();
+		if (y + 1 < lakeTilesOnBoard[0].length && lakeTilesOnBoard[x][y+1] != null) {
+			Queue color = lakeTilesOnBoard[x][y+1].getColorOfFourSides();
+			isPlatform = lakeTilesOnBoard[x][y+1].isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(0);
-			System.out.print("(" + Symbol.DOWN + Color.getColorText(c, " ")
-					+ ") ");
+			
 			// down
 			Vector<Object> color_and_platform = new Vector<Object>();
 			color_and_platform.add(c);
 			color_and_platform.add(isPlatform);
-			color_store.put(Rotation.D180, color_and_platform);
+			color_platform_store.put(Rotation.D180, color_and_platform);
 		}
-
-		System.out.println();
-		return color_store;
+		return color_platform_store;
 	}
-
+	
+	public String getAdjacentColorText(HashMap<Rotation, Vector<Object>> color_platform_store) throws Exception{
+		String text = "";
+		for (Entry<Rotation, Vector<Object>> color_platform_set : color_platform_store.entrySet()) {
+			Rotation rotation = color_platform_set.getKey();
+			Vector<Object> color_platform = color_platform_set.getValue();
+			Color c = (Color)color_platform.get(0);
+			if(rotation.equals(Rotation.D0))
+			{
+				text += "(" + Symbol.UP + Color.getColorText(c , " ") + ") ";
+			}
+			else if(rotation.equals(Rotation.D90))
+			{
+				text += "(" + Symbol.RIGHT + Color.getColorText(c, " ") + ") ";
+			}
+			else if(rotation.equals(Rotation.D180))
+			{
+				text += "(" + Symbol.DOWN + Color.getColorText(c, " ") + ") ";
+			}
+			else if(rotation.equals(Rotation.D270))
+			{
+				text += "(" + Symbol.LEFT + Color.getColorText(c, " ") + ") ";
+			}
+		}
+		return text;
+	}
 }

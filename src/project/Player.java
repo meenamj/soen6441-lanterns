@@ -2,8 +2,6 @@ package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -262,7 +260,7 @@ public class Player implements Serializable {
 					if(numOfCardColor(c) >= 1)
 					{	
 						LanternCard l = removeSingleCard(c);
-						supply.getLanternStack().get(l.getColor()).push(l);
+						supply.getLanternStacks().get(l.getColor()).push(l);
 						
 					}	
 			}
@@ -339,7 +337,7 @@ public class Player implements Serializable {
 			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
 			for(LanternCard lantern : color_list){
 				//add lantern card back to supply
-				supply.getLanternStack().get(lantern.getColor()).push(lantern);
+				supply.getLanternStacks().get(lantern.getColor()).push(lantern);
 			}
 			//drawFourOfAKindStackOnPlayArea();
 		}
@@ -367,7 +365,7 @@ public class Player implements Serializable {
 			ArrayList<LanternCard> color_list = removeThreePairCard(c); //remove only when player makes a choice
 			for(LanternCard lantern : color_list){
 				//add lantern card back to supply
-				supply.getLanternStack().get(lantern.getColor()).push(lantern);
+				supply.getLanternStacks().get(lantern.getColor()).push(lantern);
 			}
 		}
 		//drawThreePairStackOnPlayArea();
@@ -537,5 +535,63 @@ public class Player implements Serializable {
 			count+=dedication.getHonor();
 		return count;
 	}
+	
+	/**
+	 * Show player information such as name, active or inactive, lantern card Favor token and dedication token
+	 * @param player active player
+	 * @return String information of player 
+	 * @throws Exception if the color does not exist
+	 */
+	public String getInformationText(Player current_player) throws Exception
+	{
+		String text = "";
+		
+		text += "Player name : " + getName();
+		if (this.equals(current_player))
+		{
+			text += ": (active)";
+			// currentTurn = i+1;
+		}
+		
+		text += "\n\n";
+		text += "Lantern Cards ";
+		
+		for(Color c : Color.values())
+		{
+			text += Color.getColorText(c, " ");
+			text += numOfCardColor(c);
+			text += " ";
+		}
+		
+		text += "\n\nNumber of Favor Tokens::";
+		text += getNumberOfFavorTokens();
+		text += "\n\nValue Dedication Token : ";
+		text += countHonorValue();
+		text += "\n\nLake Tiles :";
+		for (int j = 0; j < getLakeTiles().size(); j++) 
+		{
+			LakeTile laketile =getLakeTiles().get(j);
+			text += "\n";
+			text += String.format("%5s", "No." + (j + 1));
+			text += "-";
+			text += String.format("%2s", getLakeTiles().get(j).getIndex());
+			text += " ";
+			ArrayList<Color> laketile_colors = new ArrayList<Color>(laketile.getColorOfFourSides());
+			text += Color.getColorText(laketile_colors.get(0),Symbol.UP);
+			text += " ";// up
+			text += Color.getColorText(laketile_colors.get(1),Symbol.RIGHT);
+			text += " ";// right
+			text += Color.getColorText(laketile_colors.get(2),Symbol.DOWN);
+			text += " ";// down
+			text += Color.getColorText(laketile_colors.get(3),Symbol.LEFT);
+			text += " ";// left
 
+			if (getLakeTiles().get(j).isPlatform()) 
+			{
+				text += Symbol.PLATFORM;
+			}
+		}
+		text += "\n\n";
+		return text;
+	}
 }
