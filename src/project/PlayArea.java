@@ -196,7 +196,7 @@ public class PlayArea implements Serializable {
 			Player p = players.remove();
 			
 			p.getLanternCards().add(
-					supply.getLanternStacks().get(lantern_color).pop());
+					supply.get(lantern_color).pop());
 			players.add(p);
 		}
 		// rotate the laketile to the correct position on laketile board
@@ -206,12 +206,11 @@ public class PlayArea implements Serializable {
 	 * create the total lake tiles for players in the game before giving to the
 	 * players
 	 * 
-	 * @param numberOfPlayers
+	 * @param num_players
 	 *            the number of players
 	 */
-	private void initializeLakeTiles(int numberOfPlayers) {
-		int numberOfLTToRemove = numLakeTileRemove(numberOfPlayers);
-		boolean[] position = { true, true, true, true };
+	private void initializeLakeTiles(int num_players) {
+		int numberOfLTToRemove = numLakeTileRemove(num_players);
 		// Add start lake tile to the on board list
 		// lakeTilesOnBoard.add(startLakeTile);
 		// creation of Lake tiles

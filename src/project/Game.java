@@ -318,7 +318,7 @@ public class Game implements Serializable {
 		text += "\n\nLantern Card Supply :\n";
 		for (Color c : Color.values()) 
 		{
-			Stack<LanternCard> lantern_stack = playArea.getSupply().getLanternStacks().get(c);
+			Stack<LanternCard> lantern_stack = playArea.getSupply().get(c);
 			int lantern_stack_size = lantern_stack.size();
 			text += Color.getColorText(c, Symbol.BULLET);
 			text += " : ";
@@ -477,8 +477,7 @@ public class Game implements Serializable {
 		boolean existCard = true;
 		do {
 			in = inputscan.next();
-			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply()
-					.getLanternStacks();
+			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply();
 			for (int i = 0; i < arrays.size(); i++) 
 			{
 				if (in.equals("" + i)) 
@@ -510,14 +509,13 @@ public class Game implements Serializable {
 		for (Color c : Color.values()) 
 		{
 			try {
-				if (playArea.getSupply().getLanternStacks().get(c).size() > 0) {
+				if (playArea.getSupply().get(c).size() > 0) {
 					System.out.println("Index :"
 							+ i
 							+ " :"
 							+ Color.getColorText(c, Symbol.BULLET)
 							+ " : "
-							+ playArea.getSupply().getLanternStacks()
-									.get(c).size());
+							+ playArea.getSupply().get(c).size());
 					buffer.add(c);
 					i++;
 				}
@@ -537,9 +535,7 @@ public class Game implements Serializable {
 				if (in.equals("" + i)) 
 				{
 					Supply supply = playArea.getSupply();
-					HashMap<Color, Stack<LanternCard>> stacks_list = supply
-							.getLanternStacks();
-					Stack<LanternCard> stack = stacks_list.get(buffer.get(i));
+					Stack<LanternCard> stack = supply.get(buffer.get(i));
 					player.getLanternCards().add(stack.pop());
 					validation = true;
 				}
@@ -829,11 +825,10 @@ public class Game implements Serializable {
 		// putting lake tile
 
 		
-		HashMap<Color, Stack<LanternCard>> lanternStacks = playArea
-				.getSupply().getLanternStacks();
+		Supply supply = playArea.getSupply();
 		LanternCard l = null;
 
-		distributeLanternCard(active_laketile, lanternStacks);
+		distributeLanternCard(active_laketile, supply);
 
 		getBonusPlaceLakeTile(active_laketile, adjacent_colors);
 		
@@ -856,8 +851,7 @@ public class Game implements Serializable {
 	 * @param lanternStacks lantern card stack 
 	 */
 
-	private void distributeLanternCard(LakeTile active_laketile,
-			HashMap<Color, Stack<LanternCard>> lanternStacks) 
+	private void distributeLanternCard(LakeTile active_laketile, Supply supply) 
 	{
 		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		for (int i = 0; i < players.size(); i++) 
@@ -868,7 +862,7 @@ public class Game implements Serializable {
 					active_laketile.getColorOfFourSides());
 			if (index >= 0 && index < players.size()) 
 			{
-				Stack<LanternCard> lanternCard = lanternStacks
+				Stack<LanternCard> lanternCard = supply
 						.get(color_list.get(index));
 				if (!lanternCard.empty())
 				{
@@ -1012,9 +1006,8 @@ public class Game implements Serializable {
 		Color side_color = active_laketile.getSideOfColor(r);
 		if (side_color == color_platform.get(0)) 
 		{
-
-			Stack<LanternCard> lantern_stack = playArea.getSupply().getLanternStacks()
-					.get(color_platform.get(0));
+			Supply supply = playArea.getSupply();
+			Stack<LanternCard> lantern_stack = supply.get(color_platform.get(0));
 			
 			if (!lantern_stack.empty()) {
 				current_player.getLanternCards().add(

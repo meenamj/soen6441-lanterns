@@ -46,14 +46,13 @@ public final class GameFile {
 			System.out.println(filename + " has been loaded");
 			return game;
 		} catch (IOException i) {
-			System.out.println("file not found");
+			System.out.println(filename+" not found or invalid on game");
 			return null;
 		} catch (ClassNotFoundException c) {
 			System.out.println("Game class not found");
 			c.printStackTrace();
 			return null;
 		}
-
 	}
 	
 	public static void main(String args[]){

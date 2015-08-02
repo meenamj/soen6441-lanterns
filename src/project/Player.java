@@ -12,33 +12,36 @@ import java.util.Stack;
  * @version 1.3
  */
 public class Player implements Serializable {
+	
 	/**
 	 * player index
 	 */
 	private int index;
+	
 	/**
 	 * name of a player
 	 */
 	private String name;
+	
 	/**
 	 * the amount of favor tokens which player has now
 	 */
 	private int numberOfFavorTokens;
+	
 	/**
 	 * the lantern cards which player has now
 	 */
 	private ArrayList<LanternCard> lanternCards;
+	
 	/**
 	 * the lake tiles which player has now
 	 */
 	private ArrayList<LakeTile> lakeTiles;
+	
 	/**
 	 * the dedication token which player has now
 	 */
 	private ArrayList<DedicationToken> dedicationTokens;
-	/**
-	 * the current player
-	 */
 	
 	/**
 	 * The list of four of kind card a player has hand
@@ -51,8 +54,6 @@ public class Player implements Serializable {
 	ArrayList<Color> threePairList = new ArrayList<Color>();
 
 	Color c;
-	
-	private boolean isCurrentPlayer;
 
 	public static Scanner scan;
 
@@ -169,25 +170,6 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Get the current status of a player. (active player/ non-active player)
-	 * 
-	 * @return true, if this player is active
-	 */
-	public boolean isCurrentPlayer() {
-		return isCurrentPlayer;
-	}
-
-	/**
-	 * Set the current status of a player. (active player/ non-active player)
-	 * 
-	 * @param isCurrentPlayer
-	 *            if this player is active
-	 */
-	public void setCurrentPlayer(boolean isCurrentPlayer) {
-		this.isCurrentPlayer = isCurrentPlayer;
-	}
-
-	/**
 	 * Constructor of player used at the beginning of the game
 	 * 
 	 * @param name
@@ -257,7 +239,7 @@ public class Player implements Serializable {
 					if(numOfCardColor(c) >= 1)
 					{	
 						LanternCard l = removeSingleCard(c);
-						supply.getLanternStacks().get(l.getColor()).push(l);
+						supply.get(l.getColor()).push(l);
 						
 					}	
 			}
@@ -333,7 +315,7 @@ public class Player implements Serializable {
 			ArrayList<LanternCard> color_list = removeFourOfAKindCard(c); //remove after player makes a choice
 			for(LanternCard lantern : color_list){
 				//add lantern card back to supply
-				supply.getLanternStacks().get(lantern.getColor()).push(lantern);
+				supply.get(lantern.getColor()).push(lantern);
 			}
 			//drawFourOfAKindStackOnPlayArea();
 		}
@@ -363,7 +345,7 @@ public class Player implements Serializable {
 			ArrayList<LanternCard> color_list = removeThreePairCard(c); //remove only when player makes a choice
 			for(LanternCard lantern : color_list){
 				//add lantern card back to supply
-				supply.getLanternStacks().get(lantern.getColor()).push(lantern);
+				supply.get(lantern.getColor()).push(lantern);
 			}
 		}
 		//drawThreePairStackOnPlayArea();
@@ -535,7 +517,7 @@ public class Player implements Serializable {
 	}
 	
 	/**
-	 * Show player information such as name, active or inactive, lantern card Favor token and dedication token
+	 * get player information such as name, active or inactive, lantern card Favor token and dedication token
 	 * @param current_player the active player
 	 * @return String information of player 
 	 * @throws Exception if the color does not exist
