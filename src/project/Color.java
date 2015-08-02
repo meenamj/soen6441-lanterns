@@ -57,7 +57,7 @@ public enum Color {
 		}else if(c.equals(Color.BLACK)){
 			return "\u001b[1;37m\u001b[40m"+text+"\u001b[47m\u001b[0m";
 		}else{
-			throw new Exception();
+			throw new Exception("this color does not exist");
 		}
 	}
 }
