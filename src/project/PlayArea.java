@@ -441,7 +441,7 @@ public class PlayArea implements Serializable {
 	 * 
 	 * @throws Exception if the color does not exist
 	 */
-	public String showLakeTileBoardText() throws Exception {
+	public String getLakeTileBoardText() throws Exception {
 		String text = "-- Lake Tile Board --\n";
 
 		int[] size = getBoardSize();

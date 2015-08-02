@@ -411,7 +411,7 @@ public class Game implements Serializable {
 				LakeTile new_laketile = playArea.getLakeTiles().pop();
 				current_player.getLakeTiles().add(new_laketile);
 			}
-			System.out.print(playArea.showLakeTileBoardText());
+			System.out.print(playArea.getLakeTileBoardText());
 
 			System.out.println("\nNumber of Favor Tokens::"
 					+ current_player.getNumberOfFavorTokens());
