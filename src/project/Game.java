@@ -963,7 +963,6 @@ public class Game implements Serializable {
 
 	/**
 	 * This method give bonus lake tile if two color of the same are facing each other
-	 * @param current_player active player
 	 * @param active_laketile lake tile on the play area
 	 * @param adjacent_colors adjacent color
 	 * @throws Exception exception

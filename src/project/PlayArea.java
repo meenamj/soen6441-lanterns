@@ -438,7 +438,7 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * display all open positions on the board based on the current arrangements of the lake tiles
-	 * 
+	 * @return text of all laketile on board
 	 * @throws Exception if the color does not exist
 	 */
 	public String getLakeTileBoardText() throws Exception {

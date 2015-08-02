@@ -17,7 +17,7 @@ public class Supply implements Serializable{
 	/**
 	 * Constructor of supply
 	 * this method is used to create number of each lantern card in the stacks related to number of players
-	 * @param nPlayer the number of player
+	 * @param num_player the number of player
 	 */
 	public Supply(int num_player) {
 		lanternStacks = new HashMap<Color, Stack<LanternCard>>();

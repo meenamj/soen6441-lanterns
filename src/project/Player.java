@@ -536,7 +536,7 @@ public class Player implements Serializable {
 	
 	/**
 	 * Show player information such as name, active or inactive, lantern card Favor token and dedication token
-	 * @param player active player
+	 * @param current_player the active player
 	 * @return String information of player 
 	 * @throws Exception if the color does not exist
 	 */
