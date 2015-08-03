@@ -9,6 +9,7 @@ import project.strategy.Greed;
 import project.strategy.Human;
 import project.strategy.Random;
 import project.strategy.Strategy;
+import project.strategy.Strategy.Name;
 import project.strategy.Unfriendliness;
 
 
@@ -619,6 +620,7 @@ public class Game implements Serializable {
 				System.out.println(error_text);
 				System.out.println("continue playing the current game");
 			}else{
+				g.updateStrategy();
 				g.play();
 			}
 			break;
@@ -884,5 +886,42 @@ public class Game implements Serializable {
 		winnerStr +=winner_favor_token + " favor, and ";
 		winnerStr +=winner_lan_card + " lantern card";
 		return winnerStr;
+	}
+	
+	public void updateStrategy(){
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Do you want to change strategy? Y/N");
+		String input = new String();
+		do{
+			input = scan.next();
+		}while(!input.toUpperCase().equals("Y")
+				&&!input.toUpperCase().equals("N"));
+		if(input.toUpperCase().equals("Y")){
+			ArrayList<Player> player_list = new ArrayList<Player>(players);
+			for(Player player : player_list){
+				System.out.print(player.getName()+" has ");
+				String strategy_name = player.getStrategy().getClass().getName();
+				System.out.println(strategy_name);
+				System.out.println("Which strategy do you want to change?");
+				System.out.println("0. Greed\n" +
+						"1. Unfriend\n" +
+						"2. Random\n" +
+						"3. Basic\n" +
+						"4. Human");
+				int input_num = new Human().inputOption(5, Name.START);
+				if(input_num == 0){
+					player.setStrategy(new Greed());
+				}else if(input_num == 1){
+					player.setStrategy(new Unfriendliness());
+				}else if(input_num == 2){
+					player.setStrategy(new Random());
+				}else if(input_num == 3){
+					player.setStrategy(new Basic());
+				}else if(input_num == 4){
+					player.setStrategy(new Human());
+				}
+			}
+				
+		}
 	}
 }
