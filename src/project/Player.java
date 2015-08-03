@@ -1,5 +1,6 @@
 package project;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Vector;
  * player is the person who play the game
  * 
  * @author Idris
- * @version 1.3
+ * @version 2.0
  */
 public class Player implements Serializable {
 	
