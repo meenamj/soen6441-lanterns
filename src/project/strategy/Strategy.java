@@ -1,5 +1,7 @@
 package project.strategy;
 
-public interface Strategy {
+import java.io.Serializable;
+
+public interface Strategy extends Serializable{
 	public int inputOption(int number_options);
 }
