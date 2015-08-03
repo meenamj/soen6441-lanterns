@@ -2,10 +2,7 @@ package project.strategy;
 
 import java.util.Scanner;
 
-
-
-public abstract class HumanStrategy implements Strategy{
-	
+public abstract class BasicStrategy implements Strategy{
 	/**
 	 * This method check the input the user provides
 	 * @param n_option user input
@@ -34,4 +31,5 @@ public abstract class HumanStrategy implements Strategy{
 		while (!validation);
 		return Integer.parseInt(in);
 	}
+
 }

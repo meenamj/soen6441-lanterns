@@ -9,7 +9,7 @@ public abstract class RandomStrategy implements Strategy{
 	 * @param n_option user input
 	 * @return integer value of the option selected
 	 */
-	public int inputOption(int number_options)
+	public int inputOption(int number_options, Strategy.Name status)
 	{
 		Random r = new Random();
 		return r.nextInt(number_options);

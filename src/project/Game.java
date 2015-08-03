@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.strategy.Basic;
+import project.strategy.Greed;
 import project.strategy.Human;
 import project.strategy.Random;
+import project.strategy.Strategy;
+import project.strategy.Unfriendliness;
 
 
 /**
@@ -133,10 +137,16 @@ public class Game implements Serializable {
 		for (int i = 0; i < names.length; i++) 
 		{
 			if(strategies[i]==0){
-				player = new Player(names[i], new Human());
+				player = new Player(names[i], new Greed());
 			}
 			else if(strategies[i]==1){
+				player = new Player(names[i], new Unfriendliness());
+			}else if(strategies[i]==2){
 				player = new Player(names[i], new Random());
+			}else if(strategies[i]==3){
+				player = new Player(names[i], new Basic());
+			}else if(strategies[i]==4){
+				player = new Player(names[i], new Human());
 			}
 			// initialize all the stuff for the new player
 			players.add(player);
@@ -162,7 +172,7 @@ public class Game implements Serializable {
 		System.out.println("0. New Game");
 		System.out.println("1. Download");
 		System.out.println("2. Exit");
-		int in = new Human().inputOption(3);
+		int in = new Human().inputOption(3, Strategy.Name.START);
 		Game game = null;
 		if (in == 0) 
 		{
@@ -227,8 +237,13 @@ public class Game implements Serializable {
 		{
 			System.out.println("Player[" + i + "] name:");
 			names[i] = new String(scanner.next());
-			System.out.println("0) Human 1) Random");
-			strategies[i] = new Human().inputOption(2);
+			System.out.println("Which computer-based players you want?");
+			System.out.println("0. Greed\n" +
+					"1. Unfriend\n" +
+					"2. Random\n" +
+					"3. Basic\n" +
+					"4. Human");
+			strategies[i] = new Human().inputOption(5, Strategy.Name.START);
 		}
 		return new Game(names, strategies);
 	}
@@ -399,7 +414,7 @@ public class Game implements Serializable {
 		System.out.println(" 4. Save Game ");
 		System.out.println(" 5. Load Game ");
 		Player current_player = getPlayers().element();
-		return current_player.getStrategy().inputOption(6);
+		return current_player.getStrategy().inputOption(6, Strategy.Name.MAINMENU);
 	}
 
 	/**
@@ -553,7 +568,7 @@ public class Game implements Serializable {
 				
 				System.out.println();
 				System.out.println(current_player.getCurrentPlayerLakeTileText());
-				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size());
+				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size(), Strategy.Name.SELECT_LAKE);
 				LakeTile active_laketile = current_player.getLakeTiles().remove(input1);
 				ArrayList<Position> list = playArea.getPositionAvailableLakeTileOnBoard();
 				
@@ -562,12 +577,12 @@ public class Game implements Serializable {
 				System.out.print("which position you want to put laketile::");
 				// input position and check
 				
-				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size());
+				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size(), Strategy.Name.SELECT_BOARD_POSITION);
 				HashMap<Rotation, Vector<Object>> adjacent_colors = current_player.getPossibleRotation(list, adjacent_color_list, playArea, active_laketile, pos_laketile_opt);
 				///
 				System.out.println(current_player.getPossibleRotationText(active_laketile));
 				
-				int rotation_opt = current_player.getStrategy().inputOption(4);
+				int rotation_opt = current_player.getStrategy().inputOption(4, Strategy.Name.SELECT_LAKE_ROTATION);
 				current_player.setRotationOnActiveLakeTile(active_laketile, rotation_opt);
 				///
 				
@@ -688,7 +703,7 @@ public class Game implements Serializable {
 		System.out.println(" 2. Seven Unique");
 		do 
 		{
-			choice = current_player.getStrategy().inputOption(3);
+			choice = current_player.getStrategy().inputOption(3, Strategy.Name.MAKE_DEDICATION);
 		} 
 		while (choice < 0 && choice > 2);
 		
