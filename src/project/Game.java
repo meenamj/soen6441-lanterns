@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.rule.NHonorPoint;
+import project.rule.NLakeTilesOnBoard;
+import project.rule.Rule;
+import project.rule.Base;
 import project.strategy.Basic;
 import project.strategy.Greed;
 import project.strategy.Human;
@@ -31,6 +35,7 @@ public class Game implements Serializable {
 	 */
 	private String[] playersNames;
 	private int[] strategies;
+	private Rule rule;
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
@@ -89,10 +94,17 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 *             used when the players are more than 4 or less than 1
 	 */
-	public Game(String[] playersNames, int[] strategies) throws Exception 
+	public Game(String[] playersNames, int[] strategies, int rule) throws Exception 
 	{
 		this.playersNames = playersNames;
 		this.strategies = strategies;
+		if(rule==0){
+			setRule(new project.rule.Base());
+		}else if(rule==1){
+			setRule(new project.rule.NLakeTilesOnBoard());
+		}else{
+			setRule(new project.rule.NHonorPoint());
+		}
 		if (playersNames.length > 1 && playersNames.length < 5) 
 		{
 			startGame();
@@ -153,7 +165,14 @@ public class Game implements Serializable {
 			players.add(player);
 		}
 	}
-
+	
+	public void setRule(Rule r){
+		this.rule = r;
+	}
+	
+	public Rule getRule(){
+		return rule;
+	}
 	/**
 	 * this main method is used to control and run the game
 	 * 
@@ -246,7 +265,12 @@ public class Game implements Serializable {
 					"4. Human");
 			strategies[i] = new Human().inputOption(5, Strategy.Name.START);
 		}
-		return new Game(names, strategies);
+		System.out.println("Choose the rule of game ::");
+		System.out.println("0. Base Rule\n" +
+				"1. N Lake tiles on board Rule\n" +
+				"2. N Honor Point Rule");
+		int rule = new Human().inputOption(3, Strategy.Name.START);
+		return new Game(names, strategies, rule);
 	}
 
 	public static void saveGameOption(Game game) 
@@ -599,7 +623,7 @@ public class Game implements Serializable {
 				// to get the winner
 				ArrayList<LakeTile> laketile = players.element().getLakeTiles();
 				
-				if (laketile.size() == 0) 
+				if (getRule().rule(this)) 
 				{
 					System.out.println(getTheWinner());
 					System.exit(0);

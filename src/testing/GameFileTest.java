@@ -14,7 +14,8 @@ public class GameFileTest {
 	@Before public void setUp() throws Exception{
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
-		gSave = new Game(player_names , strategies);
+		int rule = 0;
+		gSave = new Game(player_names , strategies, rule);
 		gSave.startGame();
 	}
 	
