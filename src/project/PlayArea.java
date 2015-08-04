@@ -441,36 +441,54 @@ public class PlayArea implements Serializable {
 	 * @throws Exception if the color does not exist
 	 */
 	public String getLakeTileBoardText() throws Exception {
-		String text = "-- Lake Tile Board --\n";
-
+		ArrayList<String> index = new ArrayList<String>();
+		ArrayList<String> line1 = new ArrayList<String>();
+		ArrayList<String> line2 = new ArrayList<String>();
+		ArrayList<String> line3 = new ArrayList<String>();
 		int[] size = getBoardSize();
 		for (int y = size[1]; y <= size[3]; y++) {
+			String index_str = new String();
+			String line1_str = new String();
+			String line2_str = new String();
+			String line3_str = new String();
 			for (int x = size[0]; x <= size[2]; x++) {
 				LakeTile l = lakeTilesOnBoard[x][y];
 				if (l == null) {
-					text += String.format("%21s", "");
+					index_str += String.format("%11s", "");
+					line1_str += String.format("%11s", "");
+					line2_str += String.format("%11s", "");
+					line3_str += String.format("%11s", "");
 				} else {
-					text+="[(" + x + "," + y + ")";
-					text += String.format("%2s", l.getIndex());
+					index_str += " (" + x + "," + y + ")";
+					index_str += String.format("%2s", l.getIndex())+" ";
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
-					text += Color.getColorText(laketile_colors.get(0),
-							Symbol.UP) + " ";
-					text += Color.getColorText(laketile_colors.get(1),
-							Symbol.RIGHT) + " ";
-					text += Color.getColorText(laketile_colors.get(2),
-							Symbol.DOWN) + " ";
-					text += Color.getColorText(laketile_colors.get(3),
+					line1_str += "     "+Color.getColorText(laketile_colors.get(0),
+							Symbol.UP) + "     ";
+					line2_str += "   "+Color.getColorText(laketile_colors.get(3),
 							Symbol.LEFT) + " ";
 					if (l.isPlatform()) {
-						text += Symbol.PLATFORM;
+						line2_str += "0 ";
 					} else {
-						text += Symbol.NOT;
+						line2_str += "X ";
 					}
-					text += "]";
+					line2_str += Color.getColorText(laketile_colors.get(1),
+							Symbol.RIGHT) + "   ";
+					line3_str += "     "+Color.getColorText(laketile_colors.get(2),
+							Symbol.DOWN) + "     ";
 				}
 			}
-			text+="\n";
+			index.add(index_str+"\n");
+			line1.add(line1_str+"\n");
+			line2.add(line2_str+"\n");
+			line3.add(line3_str+"\n");
+		}
+		String text = new String("");
+		for(int i = 0; i< index.size();i++){
+			text += index.get(i);
+			text += line1.get(i);
+			text += line2.get(i);
+			text += line3.get(i);
 		}
 		return text;
 	}
