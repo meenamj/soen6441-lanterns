@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
@@ -777,23 +778,39 @@ public class Player implements Serializable {
 	public String getCurrentPlayerLakeTileText() throws Exception 
 	{
 		String text = "";
+		String line1 = "";
+		String line2 = "";
+		String line3 = "";
 		for (LakeTile lake_tile : getLakeTiles())
 		{
 			int index = getLakeTiles().indexOf(lake_tile);
-			text += "index : " + index + ":";
-			text += String.format("%2s -", lake_tile.getIndex());
+			Queue<Color> color_queue = lake_tile.getColorOfFourSides();
+			ArrayList<Color> color_list = new ArrayList<Color>(color_queue);
 			
-			for (Color c : lake_tile.getColorOfFourSides())
-			{
-				text += Color.getColorText(c, Symbol.BULLET);
-				text += " ";
-			}
+			line1 += String.format("%8s","");
+			line1 += Color.getColorText(color_list.get(0), " ");
+			line1 += String.format("%3s","");
+			
+			line2 += " "+index + ":";
+			line2 += String.format("%2s ", lake_tile.getIndex());
+			line2 += Color.getColorText(color_list.get(3), " ");
+			line2 += " ";
 			if (lake_tile.isPlatform()) 
 			{
-				text += Symbol.PLATFORM;
+				line2 += "O";
+			}else{
+				line2 += "X";
 			}
-			text += "\n";
+			line2 += " "+Color.getColorText(color_list.get(1), " ")+" ";
+			
+			line3 += String.format("%8s","");
+			line3 += Color.getColorText(color_list.get(2), " ");
+			line3 += String.format("%3s","");
+			
 		}
+		text += line1+"\n";
+		text += line2+"\n";
+		text += line3+"\n";
 		return text;
 	}
 	
@@ -808,22 +825,28 @@ public class Player implements Serializable {
 		String text = "";
 		int sideOfLakeTile = 4;
 		text += "How do you want to rotate the lake tile?\n";
+		String line1 = new String();
+		String line2 = new String();
+		String line3 = new String();
+		
 		for (int i = 0; i < sideOfLakeTile; i++)
 		{
-			text += i + ":";
 			ArrayList<Color> four_side_colors = new ArrayList<Color>(
 					l.getColorOfFourSides());
-			text += Color.getColorText(four_side_colors.get(0),Symbol.UP);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(2),Symbol.DOWN);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
-			text += " ";
-			text += "\n";
+			line1 += "      " + Color.getColorText(four_side_colors.get(0),Symbol.UP)+"   ";
+			line2 += " "+i+": "+Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
+			if(l.isPlatform()){
+				line2 += " O ";
+			}else{
+				line2 += " X ";
+			}
+			line2 += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT)+" ";
+			line3 += "      "+Color.getColorText(four_side_colors.get(2),Symbol.DOWN)+"   ";
 			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
 		}
+		text+=line1+"\n";
+		text+=line2+"\n";
+		text+=line3+"\n";
 		return text;
 	}
 	
