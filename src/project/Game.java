@@ -287,9 +287,27 @@ public class Game implements Serializable {
 			}
 			int round = new Human().inputOption(max_round-2, Strategy.Name.START);
 			rule = new NLakeTilesOnBoard(round+2);
+		}else if(rule_choice==2){
+			System.out.println("How many Honor point do you want to finish the game?");
+			int sum_honor = 0;
+			for(int i = 0; i<FourOfAKindToken.honorList.length;i++){
+				if(FourOfAKindToken.dotsList[i]>nplayer)
+					sum_honor +=FourOfAKindToken.honorList[i];
+				if(ThreePairToken.dotsList[i]>nplayer)
+					sum_honor +=ThreePairToken.honorList[i];
+				if(SevenUniqueToken.dotsList[i]>nplayer)
+					sum_honor +=SevenUniqueToken.honorList[i];
+			}
+			int average_honor = sum_honor/nplayer;
+			for(int i = 0; i<average_honor-4; i++){
+				System.out.println("option"+i+"::"+(i+4));
+			}
+			int win_honor = new Human().inputOption(average_honor-4, Strategy.Name.START);
+			rule = new NHonorPoint(win_honor+4);
 		}
 		return rule;
 	}
+	
 	public static void saveGameOption(Game game) 
 	{
 		Scanner scan = new Scanner(System.in);
@@ -589,6 +607,11 @@ public class Game implements Serializable {
 
 		case 2:
 			makeADedicationMenu(current_player);
+			if (getRule().rule(this)) 
+			{
+				System.out.println(getTheWinner());
+				System.exit(0);
+			}
 			break;
 
 		case 3:
