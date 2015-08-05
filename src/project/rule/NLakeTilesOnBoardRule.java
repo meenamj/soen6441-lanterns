@@ -20,7 +20,8 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 				}
 			}
 		}
-		return num_player*final_round==num_lake_board;
+		int start_laketile = 1;
+		return num_player*final_round==(num_lake_board-start_laketile);
 	}
 	
 	public void setFinalRound(int final_round){
