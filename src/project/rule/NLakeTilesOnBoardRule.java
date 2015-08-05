@@ -1,6 +1,7 @@
 package project.rule;
 
 import project.Game;
+import project.LakeTile;
 import project.Player;
 
 public abstract class NLakeTilesOnBoardRule implements Rule{
@@ -10,18 +11,16 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 	public boolean rule(Game game) {
 		//get current player
 		int num_player = game.getPlayers().size();
-		int start_num_laketiles = 0;
-		int current_num_laketiles = game.getPlayArea().getLakeTiles().size();
-
-		if(num_player == 2){
-			start_num_laketiles=16;
-		}else if(num_player ==3){
-			start_num_laketiles=18;
-		}else{
-			start_num_laketiles=20;
+		LakeTile[][] board = game.getPlayArea().getLakeTilesOnBoard();
+		int num_lake_board = 0;
+		for(int i=0;i<board.length;i++){
+			for(int j=0;j<board[i].length;j++){
+				if(board[i][j]!=null){
+					num_lake_board+=1;
+				}
+			}
 		}
-		int spend_num_laketiles = (start_num_laketiles-current_num_laketiles);
-		return num_player*final_round==spend_num_laketiles;
+		return num_player*final_round==num_lake_board;
 	}
 	
 	public void setFinalRound(int final_round){

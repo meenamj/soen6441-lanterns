@@ -661,8 +661,6 @@ public class Game implements Serializable {
 				players.add(players.remove());
 				
 				// to get the winner
-				ArrayList<LakeTile> laketile = players.element().getLakeTiles();
-				
 				if (getRule().rule(this)) 
 				{
 					System.out.println(getTheWinner());
