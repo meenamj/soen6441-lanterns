@@ -271,7 +271,9 @@ public class Game implements Serializable {
 				"1. N Lake tiles on board Rule\n" +
 				"2. N Honor Point Rule");
 		int rule_choice = new Human().inputOption(3, Strategy.Name.START,null);
-		if(rule_choice==1){
+		if(rule_choice==0){
+			rule = new Base();
+		}else if(rule_choice==1){
 			System.out.println("How many round do you want to play?");
 			int max_laketile_stack = 0;
 			if(nplayer==2){
