@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import project.Game;
 import project.GameFile;
+import project.rule.Base;
+import project.rule.Rule;
 
 public class GameFileTest {
 	private Game gSave,gLoad;
@@ -14,7 +16,7 @@ public class GameFileTest {
 	@Before public void setUp() throws Exception{
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
-		int rule = 0;
+		Rule rule = new Base();
 		gSave = new Game(player_names , strategies, rule);
 		gSave.startGame();
 	}
