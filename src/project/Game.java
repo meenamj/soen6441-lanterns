@@ -187,7 +187,7 @@ public class Game implements Serializable {
 		System.out.println("0. New Game");
 		System.out.println("1. Download");
 		System.out.println("2. Exit");
-		int in = new Human().inputOption(3, Strategy.Name.START);
+		int in = new Human().inputOption(3, Strategy.Name.START,null);
 		Game game = null;
 		if (in == 0) 
 		{
@@ -258,7 +258,7 @@ public class Game implements Serializable {
 					"2. Random\n" +
 					"3. Basic\n" +
 					"4. Human");
-			strategies[i] = new Human().inputOption(5, Strategy.Name.START);
+			strategies[i] = new Human().inputOption(5, Strategy.Name.START,null);
 		}
 		Rule rule = ruleMenu(nplayer);
 		return new Game(names, strategies, rule);
@@ -270,7 +270,7 @@ public class Game implements Serializable {
 		System.out.println("0. Base Rule\n" +
 				"1. N Lake tiles on board Rule\n" +
 				"2. N Honor Point Rule");
-		int rule_choice = new Human().inputOption(3, Strategy.Name.START);
+		int rule_choice = new Human().inputOption(3, Strategy.Name.START,null);
 		if(rule_choice==1){
 			System.out.println("How many round do you want to play?");
 			int max_laketile_stack = 0;
@@ -285,7 +285,7 @@ public class Game implements Serializable {
 			for(int i =0;i<=max_round-2;i++){
 				System.out.println("option"+i+"::"+(i+2));
 			}
-			int round = new Human().inputOption(max_round-2, Strategy.Name.START);
+			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
 			rule = new NLakeTilesOnBoard(round+2);
 		}else if(rule_choice==2){
 			System.out.println("How many Honor point do you want to finish the game?");
@@ -302,7 +302,7 @@ public class Game implements Serializable {
 			for(int i = 0; i<average_honor-4; i++){
 				System.out.println("option"+i+"::"+(i+4));
 			}
-			int win_honor = new Human().inputOption(average_honor-4, Strategy.Name.START);
+			int win_honor = new Human().inputOption(average_honor-4, Strategy.Name.START,null);
 			rule = new NHonorPoint(win_honor+4);
 		}
 		return rule;
@@ -474,7 +474,7 @@ public class Game implements Serializable {
 		System.out.println(" 4. Save Game ");
 		System.out.println(" 5. Load Game ");
 		Player current_player = getPlayers().element();
-		return current_player.getStrategy().inputOption(6, Strategy.Name.MAINMENU);
+		return current_player.getStrategy().inputOption(6, Strategy.Name.MAINMENU,this);
 	}
 
 	/**
@@ -633,7 +633,7 @@ public class Game implements Serializable {
 				
 				System.out.println();
 				System.out.println(current_player.getCurrentPlayerLakeTileText());
-				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size(), Strategy.Name.SELECT_LAKE);
+				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size(), Strategy.Name.SELECT_LAKE,this);
 				LakeTile active_laketile = current_player.getLakeTiles().remove(input1);
 				ArrayList<Position> list = playArea.getPositionAvailableLakeTileOnBoard();
 				
@@ -642,12 +642,12 @@ public class Game implements Serializable {
 				System.out.print("which position you want to put laketile::");
 				// input position and check
 				
-				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size(), Strategy.Name.SELECT_BOARD_POSITION);
+				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size(), Strategy.Name.SELECT_BOARD_POSITION,this);
 				HashMap<Rotation, Vector<Object>> adjacent_colors = current_player.getPossibleRotation(list, adjacent_color_list, playArea, active_laketile, pos_laketile_opt);
 				///
 				System.out.println(current_player.getPossibleRotationText(active_laketile));
 				
-				int rotation_opt = current_player.getStrategy().inputOption(4, Strategy.Name.SELECT_LAKE_ROTATION);
+				int rotation_opt = current_player.getStrategy().inputOption(4, Strategy.Name.SELECT_LAKE_ROTATION,this);
 				current_player.setRotationOnActiveLakeTile(active_laketile, rotation_opt);
 				///
 				
@@ -767,7 +767,7 @@ public class Game implements Serializable {
 		System.out.println(" 2. Seven Unique");
 		do 
 		{
-			choice = current_player.getStrategy().inputOption(3, Strategy.Name.MAKE_DEDICATION);
+			choice = current_player.getStrategy().inputOption(3, Strategy.Name.MAKE_DEDICATION,this);
 		} 
 		while (choice < 0 && choice > 2);
 		
@@ -970,7 +970,7 @@ public class Game implements Serializable {
 						"2. Random\n" +
 						"3. Basic\n" +
 						"4. Human");
-				int input_num = new Human().inputOption(5, Name.START);
+				int input_num = new Human().inputOption(5, Name.START,this);
 				if(input_num == 0){
 					player.setStrategy(new Greed());
 				}else if(input_num == 1){
