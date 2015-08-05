@@ -22,7 +22,8 @@ public class GameTest {
 	public void testTwoPlayersInGame() throws Exception {
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		assertEquals("not 2 Players in the game ", 2, g.getPlayers().size());
 	}
 	
@@ -30,7 +31,8 @@ public class GameTest {
 	public void testThreePlayersInGame() throws Exception {
 		String[] player_names = {"Player1","Player2","Player3"};
 		int[] strategies = {0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		assertEquals("not 3 Players in the game ", 3, g.getPlayers().size());
 	}
 	
@@ -38,7 +40,8 @@ public class GameTest {
 	public void testFourPlayersInGame() throws Exception {
 		String[] player_names = {"Player1","Player2","Player3", "Player4"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		assertEquals("not 4 Players in the game ", 4, g.getPlayers().size());
 	}
 	
@@ -46,7 +49,8 @@ public class GameTest {
 	public void testWinnerInGame() throws Exception{
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		FourOfAKindToken four = new FourOfAKindToken(8);
 		ArrayList<DedicationToken> dedicationList = new ArrayList<DedicationToken>() ;
 		dedicationList.add(four);
@@ -58,7 +62,8 @@ public class GameTest {
 	public void testTwoWinnersInGame() throws Exception{
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ArrayList<DedicationToken> dedicationList1 = new ArrayList<DedicationToken>() ;
@@ -75,7 +80,8 @@ public class GameTest {
 	public void testThreeWinnersInGame() throws Exception{
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, 0);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -97,7 +103,8 @@ public class GameTest {
 	public void testOneWinnerInGameSameHonorValue() throws Exception{
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -121,7 +128,8 @@ public class GameTest {
 	public void testOneWinnerInGameSameHonorValueAndFavor() throws Exception{
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
-		Game g = new Game(player_names , strategies);
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -148,7 +156,8 @@ public class GameTest {
 	public void testNumberOfLanternCardsOnHandsOver() throws Exception{
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
-		Game g = new Game(player_names , strategies);//get one lantern card from start lake tile
+		int rule = 0;
+		Game g = new Game(player_names , strategies, rule);//get one lantern card from start lake tile
 		ArrayList<LanternCard> playercard = g.getPlayers().element().getLanternCards();
 		HashMap<Color, Stack<LanternCard>> lanternstacks  = g.getPlayArea().getSupply();
 		LanternCard greenlantern1 = lanternstacks.get(Color.GREEN).pop();

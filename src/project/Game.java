@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.rule.NHonorPoint;
+import project.rule.NLakeTilesOnBoard;
+import project.rule.Rule;
+import project.rule.Base;
 import project.strategy.Basic;
 import project.strategy.Greed;
 import project.strategy.Human;
@@ -31,6 +35,7 @@ public class Game implements Serializable {
 	 */
 	private String[] playersNames;
 	private int[] strategies;
+	private Rule rule;
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
@@ -89,10 +94,12 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 *             used when the players are more than 4 or less than 1
 	 */
-	public Game(String[] playersNames, int[] strategies) throws Exception 
+	public Game(String[] playersNames, int[] strategies, Rule rule) throws Exception 
 	{
 		this.playersNames = playersNames;
 		this.strategies = strategies;
+		setRule(rule);
+		
 		if (playersNames.length > 1 && playersNames.length < 5) 
 		{
 			startGame();
@@ -153,7 +160,14 @@ public class Game implements Serializable {
 			players.add(player);
 		}
 	}
-
+	
+	public void setRule(Rule r){
+		this.rule = r;
+	}
+	
+	public Rule getRule(){
+		return rule;
+	}
 	/**
 	 * this main method is used to control and run the game
 	 * 
@@ -246,9 +260,54 @@ public class Game implements Serializable {
 					"4. Human");
 			strategies[i] = new Human().inputOption(5, Strategy.Name.START);
 		}
-		return new Game(names, strategies);
+		Rule rule = ruleMenu(nplayer);
+		return new Game(names, strategies, rule);
 	}
 
+	public static Rule ruleMenu(int nplayer){
+		Rule rule = null;
+		System.out.println("Choose the rule of game ::");
+		System.out.println("0. Base Rule\n" +
+				"1. N Lake tiles on board Rule\n" +
+				"2. N Honor Point Rule");
+		int rule_choice = new Human().inputOption(3, Strategy.Name.START);
+		if(rule_choice==1){
+			System.out.println("How many round do you want to play?");
+			int max_laketile_stack = 0;
+			if(nplayer==2){
+				max_laketile_stack = 20;
+			}else if(nplayer==3){
+				max_laketile_stack = 18;
+			}else{
+				max_laketile_stack = 16;
+			}
+			int max_round = max_laketile_stack/nplayer;
+			for(int i =0;i<=max_round-2;i++){
+				System.out.println("option"+i+"::"+(i+2));
+			}
+			int round = new Human().inputOption(max_round-2, Strategy.Name.START);
+			rule = new NLakeTilesOnBoard(round+2);
+		}else if(rule_choice==2){
+			System.out.println("How many Honor point do you want to finish the game?");
+			int sum_honor = 0;
+			for(int i = 0; i<FourOfAKindToken.honorList.length;i++){
+				if(FourOfAKindToken.dotsList[i]>nplayer)
+					sum_honor +=FourOfAKindToken.honorList[i];
+				if(ThreePairToken.dotsList[i]>nplayer)
+					sum_honor +=ThreePairToken.honorList[i];
+				if(SevenUniqueToken.dotsList[i]>nplayer)
+					sum_honor +=SevenUniqueToken.honorList[i];
+			}
+			int average_honor = sum_honor/nplayer;
+			for(int i = 0; i<average_honor-4; i++){
+				System.out.println("option"+i+"::"+(i+4));
+			}
+			int win_honor = new Human().inputOption(average_honor-4, Strategy.Name.START);
+			rule = new NHonorPoint(win_honor+4);
+		}
+		return rule;
+	}
+	
 	public static void saveGameOption(Game game) 
 	{
 		Scanner scan = new Scanner(System.in);
@@ -548,6 +607,11 @@ public class Game implements Serializable {
 
 		case 2:
 			makeADedicationMenu(current_player);
+			if (getRule().rule(this)) 
+			{
+				System.out.println(getTheWinner());
+				System.exit(0);
+			}
 			break;
 
 		case 3:
@@ -599,7 +663,7 @@ public class Game implements Serializable {
 				// to get the winner
 				ArrayList<LakeTile> laketile = players.element().getLakeTiles();
 				
-				if (laketile.size() == 0) 
+				if (getRule().rule(this)) 
 				{
 					System.out.println(getTheWinner());
 					System.exit(0);
