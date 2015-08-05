@@ -94,17 +94,12 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 *             used when the players are more than 4 or less than 1
 	 */
-	public Game(String[] playersNames, int[] strategies, int rule) throws Exception 
+	public Game(String[] playersNames, int[] strategies, Rule rule) throws Exception 
 	{
 		this.playersNames = playersNames;
 		this.strategies = strategies;
-		if(rule==0){
-			setRule(new project.rule.Base());
-		}else if(rule==1){
-			setRule(new project.rule.NLakeTilesOnBoard());
-		}else{
-			setRule(new project.rule.NHonorPoint());
-		}
+		setRule(rule);
+		
 		if (playersNames.length > 1 && playersNames.length < 5) 
 		{
 			startGame();
@@ -265,14 +260,36 @@ public class Game implements Serializable {
 					"4. Human");
 			strategies[i] = new Human().inputOption(5, Strategy.Name.START);
 		}
+		Rule rule = ruleMenu(nplayer);
+		return new Game(names, strategies, rule);
+	}
+
+	public static Rule ruleMenu(int nplayer){
+		Rule rule = null;
 		System.out.println("Choose the rule of game ::");
 		System.out.println("0. Base Rule\n" +
 				"1. N Lake tiles on board Rule\n" +
 				"2. N Honor Point Rule");
-		int rule = new Human().inputOption(3, Strategy.Name.START);
-		return new Game(names, strategies, rule);
+		int rule_choice = new Human().inputOption(3, Strategy.Name.START);
+		if(rule_choice==1){
+			System.out.println("How many round do you want to play?");
+			int max_laketile_stack = 0;
+			if(nplayer==2){
+				max_laketile_stack = 20;
+			}else if(nplayer==3){
+				max_laketile_stack = 18;
+			}else{
+				max_laketile_stack = 16;
+			}
+			int max_round = max_laketile_stack/nplayer;
+			for(int i =0;i<=max_round-2;i++){
+				System.out.println("option"+i+"::"+(i+2));
+			}
+			int round = new Human().inputOption(max_round-2, Strategy.Name.START);
+			rule = new NLakeTilesOnBoard(round+2);
+		}
+		return rule;
 	}
-
 	public static void saveGameOption(Game game) 
 	{
 		Scanner scan = new Scanner(System.in);
