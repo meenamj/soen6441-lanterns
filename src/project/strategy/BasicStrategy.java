@@ -2,6 +2,8 @@ package project.strategy;
 
 import java.util.Scanner;
 
+import project.Game;
+
 public abstract class BasicStrategy implements Strategy{
 	/**
 	 * This method check the input the user provides
