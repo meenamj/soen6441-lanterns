@@ -11,7 +11,7 @@ public abstract class HumanStrategy implements Strategy{
 	 * @param n_option user input
 	 * @return integer value of the option selected
 	 */
-	public int inputOption(int number_options, Strategy.Name status)
+	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{
 		Scanner inputscan = new Scanner(System.in);
 		String in = null;
