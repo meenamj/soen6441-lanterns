@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import project.Game;
+import project.Player;
 
 public abstract class RandomStrategy implements Strategy{
 	/**
@@ -13,14 +14,21 @@ public abstract class RandomStrategy implements Strategy{
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{
+		Player player = game.getPlayers().element();
 		Random r = new Random();
 		//minus 3 to ignore 3 choices (exit, save and load game).
+		//if lantern card more than 12 choose make dedication or exchange lantern
 		if(status.equals(Name.MAINMENU))
-			number_options-=3;
+			if(player.getLanternCards().size()>12){
+				number_options = 2;
+			}else{
+				number_options-=3;
+			}
 		int random_choose = r.nextInt(number_options);
-		//not to choose choice 0
+		//plus 1 to ignore choice 0
 		if(status.equals(Name.MAINMENU))
 			random_choose+=1;
+		
 		return random_choose;
 	}
 }
