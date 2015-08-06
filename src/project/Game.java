@@ -604,7 +604,7 @@ public class Game implements Serializable {
 		{
 		case 1:
 
-			current_player.exchangeLanCard(playArea);
+			current_player.exchangeLanCard(this);
 			break;
 
 		case 2:

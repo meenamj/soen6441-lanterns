@@ -10,6 +10,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import project.strategy.Strategy;
+import project.strategy.Strategy.Name;
 
 
 /**
@@ -599,22 +600,22 @@ public class Player implements Serializable {
 	 * @param player
 	 *            active player object1
 	 */
-	public void exchangeSupplyLanternCard(PlayArea playArea)
+	public void exchangeSupplyLanternCard(Game game)
 	{
-		Scanner inputscan = new Scanner(System.in);
+		Supply supply = game.getPlayArea().getSupply();
 		System.out.println("\nLantern Card Supply :");
 		int i = 0;
 		ArrayList<Color> buffer = new ArrayList<Color>();
 		for (Color c : Color.values()) 
 		{
 			try {
-				if (playArea.getSupply().get(c).size() > 0) {
+				if (supply.get(c).size() > 0) {
 					System.out.println("Index :"
 							+ i
 							+ " :"
 							+ Color.getColorText(c, Symbol.BULLET)
 							+ " : "
-							+ playArea.getSupply().get(c).size());
+							+ supply.get(c).size());
 					buffer.add(c);
 					i++;
 				}
@@ -624,16 +625,15 @@ public class Player implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		String in = null;
+		int in = 0;
 		boolean validation = false;
 		do 
 		{
-			in = inputscan.next();
+			in = getStrategy().inputOption(buffer.size(), Name.CHOOSE_LANTERN_SUPPLY, game);
 			for (i = 0; i < buffer.size(); i++) 
 			{
-				if (in.equals("" + i)) 
+				if (in == i) 
 				{
-					Supply supply = playArea.getSupply();
 					Stack<LanternCard> stack = supply.get(buffer.get(i));
 					getLanternCards().add(stack.pop());
 					validation = true;
@@ -648,7 +648,7 @@ public class Player implements Serializable {
 	 * @param playArea play area
 	 * @throws Exception exception
 	 */
-	public void exchangeLanCard(PlayArea playArea) throws Exception 
+	public void exchangeLanCard(Game game) throws Exception 
 	{
 		if ((getNumberOfFavorTokens() < 2)
 				|| (getLanternCards().size() == 0))
@@ -662,10 +662,10 @@ public class Player implements Serializable {
 		{
 			// remove lantern card from player's hand and add that card
 			// to supply stack
-			exchangePlayerLanternCard(playArea);
+			exchangePlayerLanternCard(game);
 			// remove lantern card from supply stack and add it to
 			// player's hand
-			exchangeSupplyLanternCard(playArea);
+			exchangeSupplyLanternCard(game);
 		}
 	}
 	
@@ -678,9 +678,8 @@ public class Player implements Serializable {
 	 * @throws Exception if the player does not exist
 	 * 
 	 */
-	public void exchangePlayerLanternCard(PlayArea playArea) throws Exception 
+	public void exchangePlayerLanternCard(Game game) throws Exception 
 	{
-		Scanner inputscan = new Scanner(System.in);
 		System.out.println("Choose a lantern card you want to exchange");
 		ArrayList<LanternCard> lanternCards = getLanternCards();
 
@@ -710,14 +709,14 @@ public class Player implements Serializable {
 			}
 		}
 
-		String in = null;
+		int in = 0;
 		boolean existCard = true;
 		do {
-			in = inputscan.next();
-			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply();
+			in = getStrategy().inputOption(arrays.size(), Name.CHOOSE_LANTERN_HAND, game);
+			HashMap<Color, Stack<LanternCard>> supply = game.getPlayArea().getSupply();
 			for (int i = 0; i < arrays.size(); i++) 
 			{
-				if (in.equals("" + i)) 
+				if (in == i) 
 				{
 					System.out.print("");
 					Stack<LanternCard> lantern_stack = supply.get(arrays.get(i)
