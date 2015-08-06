@@ -34,11 +34,11 @@ public abstract class GreedyStrategy implements Strategy{
 				{
 					validation = true;
 					if(status == Name.MAINMENU){
-						makeADedicationMenu(players);
+						//PickALakeTile(players);
 						try {
-							simulateGame( players,pa);
+							//checkLakeTilewithAvailable( players,pa);
+							simulateGamePlay( players,pa,game);
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -50,7 +50,8 @@ public abstract class GreedyStrategy implements Strategy{
 	
 	}
 	
-	protected abstract void makeADedicationMenu(Queue players);
-	protected abstract Position simulateGame (Queue player, PlayArea playarea) throws Exception;
+	protected abstract void PickALakeTile(Queue<Player> players);
+	protected abstract Position checkLakeTilewithAvailable (Queue<Player> player, PlayArea playarea) throws Exception;
+	protected abstract void simulateGamePlay(Queue<Player> player, PlayArea playarea,Game game) throws Exception;
 
 }
