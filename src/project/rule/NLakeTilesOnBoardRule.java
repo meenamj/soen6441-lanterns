@@ -11,17 +11,20 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 	public boolean rule(Game game) {
 		//get current player
 		int num_player = game.getPlayers().size();
-		LakeTile[][] board = game.getPlayArea().getLakeTilesOnBoard();
-		int num_lake_board = 0;
-		for(int i=0;i<board.length;i++){
-			for(int j=0;j<board[i].length;j++){
-				if(board[i][j]!=null){
-					num_lake_board+=1;
-				}
-			}
+		int current_laketile_stack = game.getPlayArea().getLakeTiles().size();
+		int start_laketile_stack = 0;
+		if(num_player==4){
+			start_laketile_stack = 20;
+		}else if(num_player==3){
+			start_laketile_stack = 18;
+		}else if(num_player==2){
+			start_laketile_stack = 16;
 		}
-		int start_laketile = 1;
-		return num_player*final_round==(num_lake_board-start_laketile);
+		int num_draw = start_laketile_stack-current_laketile_stack;
+		//plus 1 because first round players do not draw stack
+		int current_round = (num_draw/num_player)+1;
+		
+		return current_round==final_round;
 	}
 	
 	public void setFinalRound(int final_round){
