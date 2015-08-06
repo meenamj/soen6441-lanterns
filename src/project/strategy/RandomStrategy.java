@@ -14,6 +14,13 @@ public abstract class RandomStrategy implements Strategy{
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{
 		Random r = new Random();
-		return r.nextInt(number_options);
+		//minus 3 to ignore 3 choices (exit, save and load game).
+		if(status.equals(Name.MAINMENU))
+			number_options-=3;
+		int random_choose = r.nextInt(number_options);
+		//not to choose choice 0
+		if(status.equals(Name.MAINMENU))
+			random_choose+=1;
+		return random_choose;
 	}
 }
