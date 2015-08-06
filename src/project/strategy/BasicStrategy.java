@@ -1,8 +1,9 @@
 package project.strategy;
 
-import java.util.Scanner;
+import java.util.Random;
 
 import project.Game;
+import project.Player;
 
 public abstract class BasicStrategy implements Strategy{
 	/**
@@ -12,26 +13,24 @@ public abstract class BasicStrategy implements Strategy{
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{
-		Scanner inputscan = new Scanner(System.in);
-		String in = null;
-		boolean validation = false;
-		do
-		{
-			if (in != null) 
-			{
-				System.out.println(in + " is not in the option");
+		int input = 0;
+		Random r = new Random();
+		if(status.equals(Name.MAINMENU)){
+			Player current_player= game.getPlayers().element();
+			if(current_player.getLanternCards().size()>11){
+				input = r.nextInt(2)+1;
+			}else{
+				input = 3;
 			}
-			in = inputscan.next();
-			for (int i = 0; i < number_options; i++)
-			{
-				if (in.equals("" + i)) 
-				{
-					validation = true;
-				}
-			}
+		}else if(status.equals(Name.MAKE_DEDICATION)){
+			input = r.nextInt(number_options);
+		}else if(status.equals(Name.CHOOSE_LANTERN_HAND)){
+			input = r.nextInt(number_options);
+		}else if(status.equals(Name.CHOOSE_LANTERN_SUPPLY)){
+			input = r.nextInt(number_options);
 		}
-		while (!validation);
-		return Integer.parseInt(in);
+		
+		return input;
 	}
 
 }

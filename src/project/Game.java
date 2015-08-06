@@ -709,7 +709,7 @@ public class Game implements Serializable {
 	 * @param lanternStacks lantern card stack 
 	 */
 
-	private void distributeLanternCard(LakeTile active_laketile, Supply supply) 
+	public void distributeLanternCard(LakeTile active_laketile, Supply supply) 
 	{
 		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		for (int i = 0; i < players.size(); i++) 
