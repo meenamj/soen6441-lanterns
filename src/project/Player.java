@@ -735,7 +735,7 @@ public class Player implements Serializable {
 	 * @param current_player
 	 * @throws Exception
 	 */
-	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	public ArrayList<HashMap<Rotation, Vector<Object>>> checkPlaceLakeTile(PlayArea play_area, LakeTile active_laketile) throws Exception 
 	{
 		
 		// get the laketile which player wants to put then remove the
@@ -743,6 +743,19 @@ public class Player implements Serializable {
 		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
 		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
 		optionOnBoard(list, adjacent_color_list, play_area);
+		return adjacent_color_list;
+		
+		
+	}
+	
+	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	{
+		
+		// get the laketile which player wants to put then remove the
+		// tile on their hand
+		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
+		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
+		optionOnBoardText(list, adjacent_color_list, play_area);
 		return adjacent_color_list;
 		
 		
@@ -873,6 +886,23 @@ public class Player implements Serializable {
 			PlayArea play_area)
 			throws Exception
 	{
+		
+		for (int i = 0; i < list.size(); i++) 
+		{
+			Position index = list.get(i);
+
+			// show information beside the possible lake tile
+			HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
+			adjacent_color_list.add(color_platform);
+
+		}
+		
+	}
+	public void optionOnBoardText(ArrayList<Position> list,
+			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
+			PlayArea play_area)
+			throws Exception
+	{
 		System.out.println("Available index :::");
 		
 		for (int i = 0; i < list.size(); i++) 
@@ -886,7 +916,6 @@ public class Player implements Serializable {
 			adjacent_color_list.add(color_platform);
 			System.out.println();
 		}
-		
 	}
 	
 	public void setStrategy(Strategy strategy){
