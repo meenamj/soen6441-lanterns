@@ -109,6 +109,15 @@ public class Game implements Serializable {
 			throw new Exception();
 		}
 	}
+	
+	/**
+	 * constructor to create clone of Game class
+	 */
+	public Game clone(){
+		Game game  = SerializationUtils.clone(this);
+
+		return game;
+	}
 
 	/**
 	 * Start the game this method create player, lantern cards, lake tiles and
