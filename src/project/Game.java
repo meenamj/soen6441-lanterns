@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.disaster.Disaster;
+import project.disaster.Tsunami;
 import project.rule.NHonorPoint;
 import project.rule.NLakeTilesOnBoard;
 import project.rule.Rule;
@@ -36,6 +38,7 @@ public class Game implements Serializable {
 	private String[] playersNames;
 	private int[] strategies;
 	private Rule rule;
+	private ArrayList<Disaster> disasters;
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
@@ -94,8 +97,9 @@ public class Game implements Serializable {
 	 * @throws Exception
 	 *             used when the players are more than 4 or less than 1
 	 */
-	public Game(String[] playersNames, int[] strategies, Rule rule) throws Exception 
+	public Game(String[] playersNames, int[] strategies, Rule rule, ArrayList<Disaster> disasters) throws Exception 
 	{
+		this.disasters = disasters;
 		this.playersNames = playersNames;
 		this.strategies = strategies;
 		setRule(rule);
@@ -168,6 +172,14 @@ public class Game implements Serializable {
 			// initialize all the stuff for the new player
 			players.add(player);
 		}
+	}
+	
+	public void setDisasters(ArrayList<Disaster> d){
+		this.disasters = d;
+	}
+	
+	public ArrayList<Disaster> getDisaster(){
+		return disasters;
 	}
 	
 	public void setRule(Rule r){
@@ -270,9 +282,31 @@ public class Game implements Serializable {
 			strategies[i] = new Human().inputOption(5, Strategy.Name.START,null);
 		}
 		Rule rule = ruleMenu(nplayer);
-		return new Game(names, strategies, rule);
+		ArrayList<Disaster> disasters = disasterMenu(nplayer);
+		return new Game(names, strategies, rule, disasters);
 	}
-
+	
+	public static ArrayList<Disaster> disasterMenu(int nplayer){
+		Disaster disaster = null;
+		System.out.println("Do you want Disaster? Y/N");
+		Scanner scan = new Scanner(System.in);
+		String in = null;
+		do{
+			if(in !=null){
+				System.out.println(in+" is not the option");
+			}
+			in = scan.next();
+			in = in.toUpperCase();
+		}while(!in.equals("Y")&&!in.equals("N"));
+		ArrayList<Disaster> disasters = new ArrayList<Disaster>(); 
+		if(in.toUpperCase().equals("Y")){
+			disaster = new Tsunami(nplayer);
+			disasters.add(disaster);
+		}
+		
+		return disasters;
+	}
+	
 	public static Rule ruleMenu(int nplayer){
 		Rule rule = null;
 		System.out.println("Choose the rule of game ::");
@@ -677,9 +711,15 @@ public class Game implements Serializable {
 					System.out.println(getTheWinner());
 					System.exit(0);
 				}
+				for(int i = 0; i< getDisaster().size(); i++)
+				{
+					Tsunami tsunami = (Tsunami)getDisaster().get(i);
+					boolean is_tsunami = tsunami.getDisaster();
+					if (is_tsunami){
+						System.out.println(tsunami.attack(this));
+					}
+				}
 			}
-			
-			
 			break;
 			
 		case 4:
