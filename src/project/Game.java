@@ -321,7 +321,7 @@ public class Game implements Serializable {
 		}else if(rule_choice==1){
 			System.out.println("How many round do you want to play?");
 			int max_laketile_stack = 0;
-			if(nplayer==2){
+			if(nplayer==4){
 				max_laketile_stack = 20;
 			}else if(nplayer==3){
 				max_laketile_stack = 18;
@@ -329,7 +329,7 @@ public class Game implements Serializable {
 				max_laketile_stack = 16;
 			}
 			int max_round = max_laketile_stack/nplayer;
-			for(int i =0;i<=max_round-2;i++){
+			for(int i =0;i<max_round-2;i++){
 				System.out.println("option"+i+"::"+(i+2));
 			}
 			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
@@ -337,14 +337,15 @@ public class Game implements Serializable {
 		}else if(rule_choice==2){
 			System.out.println("How many Honor point do you want to finish the game?");
 			int sum_honor = 0;
-			for(int i = 0; i<FourOfAKindToken.honorList.length;i++){
-				if(FourOfAKindToken.dotsList[i]>nplayer)
+			for(int i = 0; i<DedicationToken.dotsList.length;i++){
+				if(DedicationToken.dotsList[i]<nplayer)
+				{
 					sum_honor +=FourOfAKindToken.honorList[i];
-				if(ThreePairToken.dotsList[i]>nplayer)
 					sum_honor +=ThreePairToken.honorList[i];
-				if(SevenUniqueToken.dotsList[i]>nplayer)
 					sum_honor +=SevenUniqueToken.honorList[i];
+				}
 			}
+			
 			int average_honor = sum_honor/nplayer;
 			for(int i = 0; i<average_honor-4; i++){
 				System.out.println("option"+i+"::"+(i+4));

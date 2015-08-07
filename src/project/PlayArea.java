@@ -555,6 +555,9 @@ public class PlayArea implements Serializable {
 				}
 			}
 		}
+		if(index_list.size()==0){
+			index_list.add(new Position(32,32));
+		}
 		return index_list;
 	}
 

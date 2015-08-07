@@ -904,18 +904,18 @@ public class Player implements Serializable {
 			throws Exception
 	{
 		System.out.println("Available index :::");
-		
-		for (int i = 0; i < list.size(); i++) 
-		{
-			Position index = list.get(i);
-			System.out.print("option " + i + " ::" + index.getText());
 
-			// show information beside the possible lake tile
-			HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
-			System.out.println(play_area.getAdjacentColorText(color_platform));
-			adjacent_color_list.add(color_platform);
-			System.out.println();
-		}
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Position index = list.get(i);
+				System.out.print("option " + i + " ::" + index.getText());
+	
+				// show information beside the possible lake tile
+				HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
+				System.out.println(play_area.getAdjacentColorText(color_platform));
+				adjacent_color_list.add(color_platform);
+				System.out.println();
+			}
 	}
 	
 	public void setStrategy(Strategy strategy){
