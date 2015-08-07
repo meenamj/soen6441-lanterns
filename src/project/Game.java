@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import project.disaster.Disaster;
 import project.rule.NHonorPoint;
 import project.rule.NLakeTilesOnBoard;
 import project.rule.Rule;
@@ -36,6 +37,7 @@ public class Game implements Serializable {
 	private String[] playersNames;
 	private int[] strategies;
 	private Rule rule;
+	private Disaster disaster;
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
