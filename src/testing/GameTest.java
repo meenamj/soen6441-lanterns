@@ -25,7 +25,7 @@ public class GameTest {
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		assertEquals("not 2 Players in the game ", 2, g.getPlayers().size());
 	}
 	
@@ -34,7 +34,7 @@ public class GameTest {
 		String[] player_names = {"Player1","Player2","Player3"};
 		int[] strategies = {0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		assertEquals("not 3 Players in the game ", 3, g.getPlayers().size());
 	}
 	
@@ -43,7 +43,7 @@ public class GameTest {
 		String[] player_names = {"Player1","Player2","Player3", "Player4"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		assertEquals("not 4 Players in the game ", 4, g.getPlayers().size());
 	}
 	
@@ -52,7 +52,7 @@ public class GameTest {
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		FourOfAKindToken four = new FourOfAKindToken(8);
 		ArrayList<DedicationToken> dedicationList = new ArrayList<DedicationToken>() ;
 		dedicationList.add(four);
@@ -65,7 +65,7 @@ public class GameTest {
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ArrayList<DedicationToken> dedicationList1 = new ArrayList<DedicationToken>() ;
@@ -83,7 +83,7 @@ public class GameTest {
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -106,7 +106,7 @@ public class GameTest {
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -131,7 +131,7 @@ public class GameTest {
 		String[] player_names = {"A","A","A", "A"};
 		int[] strategies = {0,0,0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);
+		Game g = new Game(player_names , strategies, rule, null);
 		FourOfAKindToken dedicationToken1 = new FourOfAKindToken(8); // 8 value
 		SevenUniqueToken dedicationToken2 = new SevenUniqueToken(4); // 8 value
 		ThreePairToken dedicationToken3 = new ThreePairToken(7); // 8 value
@@ -159,7 +159,7 @@ public class GameTest {
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
 		Rule rule = new Base();
-		Game g = new Game(player_names , strategies, rule);//get one lantern card from start lake tile
+		Game g = new Game(player_names , strategies, rule, null);//get one lantern card from start lake tile
 		ArrayList<LanternCard> playercard = g.getPlayers().element().getLanternCards();
 		HashMap<Color, Stack<LanternCard>> lanternstacks  = g.getPlayArea().getSupply();
 		LanternCard greenlantern1 = lanternstacks.get(Color.GREEN).pop();

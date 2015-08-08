@@ -17,7 +17,7 @@ public class GameFileTest {
 		String[] player_names = {"Player1","Player2"};
 		int[] strategies = {0,0};
 		Rule rule = new Base();
-		gSave = new Game(player_names , strategies, rule);
+		gSave = new Game(player_names , strategies, rule, null);
 		gSave.startGame();
 	}
 	
