@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
 
+import project.Color;
 import project.Game;
 import project.PlayArea;
 import project.Player;
@@ -11,9 +12,13 @@ import project.Position;
 
 public abstract class GreedyStrategy implements Strategy{
 	ArrayList<Integer> solution = new ArrayList<Integer>();
+	int[] ExchnageOptions = new int[2];
+	
 	/**
 	 * This method check the input the user provides
-	 * @param n_option user input
+	 * @param number_options available for the user input
+	 * @param status name of the option menu
+	 * @param game instance of the game
 	 * @return integer value of the option selected
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
@@ -21,6 +26,10 @@ public abstract class GreedyStrategy implements Strategy{
 		Game gameClone = game.clone();
 		
 		Queue<Player> players = gameClone.getPlayers();
+		ArrayList<Player> playerList = new ArrayList<Player>(players);
+        Player player = playerList.get(0);
+        
+		Color c ;
 		
 		int in = 0;
 		boolean validation = false;
@@ -32,22 +41,29 @@ public abstract class GreedyStrategy implements Strategy{
 				{
 					validation = true;
 					if(status == Name.MAINMENU){
-						//PickALakeTile(players);
-						if(canExchange(players)){
-							//in = 1;
-						}
+						
 						if(canMakeDedication(players)){
 							in = 2;
 						}
-						else{
+						else if(canExchange(players, gameClone)){
+							ExchnageOptions = performExchange(player,gameClone);
+							in = 1;
+						}
+						else {
 							try {
-								//checkLakeTilewithAvailable( players,pa);
+								
 								solution = simulateGamePlay(game);
 								in = 3;
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
+					}
+					else if(status == Name.CHOOSE_LANTERN_HAND){
+						in = ExchnageOptions[0];
+					}
+					else if(status == Name.CHOOSE_LANTERN_SUPPLY){
+						in = ExchnageOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
 						int choice = whichDedication(players);
@@ -76,6 +92,6 @@ public abstract class GreedyStrategy implements Strategy{
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
 	protected abstract boolean canMakeDedication(Queue<Player> players);
 	protected abstract int whichDedication(Queue<Player> players);
-	protected abstract boolean canExchange(Queue<Player> players);
-
+	protected abstract boolean canExchange(Queue<Player> players, Game game);
+	protected abstract int[] performExchange(Player player,Game game);
 }
