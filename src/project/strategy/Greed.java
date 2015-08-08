@@ -88,7 +88,7 @@ public class Greed extends GreedyStrategy{
         
         ExchnageOptions = performExchange(player,game);
 
-        if(player.getNumberOfFavorTokens() > 2 && (ExchnageOptions[0] < 9 && ExchnageOptions[1] < 9)){
+        if(player.getNumberOfFavorTokens() >= 2 && (ExchnageOptions[0] < 9 && ExchnageOptions[1] < 9)){
             //System.out.println("Exchange a lantern card is possible");
             flag = true;
         }
