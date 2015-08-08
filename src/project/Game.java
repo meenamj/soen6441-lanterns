@@ -8,6 +8,7 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import project.disaster.Disaster;
 import project.disaster.LightningStrike;
+import project.disaster.PassingPowerBoat;
 import project.disaster.Tsunami;
 import project.rule.NHonorPoint;
 import project.rule.NLakeTilesOnBoard;
@@ -306,6 +307,8 @@ public class Game implements Serializable {
 			disaster = new Tsunami(nplayer);
 			disasters.add(disaster);
 			disaster = new LightningStrike(nplayer);
+			disasters.add(disaster);
+			disaster = new PassingPowerBoat(nplayer);
 			disasters.add(disaster);
 		}
 		
