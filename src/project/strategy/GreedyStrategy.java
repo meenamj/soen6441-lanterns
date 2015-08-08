@@ -33,17 +33,20 @@ public abstract class GreedyStrategy implements Strategy{
 					validation = true;
 					if(status == Name.MAINMENU){
 						//PickALakeTile(players);
+						if(canExchange(players)){
+							//in = 1;
+						}
 						if(canMakeDedication(players)){
 							in = 2;
 						}
 						else{
-						try {
-							//checkLakeTilewithAvailable( players,pa);
-							solution = simulateGamePlay(game);
-							in = 3;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+							try {
+								//checkLakeTilewithAvailable( players,pa);
+								solution = simulateGamePlay(game);
+								in = 3;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					}
 					else if(status == Name.MAKE_DEDICATION){
@@ -63,6 +66,7 @@ public abstract class GreedyStrategy implements Strategy{
 			}
 		}
 		while (!validation);
+		System.out.println(in);
 		return in;
 	
 	}
@@ -72,5 +76,6 @@ public abstract class GreedyStrategy implements Strategy{
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
 	protected abstract boolean canMakeDedication(Queue<Player> players);
 	protected abstract int whichDedication(Queue<Player> players);
+	protected abstract boolean canExchange(Queue<Player> players);
 
 }
