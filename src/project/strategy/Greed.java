@@ -1,23 +1,26 @@
 package project.strategy;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Stack;
 import java.util.Vector;
 import java.util.Map.Entry;
 
 import project.Color;
 import project.Game;
 import project.LakeTile;
-import project.LanternCard;
 import project.PlayArea;
 import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-import project.strategy.Strategy.Name;
 
 public class Greed extends GreedyStrategy{
 	int lakeTiletochoose = 0;
@@ -59,6 +62,151 @@ public class Greed extends GreedyStrategy{
 		return choice;
 	}
 	
+	protected boolean canExchange(Queue<Player> players){
+		boolean flag;
+		ArrayList<Player> playerList = new ArrayList<Player>(players);
+		Player player = playerList.get(0);
+		if(player.getNumberOfFavorTokens() > 2){
+			System.out.println("Exchange is possible");
+			performExchange(player);
+			flag = true;
+		}
+		else{
+			System.out.println("Can not Exchange lantern card");
+			flag=false;
+		}
+		return flag;
+		
+	}
+	
+	private void performExchange(Player player){
+		boolean DESC = false;
+		
+		int ORANGE = player.numOfCardColor(Color.ORANGE);
+		int GREEN = player.numOfCardColor(Color.GREEN);
+		int PURPLE = player.numOfCardColor(Color.PURPLE);
+		int WHITE = player.numOfCardColor(Color.WHITE);
+		int BLUE = player.numOfCardColor(Color.BLUE);
+		int RED = player.numOfCardColor(Color.RED);
+		int BLACK = player.numOfCardColor(Color.BLACK);
+		
+		 HashMap<Color,Integer> colors = new HashMap<Color,Integer>();
+	      // Put elements to the map
+		 colors.put(Color.ORANGE, ORANGE);
+		 colors.put(Color.GREEN, GREEN);
+		 colors.put(Color.PURPLE, PURPLE);
+		 colors.put(Color.WHITE, WHITE);
+		 colors.put(Color.BLUE, BLUE);
+		 colors.put(Color.RED, RED);
+		 colors.put(Color.BLACK, BLACK);
+		 
+			
+		 Map<Color,Integer> sortedMap = sortByComparator(colors, DESC);
+		 //System.out.println(sortedMap);
+		 ExchangePlayerCard(sortedMap,player);
+	}
+	
+	/**
+	 * perform sorting on the HashMap of Lantern cards
+	 * @param unsortMap unsorted map
+	 * @param order sorting order
+	 * @return sorted map
+	 */
+	private static Map<Color, Integer> sortByComparator(Map<Color, Integer> unsortMap, final boolean order)
+    	{
+
+        List<Entry<Color, Integer>> list = new LinkedList<Entry<Color, Integer>>(unsortMap.entrySet());
+
+        // Sorting the list based on values
+        Collections.sort(list, new Comparator<Entry<Color, Integer>>()
+        {
+            public int compare(Entry<Color, Integer> o1,
+                    Entry<Color, Integer> o2)
+            {
+                if (order)
+                {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+                else
+                {
+                    return o2.getValue().compareTo(o1.getValue());
+
+                }
+            }
+        });
+
+        // Maintaining insertion order with the help of LinkedList
+        Map<Color, Integer> sortedMap = new LinkedHashMap<Color, Integer>();
+        for (Entry<Color, Integer> entry : list)
+        {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
+    }
+	
+	/**
+	 * Choose a lantern card from player stack
+	 * @param sortedMap
+	 */
+	protected void ExchangePlayerCard( Map<Color, Integer> sortedMap, Player player){
+		int[] colors = new int[7];
+		Color[] c = new Color[7];
+		int counter = 0;
+		 for (Entry<Color, Integer> entry : sortedMap.entrySet())
+	     {
+	        //System.out.println("Key : " + entry.getKey() + " Value : "+ entry.getValue());
+	        colors[counter] = entry.getValue();
+	        c[counter] = entry.getKey();
+	        counter++;
+	     }
+
+		if(player.getLanternCards().size() >= 7)
+		 {
+			 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+				 System.out.println(c[0] + " to " + c[5]);
+				 System.out.println(c[1] + " to " + c[6]);
+			 }
+			 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
+				 System.out.println(c[0] + " to " + c[6]);
+			 }
+			 else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+				 System.out.println(c[2] + " to " + c[0]);
+			 }
+			 else{
+				 
+			 }
+		 }
+		 else if(player.getLanternCards().size() <= 4){
+			 if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
+				 System.out.println(c[1] + " to " + c[0]);
+			 }
+			 else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
+				 System.out.println(c[0] + " to " + c[1]);
+				 System.out.println(c[0] + " to " + c[1]);
+			 }
+			 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
+				 System.out.println(c[1] + " to " + c[0]);
+				 System.out.println(c[2] + " to " + c[0]);
+			 }
+			 else{
+				 
+			 }
+		 }
+		 else{
+			 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+				 System.out.println(c[2] + " to " + c[3]);
+			 }
+			 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+				 System.out.println(c[2] + " to " + c[1]);
+				 System.out.println(c[4] + " to " + c[3]);
+			 }
+			 else{
+				 
+			 }
+		 }
+	}
+	
 	/**
 	 * check all possible solutions for each three steps of place a lake tile
 	 * @throws Exception 
@@ -78,6 +226,7 @@ public class Greed extends GreedyStrategy{
 		for(int i=0;i<realplayer.getLakeTiles().size();i++)
 		{
 			//System.out.println(" value of i : " + i);
+			//System.out.println(" list :"+realavailableList.size());
 			for(int j=0; j<realavailableList.size();j++)
 			{
 				//System.out.println(" value of j : " + j);
@@ -91,7 +240,6 @@ public class Greed extends GreedyStrategy{
 					ArrayList<Player> playerList = new ArrayList<Player>(players);
 					Player player = playerList.get(0);
 					
-					int lanterns = player.getLanternCards().size();
 					ArrayList<Position> availableList = playarea.getPositionAvailableLakeTileOnBoard();
 
 					
@@ -108,8 +256,9 @@ public class Greed extends GreedyStrategy{
 						active_laketile.changeRotation(Rotation.D90);
 					}
 					
-					String lanterncolor = checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
+					checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
 					valueCounter = checkgetBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
+					
 					//System.out.println("temp value : " + valueCounter);
 					//System.out.println("value counter value : " + valueCounter);
 					if(valueCounter > temp)
@@ -121,15 +270,18 @@ public class Greed extends GreedyStrategy{
 						solution.add(valueCounter);
 					}
 					//System.out.println("your lantern color :"+ lanterncolor);
-
-					lanterns = player.getLanternCards().size();
-
+					if(solution.size()==0){
+						solution.add(0);
+						solution.add(0);
+						solution.add(0);
+						solution.add(0);
+					}
 				}
 
 			}
 		}
 		
-		System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
+		//System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
 		return solution;
 	}
 	
