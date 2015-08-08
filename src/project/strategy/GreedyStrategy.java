@@ -12,7 +12,7 @@ import project.Position;
 
 public abstract class GreedyStrategy implements Strategy{
 	ArrayList<Integer> solution = new ArrayList<Integer>();
-	int[] ExchnageOptions = new int[2];
+	int[] ExchangeOptions = new int[2];
 	
 	/**
 	 * This method check the input the user provides
@@ -46,7 +46,7 @@ public abstract class GreedyStrategy implements Strategy{
 							in = 2;
 						}
 						else if(canExchange(players, gameClone)){
-							ExchnageOptions = performExchange(player,gameClone);
+							ExchangeOptions = performExchange(player,gameClone);
 							in = 1;
 						}
 						else {
@@ -60,10 +60,10 @@ public abstract class GreedyStrategy implements Strategy{
 						}
 					}
 					else if(status == Name.CHOOSE_LANTERN_HAND){
-						in = ExchnageOptions[0];
+						in = ExchangeOptions[0];
 					}
 					else if(status == Name.CHOOSE_LANTERN_SUPPLY){
-						in = ExchnageOptions[1];
+						in = ExchangeOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
 						int choice = whichDedication(players);
