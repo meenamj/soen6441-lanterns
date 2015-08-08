@@ -9,15 +9,28 @@ import project.Game;
 import project.Player;
 
 public class LightningStrikeDisaster implements Disaster{
+	
 	int chance = 0;
 	
 	protected LightningStrikeDisaster(int nplayer) {
-		chance = nplayer*10;
+		if(nplayer==2)
+		{
+			chance = 20;
+		}
+		else if(nplayer==3)
+		{
+			chance = 15;
+		}
+		else
+		{
+			chance = 10;
+		}
 	}
+	
 	public boolean getDisaster(){
 		Random random = new Random();
 		int risk = random.nextInt(100);
-		return risk<chance;		
+		return chance>risk;
 	}
 	
 	@Override
