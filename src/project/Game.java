@@ -720,12 +720,19 @@ public class Game implements Serializable {
 					System.out.println(getTheWinner());
 					System.exit(0);
 				}
+				boolean showBeforeDisaster = true;
 				for(int i = 0; i< getDisaster().size(); i++)
 				{
 					Disaster disaster = getDisaster().get(i);
 					boolean is_disaster = disaster.getDisaster();
 					if (is_disaster){
-						System.out.println(disaster.attack(this));
+						if(showBeforeDisaster){
+							System.out.println("The Board before Disaster::");
+							System.out.println(playArea.getLakeTileBoardText());
+							showBeforeDisaster = false;
+						}
+						String text = disaster.attack(this);
+						System.out.println(text);
 					}
 				}
 			}

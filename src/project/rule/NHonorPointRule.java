@@ -13,8 +13,15 @@ public abstract class NHonorPointRule implements Rule{
 		//get current player
 		Queue<Player> player_queue = game.getPlayers();
 		ArrayList<Player> player_list = new ArrayList<Player>(player_queue);
+		int laketile_stack_size = game.getPlayArea().getLakeTiles().size();
+		if(laketile_stack_size==0){
+			System.out.println("with n honor point rule");
+			System.out.println("laketile stack is over");
+			return true;
+		}
 		for(Player player:player_list){
 			if(player.countHonorValue()>=win_honor){
+				System.out.println("with n honor point rule");
 				return true;
 			}
 		}

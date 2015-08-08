@@ -44,10 +44,12 @@ public class LightningStrikeDisaster implements Disaster{
 				max_remove_dedication = num_dedication;
 			}
 		}
-		if(max_remove_dedication==0)return "";
+		if(max_remove_dedication==0){
+			return "";
+		}
 		Random random = new Random();
 		ArrayList<DedicationToken> player_dedication = null;
-		int num_remove_dedication = random.nextInt(max_remove_dedication);
+		int num_remove_dedication = random.nextInt(max_remove_dedication)+1;
 		for(Player player : players){
 			if(player.getDedicationTokens().size()>=num_remove_dedication){
 				player_dedication=player.getDedicationTokens();
@@ -55,13 +57,12 @@ public class LightningStrikeDisaster implements Disaster{
 					Collections.shuffle(player_dedication);
 					text += player.getName();
 					text += " lost ";
+					text += num_remove_dedication+" Dedication Tokens\n";
 					for(int i = 0; i<num_remove_dedication; i++){
-						System.out.println("num_remove_dedication::"+num_remove_dedication);
-						System.out.println("player_dedication.size()::"+player_dedication.size());
-						text += player_dedication.get(0).getClass().getSimpleName();
+						text += "1 -"+player_dedication.get(0).getClass().getSimpleName();
 						text += " with ";
 						text += player_dedication.get(0).getHonor();
-						text += " honors ";
+						text += " honors\n";
 						player_dedication.remove(0);
 					}
 					text += "\n";

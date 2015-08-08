@@ -10,6 +10,7 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 	@Override
 	public boolean rule(Game game) {
 		//get current player
+		boolean is_winner = false;
 		int num_player = game.getPlayers().size();
 		int current_laketile_stack = game.getPlayArea().getLakeTiles().size();
 		int start_laketile_stack = 0;
@@ -23,8 +24,11 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 		int num_draw = start_laketile_stack-current_laketile_stack;
 		//plus 1 because first round players do not draw stack
 		int current_round = (num_draw/num_player)+1;
-		
-		return current_round==final_round;
+		if(current_round==final_round){
+			System.out.println("with base rule");
+			is_winner = true;
+		}
+		return is_winner;
 	}
 	
 	public void setFinalRound(int final_round){
