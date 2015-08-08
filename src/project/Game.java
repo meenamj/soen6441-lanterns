@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.SerializationUtils;
 
 import project.disaster.Disaster;
+import project.disaster.LightningStrike;
 import project.disaster.Tsunami;
 import project.rule.NHonorPoint;
 import project.rule.NLakeTilesOnBoard;
@@ -303,6 +304,8 @@ public class Game implements Serializable {
 		ArrayList<Disaster> disasters = new ArrayList<Disaster>(); 
 		if(in.toUpperCase().equals("Y")){
 			disaster = new Tsunami(nplayer);
+			disasters.add(disaster);
+			disaster = new LightningStrike(nplayer);
 			disasters.add(disaster);
 		}
 		
@@ -716,10 +719,10 @@ public class Game implements Serializable {
 				}
 				for(int i = 0; i< getDisaster().size(); i++)
 				{
-					Tsunami tsunami = (Tsunami)getDisaster().get(i);
-					boolean is_tsunami = tsunami.getDisaster();
-					if (is_tsunami){
-						System.out.println(tsunami.attack(this));
+					Disaster disaster = getDisaster().get(i);
+					boolean is_disaster = disaster.getDisaster();
+					if (is_disaster){
+						System.out.println(disaster.attack(this));
 					}
 				}
 			}
