@@ -29,7 +29,7 @@ public class PassingPowerBoatDisaster implements Disaster{
 	public boolean getDisaster(){
 		Random random = new Random();
 		int risk = random.nextInt(100);
-		return chance>risk;		
+		return chance>risk;
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class PassingPowerBoatDisaster implements Disaster{
 		System.out.println("number_laketile_onboard ::" +number_laketile_onboard);
 		if(number_laketile_onboard==0)
 		{
-			return "What is wrong??";
+			return "";
 		}
 		else
 		{
-			int number_remove_laketile = r.nextInt(number_laketile_onboard-1)+1;
+			int number_remove_laketile = r.nextInt(number_laketile_onboard)+1;
 			for(int i=0; i<number_remove_laketile;i++){
 				text += removeALakeTile(game);
 			}

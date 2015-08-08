@@ -56,11 +56,13 @@ public class LightningStrikeDisaster implements Disaster{
 					text += player.getName();
 					text += " lost ";
 					for(int i = 0; i<num_remove_dedication; i++){
-						text += player_dedication.get(i).getClass().getSimpleName();
+						System.out.println("num_remove_dedication::"+num_remove_dedication);
+						System.out.println("player_dedication.size()::"+player_dedication.size());
+						text += player_dedication.get(0).getClass().getSimpleName();
 						text += " with ";
-						text += player_dedication.get(i).getHonor();
+						text += player_dedication.get(0).getHonor();
 						text += " honors ";
-						player_dedication.remove(i);
+						player_dedication.remove(0);
 					}
 					text += "\n";
 				}
