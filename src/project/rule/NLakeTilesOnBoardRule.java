@@ -25,7 +25,7 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 		//plus 1 because first round players do not draw stack
 		int current_round = (num_draw/num_player)+1;
 		if(current_round==final_round){
-			System.out.println("with base rule");
+			System.out.println("with n lake tile on board rule");
 			is_winner = true;
 		}
 		return is_winner;

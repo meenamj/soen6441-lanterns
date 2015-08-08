@@ -23,7 +23,6 @@ public abstract class TsunamiDisaster implements Disaster{
 	public boolean getDisaster(){
 		Random random = new Random();
 		int risk = random.nextInt(100);
-		//return chance>risk;
-		return false;
+		return chance>risk;
 	}
 }

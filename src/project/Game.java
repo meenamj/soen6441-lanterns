@@ -661,7 +661,8 @@ public class Game implements Serializable {
 
 		case 2:
 			makeADedicationMenu(current_player);
-			if (getRule().rule(this)) 
+			if (getRule().getClass().getSimpleName().equals("NHonorPointRule")
+					&&getRule().rule(this)) 
 			{
 				System.out.println(getTheWinner());
 				System.exit(0);
