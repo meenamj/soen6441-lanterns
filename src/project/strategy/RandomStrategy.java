@@ -28,7 +28,7 @@ public abstract class RandomStrategy implements Strategy{
 		//plus 1 to ignore choice 0
 		if(status.equals(Name.MAINMENU))
 			random_choose+=1;
-		
+		System.out.println(random_choose);
 		return random_choose;
 	}
 }

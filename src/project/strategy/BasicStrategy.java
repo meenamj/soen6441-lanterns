@@ -29,7 +29,7 @@ public abstract class BasicStrategy implements Strategy{
 		}else if(status.equals(Name.CHOOSE_LANTERN_SUPPLY)){
 			input = r.nextInt(number_options);
 		}
-		
+		System.out.println(input);
 		return input;
 	}
 
