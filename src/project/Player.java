@@ -723,6 +723,7 @@ public class Player implements Serializable {
 							.getColor());
 					lantern_stack.add(arrays.get(i));
 					lanternCards.remove(arrays.get(i));
+					setNumberOfFavorTokens(getNumberOfFavorTokens()-2);
 					existCard = false;
 				}
 			}
