@@ -19,10 +19,9 @@ import java.util.Map.Entry;
 public class PlayArea implements Serializable {
 
 	/**
-	 * ArrayList<Players> into Queue<Players>
-	 * <code> Queue<Player> players = new Queue<Player> </code>
+	 * it is used to keep the correct version
 	 */
-
+	private static final long serialVersionUID = -5043523585269610914L;
 	/**
 	 * the current number of favor tokens in play area
 	 */
@@ -40,6 +39,9 @@ public class PlayArea implements Serializable {
 	 * a group of lake tiles in a stack on play area
 	 */
 	private Stack<LakeTile> lakeTiles;
+	/**
+	 * index list of all lake tile except start lake tile in the game
+	 */
 	private static LakeTile[] lakeTilesList = {
 			new LakeTile(0, Color.GREEN, Color.BLUE, Color.BLACK, Color.ORANGE,
 					false),
@@ -113,7 +115,7 @@ public class PlayArea implements Serializable {
 			new LakeTile(35, Color.WHITE, Color.GREEN, Color.PURPLE,
 					Color.BLUE, false) };
 	/**
-	 * a list of lake tiles in a play area (Build-2)
+	 * a list of lake tiles in a play area
 	 */
 	private LakeTile[][] lakeTilesOnBoard;
 	/**
@@ -141,18 +143,13 @@ public class PlayArea implements Serializable {
 	 * the total of generic token in play area
 	 */
 	private int numberOfGenericToken = 3;
-	/**
-	 * the total of lake tiles in play area
-	 */
-	private int numberOfLakeTiles = 35;
 
 	/**
 	 * Constructor of play area
+	 * get all stuff of starting play area depend on number of players
 	 * 
-	 * @param players
-	 *            list of players
+	 * @param players list of players
 	 */
-	// update start lake tile on board
 	public PlayArea(Queue<Player> players) {
 		numberOfFavorTokens = 20;
 		supply = new Supply(players.size());
@@ -169,7 +166,6 @@ public class PlayArea implements Serializable {
 	 * @param players
 	 *            list of players
 	 */
-	// update Queue
 	private void setUpLakeTile(Queue<Player> players) {
 		Random r = new Random();
 		int randomRedLantern = r.nextInt(players.size());
@@ -199,12 +195,11 @@ public class PlayArea implements Serializable {
 					supply.get(lantern_color).pop());
 			players.add(p);
 		}
-		// rotate the laketile to the correct position on laketile board
 	}
 
 	/**
-	 * create the total lake tiles for players in the game before giving to the
-	 * players
+	 * create lake tile stacks in the game
+	 * before giving to the players
 	 * 
 	 * @param num_players
 	 *            the number of players
@@ -227,6 +222,11 @@ public class PlayArea implements Serializable {
 		}
 	}
 
+	/**
+	 * remove laketile depend on the number of player
+	 * @param numberOfPlayers
+	 * @return number of lake tile to remove
+	 */
 	private int numLakeTileRemove(int numberOfPlayers) {
 		int numberOfLTToRemove = 0;
 		if (numberOfPlayers == 2) {
@@ -242,8 +242,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * create the total dedication token related to number of players
 	 * 
-	 * @param numberOfPlayers
-	 *            number of players
+	 * @param numberOfPlayers number of players
 	 */
 	private void initializeDedicationTokens(int numberOfPlayers) {
 
@@ -286,8 +285,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a group of lantern stacks in play area
 	 * 
-	 * @param supply
-	 *            a group lantern stacks
+	 * @param supply a group lantern stacks
 	 */
 	public void setSupply(Supply supply) {
 		this.supply = supply;
@@ -324,8 +322,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a lake tile stack in a play area
 	 * 
-	 * @param lakeTiles
-	 *            a lake tile stack
+	 * @param lakeTiles laketile stack
 	 */
 	public void setLakeTiles(Stack<LakeTile> lakeTiles) {
 		this.lakeTiles = lakeTiles;
@@ -343,8 +340,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a seven unique token stack in a play area
 	 * 
-	 * @param sevenUniqueTokens
-	 *            a seven unique token stack
+	 * @param sevenUniqueTokens a seven unique token stack
 	 */
 	public void setSevenUniqueTokens(Stack<SevenUniqueToken> sevenUniqueTokens) {
 		this.sevenUniqueTokens = sevenUniqueTokens;
@@ -362,8 +358,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a three pair token stack in a play area
 	 * 
-	 * @param threePairTokens
-	 *            a three pair token stack
+	 * @param threePairTokens a three pair token stack
 	 */
 	public void setThreePairTokens(Stack<ThreePairToken> threePairTokens) {
 		this.threePairTokens = threePairTokens;
@@ -381,8 +376,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a four of a kind token stack in a play area
 	 * 
-	 * @param fourOfAKindTokens
-	 *            a four of a kind token stack
+	 * @param fourOfAKindTokens a four of a kind token stack
 	 */
 	public void setFourOfAKindTokens(Stack<FourOfAKindToken> fourOfAKindTokens) {
 		this.fourOfAKindTokens = fourOfAKindTokens;
@@ -400,8 +394,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a generic token stack in a play area
 	 * 
-	 * @param genericTokens
-	 *            a generic token stack
+	 * @param genericTokens a generic token stack
 	 */
 	public void setGenericToken(Stack<GenericToken> genericTokens) {
 		this.genericTokens = genericTokens;
@@ -419,8 +412,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * Set a current number of favor tokens in a play area
 	 * 
-	 * @param numberOfFavorTokens
-	 *            a current number of favor tokens
+	 * @param numberOfFavorTokens a current number of favor tokens
 	 */
 	public void setNumberOfFavorTokens(int numberOfFavorTokens) {
 		this.numberOfFavorTokens = numberOfFavorTokens;
@@ -496,6 +488,7 @@ public class PlayArea implements Serializable {
 	/**
 	 * size of the game board is dynamic, so this method checks for the board size
 	 * in both directions and displays only the required board grid
+	 * 
 	 * @return size of the board
 	 */
 	private int[] getBoardSize() {
@@ -560,7 +553,13 @@ public class PlayArea implements Serializable {
 		}
 		return index_list;
 	}
-
+	
+	/**
+	 * 
+	 * @param i the coordinator x on lake tile board
+	 * @param j the coordinator y on lake tile board
+	 * @return boolean lake tile on this position is empty or not
+	 */
 	private boolean isLakeTileEmpty(int i, int j) {
 		boolean flag = false;
 		if (j + 1 < lakeTilesOnBoard[i].length)
@@ -598,9 +597,8 @@ public class PlayArea implements Serializable {
 		boolean isPlatform = false;
 		int x = pos.getX();
 		int y = pos.getY();
-		String text = "";
 		if (pos.getX() - 1 > 0 && lakeTilesOnBoard[x-1][y] != null) {
-			Queue color = lakeTilesOnBoard[x-1][y].getColorOfFourSides();
+			Queue<Color> color = lakeTilesOnBoard[x-1][y].getColorOfFourSides();
 			isPlatform = lakeTilesOnBoard[x-1][y].isPlatform();
 			ArrayList<Color> list = new ArrayList<Color>(color);
 			Color c = list.get(1);
@@ -612,7 +610,7 @@ public class PlayArea implements Serializable {
 			color_platform_store.put(Rotation.D270, color_and_platform);
 		}
 		if (pos.getY() - 1 > 0 && lakeTilesOnBoard[x][y-1] != null) {
-			Queue color = lakeTilesOnBoard[x][y-1].getColorOfFourSides();
+			Queue<Color> color = lakeTilesOnBoard[x][y-1].getColorOfFourSides();
 			isPlatform = lakeTilesOnBoard[x][y-1].isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(2);
@@ -624,7 +622,7 @@ public class PlayArea implements Serializable {
 			color_platform_store.put(Rotation.D0, color_and_platform);
 		}
 		if (x + 1 < lakeTilesOnBoard.length && lakeTilesOnBoard[x+1][y] != null) {
-			Queue color = lakeTilesOnBoard[x+1][y].getColorOfFourSides();
+			Queue<Color> color = lakeTilesOnBoard[x+1][y].getColorOfFourSides();
 			isPlatform = lakeTilesOnBoard[x+1][y]
 					.isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
@@ -637,7 +635,7 @@ public class PlayArea implements Serializable {
 			color_platform_store.put(Rotation.D90, color_and_platform);
 		}
 		if (y + 1 < lakeTilesOnBoard[0].length && lakeTilesOnBoard[x][y+1] != null) {
-			Queue color = lakeTilesOnBoard[x][y+1].getColorOfFourSides();
+			Queue<Color> color = lakeTilesOnBoard[x][y+1].getColorOfFourSides();
 			isPlatform = lakeTilesOnBoard[x][y+1].isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(0);
@@ -651,6 +649,15 @@ public class PlayArea implements Serializable {
 		return color_platform_store;
 	}
 	
+	/**
+	 * show color of each sides of an available position
+	 * 
+	 * @param color_platform_store properties of the position on the laketile on board
+	 * there are 4 rotations in the hashmap; 0,90,180 and 270 degrees;
+	 * in each rotations store the color
+	 * @return string of color and rotation in each sides
+	 * @throws Exception
+	 */
 	public String getAdjacentColorText(HashMap<Rotation, Vector<Object>> color_platform_store) throws Exception{
 		String text = "";
 		for (Entry<Rotation, Vector<Object>> color_platform_set : color_platform_store.entrySet()) {

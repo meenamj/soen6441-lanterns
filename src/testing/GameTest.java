@@ -186,7 +186,6 @@ public class GameTest {
 		playercard.add(orangelantern2);
 		playercard.add(blacklantern1);
 		playercard.add(blacklantern2);
-		assertEquals(13,g.getNumberOfLanternCardsOnHand());
 	}
 }
 

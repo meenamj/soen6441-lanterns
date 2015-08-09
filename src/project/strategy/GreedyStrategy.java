@@ -2,15 +2,16 @@ package project.strategy;
 
 import java.util.ArrayList;
 import java.util.Queue;
-import java.util.Scanner;
 
 import project.Color;
 import project.Game;
-import project.PlayArea;
 import project.Player;
-import project.Position;
 
 public abstract class GreedyStrategy implements Strategy{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 8668713217327493214L;
 	ArrayList<Integer> solution = new ArrayList<Integer>();
 	int[] ExchangeOptions = new int[2];
 	

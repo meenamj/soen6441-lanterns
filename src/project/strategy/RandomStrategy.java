@@ -1,12 +1,16 @@
 package project.strategy;
 
 import java.util.Random;
-import java.util.Scanner;
 
 import project.Game;
 import project.Player;
 
 public abstract class RandomStrategy implements Strategy{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -6960493685653641656L;
+
 	/**
 	 * This method check the input the user provides
 	 * @param n_option user input

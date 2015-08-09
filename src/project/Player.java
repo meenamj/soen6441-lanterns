@@ -3,9 +3,7 @@ package project;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -21,6 +19,11 @@ import project.strategy.Strategy.Name;
  */
 public class Player implements Serializable {
 	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -8362237489470234660L;
+
 	/**
 	 * player index
 	 */
@@ -64,8 +67,6 @@ public class Player implements Serializable {
 	 * The list of three pair card a player has on hand
 	 */
 	private ArrayList<Color> threePairList = new ArrayList<Color>();
-
-	public static Scanner scan;
 
 	/**
 	 * Get name of player

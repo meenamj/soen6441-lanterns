@@ -1,10 +1,13 @@
 package project.rule;
 
 import project.Game;
-import project.LakeTile;
-import project.Player;
 
 public abstract class NLakeTilesOnBoardRule implements Rule{
+	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 3183260809817926291L;
 	private int final_round;
 	
 	@Override

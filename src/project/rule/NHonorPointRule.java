@@ -7,6 +7,10 @@ import project.Game;
 import project.Player;
 
 public abstract class NHonorPointRule implements Rule{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -7160378198238322039L;
 	private int win_honor=0;
 	@Override
 	public boolean rule(Game game) {

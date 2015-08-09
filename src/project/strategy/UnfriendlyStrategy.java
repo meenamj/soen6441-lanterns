@@ -9,6 +9,10 @@ import project.Player;
 
 
 public abstract class UnfriendlyStrategy implements Strategy{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -2977512618052097832L;
 	ArrayList<Integer> solution = new ArrayList<Integer>();
 	int[] ExchangeOptions = new int[2];
 	

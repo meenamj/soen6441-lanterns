@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.Map.Entry;
@@ -25,10 +24,11 @@ import project.Rotation;
 import project.Supply;
 
 public class Unfriendliness extends UnfriendlyStrategy{
-    /**
-	 * 
+    
+	/**
+	 * it is used to keep the correct version
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7175461946886588653L;
 	int lakeTiletochoose = 0;
     
     /**

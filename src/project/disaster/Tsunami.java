@@ -5,6 +5,11 @@ import project.LakeTile;
 
 public class Tsunami extends TsunamiDisaster{
 
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 1939659623614440133L;
+
 	public Tsunami(int nplayer) {
 		super(nplayer);
 		// TODO Auto-generated constructor stub

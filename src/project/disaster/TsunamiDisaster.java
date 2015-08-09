@@ -3,6 +3,10 @@ package project.disaster;
 import java.util.Random;
 
 public abstract class TsunamiDisaster implements Disaster{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -8342469732431843801L;
 	int chance = 0;
 	protected TsunamiDisaster(int nplayer) {
 		if(nplayer==2)

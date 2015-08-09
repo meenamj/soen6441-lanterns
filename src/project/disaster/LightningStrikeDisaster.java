@@ -10,6 +10,11 @@ import project.Player;
 
 public class LightningStrikeDisaster implements Disaster{
 	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -1203306784472254204L;
+	
 	int chance = 0;
 	
 	protected LightningStrikeDisaster(int nplayer) {

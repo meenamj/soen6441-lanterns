@@ -2,13 +2,17 @@ package project;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.Map.Entry;
 /** 
  * This supply class will be used for seven lantern stacks creation
  * @author Meenakshi
  */
 public class Supply extends HashMap<Color, Stack<LanternCard>>implements Serializable{
 	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 8764536661432159523L;
+
 	/**
 	 * Constructor of supply
 	 * this method is used to create number of each lantern card in the stacks related to number of players

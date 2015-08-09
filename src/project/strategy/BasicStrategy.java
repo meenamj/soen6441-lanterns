@@ -7,6 +7,11 @@ import project.Player;
 
 public abstract class BasicStrategy implements Strategy{
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -5287120180128710069L;
+
+	/**
 	 * This method check the input the user provides
 	 * @param n_option user input
 	 * @return integer value of the option selected

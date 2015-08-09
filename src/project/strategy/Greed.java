@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Stack;
 import java.util.Vector;
 import java.util.Map.Entry;
 
@@ -23,11 +22,13 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-import project.Symbol;
-import project.strategy.Strategy.Name;
 
 public class Greed extends GreedyStrategy{
-    int lakeTiletochoose = 0;
+    /**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 5692856303792375794L;
+	int lakeTiletochoose = 0;
     private static final Random RANDOM = new Random();
     
     

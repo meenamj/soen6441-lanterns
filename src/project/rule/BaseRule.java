@@ -5,6 +5,11 @@ import project.Player;
 
 
 public abstract class BaseRule implements Rule{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 4245433488393564238L;
+
 	@Override
 	public boolean rule(Game game) {
 		//get current player

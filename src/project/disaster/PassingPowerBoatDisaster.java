@@ -9,6 +9,10 @@ import project.LakeTile;
 import project.Position;
 
 public class PassingPowerBoatDisaster implements Disaster{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 2298762894237856734L;
 	int chance = 0;
 	
 	protected PassingPowerBoatDisaster(int nplayer) {
@@ -57,7 +61,6 @@ public class PassingPowerBoatDisaster implements Disaster{
 	private String removeALakeTile(Game game){
 		LakeTile[][] board = game.getPlayArea().getLakeTilesOnBoard();
 		ArrayList<Position> positions = new ArrayList<Position>();
-		Random random = new Random();
 		for (int y = 0; y < board.length; y++) {
 			for (int x = 0; x < board[y].length; x++) {
 				LakeTile laketile = board[x][y];
