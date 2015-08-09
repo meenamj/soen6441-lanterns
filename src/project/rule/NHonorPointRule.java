@@ -1,6 +1,7 @@
 package project.rule;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Queue;
 
 import project.Game;
@@ -17,12 +18,21 @@ public abstract class NHonorPointRule implements Rule{
 		//get current player
 		Queue<Player> player_queue = game.getPlayers();
 		ArrayList<Player> player_list = new ArrayList<Player>(player_queue);
-		int laketile_stack_size = game.getPlayArea().getLakeTiles().size();
-		if(laketile_stack_size==0){
+		int num_laketile = 0;
+		// to check the number laketile of all players
+		for (Player player : player_list) {
+			if(player.getLakeTiles().size()> num_laketile)
+			{
+				num_laketile = player.getLakeTiles().size();
+			}
+		}
+		
+		if(num_laketile==0){
 			System.out.println("with n honor point rule");
-			System.out.println("laketile stack is over");
+			System.out.println("laketile hand is over");
 			return true;
 		}
+		
 		for(Player player:player_list){
 			if(player.countHonorValue()>=win_honor){
 				System.out.println("with n honor point rule");
