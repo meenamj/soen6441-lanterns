@@ -8,7 +8,7 @@ import project.DedicationToken;
 import project.Game;
 import project.Player;
 
-public class LightningStrikeDisaster implements Disaster{
+public abstract class LightningStrikeDisaster implements Disaster{
 	
 	/**
 	 * it is used to keep the correct version

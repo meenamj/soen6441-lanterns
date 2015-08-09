@@ -12,7 +12,7 @@ import project.Position;
  * @author Nuttakit
  * @version 3.0
  */
-public class PassingPowerBoatDisaster implements Disaster{
+public abstract class PassingPowerBoatDisaster implements Disaster{
 	/**
 	 * it is used to keep the correct version
 	 */
