@@ -291,6 +291,10 @@ public class Game implements Serializable {
 				System.out.println(error_text);
 				game = startOption();
 			}
+			else
+			{
+				game.updateStrategy();
+			}
 		} else
 		{
 			System.out.print("Goodbye");
@@ -451,8 +455,8 @@ public class Game implements Serializable {
 	public static Game loadGameOption()
 	{
 		Game game = null;
-		String file_name = new Human().inputString();
 		System.out.println("Put File Name");
+		String file_name = new Human().inputString();
 		game = Game.loadGame(file_name);
 		if (game == null)
 		{
@@ -1014,7 +1018,7 @@ public class Game implements Serializable {
 			ArrayList<Player> player_list = new ArrayList<Player>(players);
 			for(Player player : player_list){
 				System.out.print(player.getName()+" has ");
-				String strategy_name = player.getStrategy().getClass().getName();
+				String strategy_name = player.getStrategy().getClass().getSimpleName();
 				System.out.println(strategy_name);
 				System.out.println("Which strategy do you want to change?");
 				System.out.println("0. Greed\n" +

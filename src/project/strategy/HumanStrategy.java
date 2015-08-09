@@ -12,11 +12,13 @@ public abstract class HumanStrategy implements Strategy{
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = -5446700812827463498L;
-	Scanner inputscan;
 	
-	public HumanStrategy(){
-		inputscan = new Scanner(System.in);
-	}
+	/**
+	 * scanner is used to get input option
+	 * postscript :: scanner class is not implements serialize
+	 * transient is used for prevent this case
+	 */
+	transient Scanner inputscan;
 	
 	/**
 	 * This method check the input the user provides
@@ -25,6 +27,7 @@ public abstract class HumanStrategy implements Strategy{
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{
+		inputscan = new Scanner(System.in);
 		String in = null;
 		boolean validation = false;
 		do
@@ -48,6 +51,7 @@ public abstract class HumanStrategy implements Strategy{
 	
 	public int inputOption(int start_options, int end_options)
 	{
+		inputscan = new Scanner(System.in);
 		String in = null;
 		boolean validation = false;
 		do
@@ -57,7 +61,7 @@ public abstract class HumanStrategy implements Strategy{
 				System.out.println(in + " is not in the option");
 			}
 			in = inputscan.next();
-			for (int i = start_options; i < end_options; i++)
+			for (int i = start_options; i <= end_options; i++)
 			{
 				if (in.equals("" + i)) 
 				{
@@ -70,6 +74,7 @@ public abstract class HumanStrategy implements Strategy{
 	}
 	
 	public boolean inputYesNo(){
+		inputscan = new Scanner(System.in);
 		String in = null;
 		do{
 			if(in !=null){
@@ -87,6 +92,7 @@ public abstract class HumanStrategy implements Strategy{
 	}
 	
 	public String inputString(){
+		inputscan = new Scanner(System.in);
 		return inputscan.next();
 	}
 }
