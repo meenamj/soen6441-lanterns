@@ -139,7 +139,7 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * Decide which lantern card to exchange with which while performing an exchange
+     * Decide which lantern card to exchange 
      * @param sortedMap sorted HashMap of color and value pair
      * @param player current player
      * @param game clone of the game instance
@@ -160,120 +160,159 @@ public class Greed extends GreedyStrategy{
 
         if(player.getLanternCards().size() >= 7)
          {
-             if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	if(checkSupply(c[5],game)){
-            		ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-            		ExchnageOptions[1] = ChooseSupplyLanternCard(c[5],game);
-            	}
-            	else{
-            		ExchnageOptions[0] = 9;
-                	ExchnageOptions[1] = 9;
-            	}
-                 //System.out.println(c[0] + " to " + c[5]);
-                 //System.out.println(c[1] + " to " + c[6]);
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[6],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[6],game);
-            	 }
-             	else{
-             		ExchnageOptions[0] = 9;
-                 	ExchnageOptions[1] = 9;
-             	}
-            	 //System.out.println(c[0] + " to " + c[6]);
-             }
-             else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		ExchnageOptions[0] = 9;
-                 	ExchnageOptions[1] = 9;
-             	 }
-                 //System.out.println(c[2] + " to " + c[0]);
-             }
-             else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-                 //System.out.println("Not a good idea to exchange lantern cards...");
-             }
+             findSevenOfKindPattern(player, game, colors, c, ExchnageOptions);
          }
          else if(player.getLanternCards().size() <= 4){
-             if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-	             	 ExchnageOptions[0] = 9;
-	                 ExchnageOptions[1] = 9;
-             	 }
-                 //System.out.println(c[1] + " to " + c[0]);
-             }
-             else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
-             	 }
-                 //System.out.println(c[1] + " to " + c[0]);
-                 //System.out.println(c[1] + " to " + c[0]);
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
-             	 }
-                 //System.out.println(c[1] + " to " + c[0]);
-                 //System.out.println(c[2] + " to " + c[0]);
-             }
-             else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-            	 //System.out.println("Not a good idea to exchange lantern cards..");
-             }
+             findFourOfKindPattern(player, game, colors, c, ExchnageOptions);
          }
          else{
-             if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[2],game)){
-            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
-            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
-             	 }
-                 //System.out.println(c[2] + " to " + c[3]);
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[1],game)){
-            		 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
-            		 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
-             	 }
-                // System.out.println(c[3] + " to " + c[2]);
-                // System.out.println(c[4] + " to " + c[1]);
-             }
-             else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-            	 //System.out.println("Not a good idea to exchange lantern cards..");
-             }
+             findThreePairPattern(player, game, colors, c, ExchnageOptions);
          }
         return ExchnageOptions;
     }
+
+    /**
+     * Decide which lantern card to exchange to make a three Pair dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+	private void findThreePairPattern(Player player, Game game, int[] colors,
+			Color[] c, int[] ExchnageOptions) {
+		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[2],game)){
+			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
+			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[2] + " to " + c[3]);
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[1],game)){
+				 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
+				 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		    // System.out.println(c[3] + " to " + c[2]);
+		    // System.out.println(c[4] + " to " + c[1]);
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+			 //System.out.println("Not a good idea to exchange lantern cards..");
+		 }
+	}
+    /**
+     * Decide which lantern card to exchange to make a Four of a Kind dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+
+	private void findFourOfKindPattern(Player player, Game game, int[] colors,
+			Color[] c, int[] ExchnageOptions) {
+		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
+			 }
+		 	 else{
+		     	 ExchnageOptions[0] = 9;
+		         ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[1] + " to " + c[0]);
+		 }
+		 else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[1] + " to " + c[0]);
+		     //System.out.println(c[1] + " to " + c[0]);
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[1] + " to " + c[0]);
+		     //System.out.println(c[2] + " to " + c[0]);
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+			 //System.out.println("Not a good idea to exchange lantern cards..");
+		 }
+	}
+    /**
+     * Decide which lantern card to exchange to make a Seven Unique Dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+
+	private void findSevenOfKindPattern(Player player, Game game, int[] colors,
+			Color[] c, int[] ExchnageOptions) {
+		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+			if(checkSupply(c[5],game)){
+				ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+				ExchnageOptions[1] = ChooseSupplyLanternCard(c[5],game);
+			}
+			else{
+				ExchnageOptions[0] = 9;
+		    	ExchnageOptions[1] = 9;
+			}
+		     //System.out.println(c[0] + " to " + c[5]);
+		     //System.out.println(c[1] + " to " + c[6]);
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[6],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[6],game);
+			 }
+		 	else{
+		 		ExchnageOptions[0] = 9;
+		     	ExchnageOptions[1] = 9;
+		 	}
+			 //System.out.println(c[0] + " to " + c[6]);
+		 }
+		 else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
+			 }
+		 	 else{
+		 		ExchnageOptions[0] = 9;
+		     	ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[2] + " to " + c[0]);
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+		     //System.out.println("Not a good idea to exchange lantern cards...");
+		 }
+	}
     
     /**
      * select a lantern card from player stack to exchange
