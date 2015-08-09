@@ -82,7 +82,7 @@ public abstract class LightningStrikeDisaster implements Disaster{
 		if(counter==0){
 			attack(game);
 		}else{
-			System.out.print("number of players ::"+counter);
+			System.out.println("number of players ::"+counter);
 			System.out.println("number of lost dedication tokens ::"+ num_remove_dedication);
 		}
 		return "Lightning Strike is attacking players\n"+text;
