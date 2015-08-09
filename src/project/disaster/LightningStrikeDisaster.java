@@ -23,15 +23,15 @@ public abstract class LightningStrikeDisaster implements Disaster{
 	protected LightningStrikeDisaster(int nplayer) {
 		if(nplayer==2)
 		{
-			chance = 20;
+			chance = 10;
 		}
 		else if(nplayer==3)
 		{
-			chance = 15;
+			chance = 7;
 		}
 		else
 		{
-			chance = 10;
+			chance = 5;
 		}
 	}
 	
@@ -53,7 +53,7 @@ public abstract class LightningStrikeDisaster implements Disaster{
 			}
 		}
 		if(max_remove_dedication==0){
-			return "";
+			return "Disaster has occurred, but no harm done";
 		}
 		Random random = new Random();
 		ArrayList<DedicationToken> player_dedication = null;
@@ -69,7 +69,7 @@ public abstract class LightningStrikeDisaster implements Disaster{
 					text += " lost ";
 					text += num_remove_dedication+" Dedication Tokens\n";
 					for(int i = 0; i<num_remove_dedication; i++){
-						text += "1 -"+player_dedication.get(0).getClass().getSimpleName();
+						text += (i+1)+" -"+player_dedication.get(0).getClass().getSimpleName();
 						text += " with ";
 						text += player_dedication.get(0).getHonor();
 						text += " honors\n";
