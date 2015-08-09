@@ -30,6 +30,12 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 		if(current_round==final_round){
 			System.out.println("with n lake tile on board rule");
 			is_winner = true;
+			try {
+				System.out.println(game.getPlayArea().getLakeTileBoardText());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return is_winner;
 	}
