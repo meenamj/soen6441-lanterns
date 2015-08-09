@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import project.Color;
 import project.Game;
@@ -151,7 +152,6 @@ public class Unfriendliness extends UnfriendlyStrategy{
         int counter = 0;
          for (Entry<Color, Integer> entry : sortedMap.entrySet())
          {
-            //System.out.println("Key : " + entry.getKey() + " Value : "+ entry.getValue());
             colors[counter] = entry.getValue();
             c[counter] = entry.getKey();
             counter++;
@@ -165,11 +165,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
             		ExchnageOptions[1] = ChooseSupplyLanternCard(c[5],game);
             	}
             	else{
-            		ExchnageOptions[0] = 9;
-                	ExchnageOptions[1] = 9;
+            		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
             	}
-                 //System.out.println(c[0] + " to " + c[5]);
-                 //System.out.println(c[1] + " to " + c[6]);
              }
              else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
             	 if(checkSupply(c[6],game)){
@@ -177,10 +174,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[6],game);
             	 }
              	else{
-             		ExchnageOptions[0] = 9;
-                 	ExchnageOptions[1] = 9;
+             		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              	}
-            	 //System.out.println(c[0] + " to " + c[6]);
              }
              else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
             	 if(checkSupply(c[0],game)){
@@ -188,15 +183,11 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
             	 }
              	 else{
-             		ExchnageOptions[0] = 9;
-                 	ExchnageOptions[1] = 9;
+             		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              	 }
-                 //System.out.println(c[2] + " to " + c[0]);
              }
              else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-                 //System.out.println("Not a good idea to exchange lantern cards...");
+            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              }
          }
          else if(player.getLanternCards().size() <= 4){
@@ -206,10 +197,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
             	 }
              	 else{
-	             	 ExchnageOptions[0] = 9;
-	                 ExchnageOptions[1] = 9;
+	             	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              	 }
-                 //System.out.println(c[1] + " to " + c[0]);
              }
              else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
             	 if(checkSupply(c[0],game)){
@@ -217,11 +206,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
             	 }
              	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
+             		 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              	 }
-                 //System.out.println(c[1] + " to " + c[0]);
-                 //System.out.println(c[1] + " to " + c[0]);
              }
              else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
             	 if(checkSupply(c[0],game)){
@@ -229,16 +215,11 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
             	 }
              	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
+             		 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              	 }
-                 //System.out.println(c[1] + " to " + c[0]);
-                 //System.out.println(c[2] + " to " + c[0]);
              }
              else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-            	 //System.out.println("Not a good idea to exchange lantern cards..");
+            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              }
          }
          else{
@@ -248,10 +229,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
             	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
             	 }
              	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
+             		 ExchnageOptions[0] = 9;ExchnageOptions[1] = 9;
              	 }
-                 //System.out.println(c[2] + " to " + c[3]);
              }
              else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
             	 if(checkSupply(c[1],game)){
@@ -259,16 +238,11 @@ public class Unfriendliness extends UnfriendlyStrategy{
             		 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],game);
             	 }
              	 else{
-             		 ExchnageOptions[0] = 9;
-                 	 ExchnageOptions[1] = 9;
+             		 ExchnageOptions[0] = 9;ExchnageOptions[1] = 9;
              	 }
-                // System.out.println(c[3] + " to " + c[2]);
-                // System.out.println(c[4] + " to " + c[1]);
              }
              else{
-            	 ExchnageOptions[0] = 9;
-            	 ExchnageOptions[1] = 9;
-            	 //System.out.println("Not a good idea to exchange lantern cards..");
+            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
              }
          }
         return ExchnageOptions;
@@ -375,7 +349,10 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
     protected ArrayList<Integer> simulateGamePlay(Game game) throws Exception
     {
-        ArrayList<Integer> solution = new ArrayList<Integer>(4);
+        ArrayList<Integer> ithSolution = new ArrayList<Integer>();
+        ArrayList<Integer> jthSolution = new ArrayList<Integer>();
+        ArrayList<Integer> kthSolution = new ArrayList<Integer>();
+        ArrayList<Integer> solution = new ArrayList<Integer>(3);
         int valueCounter=0;
         Queue<Player> realplayers = game.getPlayers();
         PlayArea realplayarea = game.getPlayArea();
@@ -387,8 +364,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
 
         for(int i=0;i<realplayer.getLakeTiles().size();i++)
         {
-            //System.out.println(" value of i : " + i);
-            //System.out.println(" list :"+realavailableList.size());
+           // System.out.println(" value of i : " + i);
             for(int j=0; j<realavailableList.size();j++)
             {
                 //System.out.println(" value of j : " + j);
@@ -413,35 +389,55 @@ public class Unfriendliness extends UnfriendlyStrategy{
                     HashMap<Rotation, Vector<Object>> adjacent_colors = player.getPossibleRotation(availableList, adjacent_color_list, playarea, active_laketile, pos_laketile_opt);
 
                     //System.out.println(" value of k : " + k);
-                    int temp = valueCounter;
 
                     if(k>=1){
                         active_laketile.changeRotation(Rotation.D90);
                     }
-                    
-                    
+
                     if(checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject)){
-                    	solution.clear();
-                        solution.add(i);
-                        solution.add(j);
-                        solution.add(k);
-                        solution.add(valueCounter);
+                    	ithSolution.add(i);
+                        jthSolution.add(j);
+                        kthSolution.add(k);
                     }
                     
-                    //System.out.println("your lantern color :"+ lanterncolor);
-                    if(solution.size()==0){
-                        solution.add(0);
-                        solution.add(0);
-                        solution.add(0);
-                        solution.add(0);
-                    }
+                    
                 }
 
             }
         }
+        //System.out.println("ith : "+ithSolution);
+        //System.out.println("jth : "+jthSolution);
+        //System.out.println("kth : "+ kthSolution);
         
-        System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
+        int index =0;
+        if(ithSolution.size() >0){
+        	index = randInt(1,ithSolution.size()-1);
+        	solution.add(ithSolution.get(index));
+        	solution.add(jthSolution.get(index));
+        	solution.add(kthSolution.get(index));
+        	solution.add(index);
+        }
+        if(solution.size()==0){
+            solution.add(0);
+            solution.add(0);
+            solution.add(0);
+            solution.add(0);
+        }
+
+        //System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
         return solution;
+    }
+    
+    /**
+     * To pick random value from a given array
+     * @param array
+     * @return
+     */
+    public int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
     
     /**
@@ -478,14 +474,12 @@ public class Unfriendliness extends UnfriendlyStrategy{
 						getting_player.getLanternCards().add(l);
 					}
 				}
-				
 				if(getting_player.isFourOfAKind() || getting_player.isSevenUnique() || getting_player.isThreePair()){
 					//System.out.println(getting_player.getName()+" can make dedication ");
+					valueCounter = valueCounter +1;
 				}
 				else{
 					//System.out.println(getting_player.getName()+" can not make dedication ");
-					valueCounter = valueCounter +1;
-					
 				}
 			}
 		}

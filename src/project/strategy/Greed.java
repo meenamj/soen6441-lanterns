@@ -416,7 +416,7 @@ public class Greed extends GreedyStrategy{
     protected ArrayList<Integer> simulateGamePlay(Game game) throws Exception
     {
         ArrayList<Integer> solution = new ArrayList<Integer>(4);
-        int valueCounter=0;
+        int valueCounter=0; int temp =0;
         Queue<Player> realplayers = game.getPlayers();
         PlayArea realplayarea = game.getPlayArea();
         
@@ -427,7 +427,7 @@ public class Greed extends GreedyStrategy{
 
         for(int i=0;i<realplayer.getLakeTiles().size();i++)
         {
-            //System.out.println(" value of i : " + i);
+            System.out.println(" value of i : " + i);
             //System.out.println(" list :"+realavailableList.size());
             for(int j=0; j<realavailableList.size();j++)
             {
@@ -452,8 +452,7 @@ public class Greed extends GreedyStrategy{
                     HashMap<Rotation, Vector<Object>> adjacent_colors = player.getPossibleRotation(availableList, adjacent_color_list, playarea, active_laketile, pos_laketile_opt);
 
                     //System.out.println(" value of k : " + k);
-                    int temp = valueCounter;
-
+                    
                     if(k>=1){
                         active_laketile.changeRotation(Rotation.D90);
                     }
@@ -461,7 +460,7 @@ public class Greed extends GreedyStrategy{
                     checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
                     valueCounter = checkgetBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
                     
-                    //System.out.println("temp value : " + valueCounter);
+                    //System.out.println("temp value : " + temp);
                     //System.out.println("value counter value : " + valueCounter);
                     if(valueCounter > temp)
                     {
@@ -470,6 +469,7 @@ public class Greed extends GreedyStrategy{
                         solution.add(j);
                         solution.add(k);
                         solution.add(valueCounter);
+                        temp = valueCounter;
                     }
                     //System.out.println("your lantern color :"+ lanterncolor);
                     if(solution.size()==0){
@@ -479,11 +479,12 @@ public class Greed extends GreedyStrategy{
                         solution.add(0);
                     }
                 }
+                //System.out.println();
 
             }
         }
         
-        //System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
+        System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
         return solution;
     }
     
@@ -519,18 +520,26 @@ public class Greed extends GreedyStrategy{
 
                 if (c.getKey().equals(Rotation.D0)) 
                 {
-                    valueCounter = checkgetBonusDirection(Rotation.D0, active_laketile, color_platform,game);
+                	int bonusValue;
+                    bonusValue = checkgetBonusDirection(Rotation.D0, active_laketile, color_platform,game);
+                    valueCounter = valueCounter+ bonusValue;
+                    
                 } else if (c.getKey().equals(Rotation.D90)) 
                 {
-                    
-                    valueCounter = checkgetBonusDirection(Rotation.D90, active_laketile, color_platform,game);
+                	int bonusValue;
+                	bonusValue = checkgetBonusDirection(Rotation.D90, active_laketile, color_platform,game);
+                	valueCounter = valueCounter+ bonusValue;
                 } else if (c.getKey().equals(Rotation.D180)) 
                 {
-                    valueCounter = checkgetBonusDirection(Rotation.D180, active_laketile, color_platform,game);
+                	int bonusValue;
+                	bonusValue = checkgetBonusDirection(Rotation.D180, active_laketile, color_platform,game);
+                    valueCounter = valueCounter+ bonusValue;
                 } 
                 else if (c.getKey().equals(Rotation.D270)) 
                 {
-                    valueCounter = checkgetBonusDirection(Rotation.D270, active_laketile, color_platform,game);
+                	int bonusValue;
+                	bonusValue = checkgetBonusDirection(Rotation.D270, active_laketile, color_platform,game);
+                    valueCounter = valueCounter+ bonusValue;
                     
                 }
             }
