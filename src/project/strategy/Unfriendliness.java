@@ -420,32 +420,27 @@ public class Unfriendliness extends UnfriendlyStrategy{
                     }
                     
                     
-                    valueCounter = checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
-
-                    
-                    //System.out.println("temp value : " + valueCounter);
-                    //System.out.println("value counter value : " + valueCounter);
-                    if(valueCounter > temp)
-                    {
-                        solution.clear();
+                    if(checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject)){
+                    	solution.clear();
                         solution.add(i);
                         solution.add(j);
                         solution.add(k);
                         solution.add(valueCounter);
                     }
+                    
                     //System.out.println("your lantern color :"+ lanterncolor);
                     if(solution.size()==0){
                         solution.add(0);
-                        solution.add(1);
-                        solution.add(1);
-                        solution.add(1);
+                        solution.add(0);
+                        solution.add(0);
+                        solution.add(0);
                     }
                 }
 
             }
         }
         
-        //System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
+        System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
         return solution;
     }
     
@@ -455,41 +450,49 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @param lanternStacks lantern card stack 
      */
 
-    public int checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
+    public boolean checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
         Stack<LanternCard> temp = new Stack<LanternCard>();
         Queue<Player> players = game.getPlayers();
-		int valueCounter =0; 
+		int valueCounter =0;
+		boolean flag = false;
 		
 		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		
 		for (int i = 0; i < players.size(); i++) 
 		{
-			Player getting_player = players_list.get(i);
-			
-			int index = getting_player.getIndex();
-			
-			ArrayList<Color> color_list = new ArrayList<Color>(active_laketile.getColorOfFourSides());
-			
-			if (index >= 0 && index < players.size()) 
-			{
-				Stack<LanternCard> lanternCard = supply.get(color_list.get(index));
+			if(i!=0){
+				Player getting_player = players_list.get(i);
 				
-				if (!lanternCard.empty())
+				int index = getting_player.getIndex();
+				
+				ArrayList<Color> color_list = new ArrayList<Color>(active_laketile.getColorOfFourSides());
+				
+				if (index >= 0 && index < players.size()) 
 				{
-					LanternCard l = lanternCard.pop();
-					getting_player.getLanternCards().add(l);
+					Stack<LanternCard> lanternCard = supply.get(color_list.get(index));
+					
+					if (!lanternCard.empty())
+					{
+						LanternCard l = lanternCard.pop();
+						getting_player.getLanternCards().add(l);
+					}
+				}
+				
+				if(getting_player.isFourOfAKind() || getting_player.isSevenUnique() || getting_player.isThreePair()){
+					//System.out.println(getting_player.getName()+" can make dedication ");
+				}
+				else{
+					//System.out.println(getting_player.getName()+" can not make dedication ");
+					valueCounter = valueCounter +1;
+					
 				}
 			}
-			
-			if(getting_player.isFourOfAKind() || getting_player.isSevenUnique() || getting_player.isThreePair()){
-				
-			}
-			else{
-				valueCounter = valueCounter +1;
-			}
 		}
-		return valueCounter;
+		if(valueCounter == 0){
+			flag = true;
+		}
+		return flag;
         
     }
     
