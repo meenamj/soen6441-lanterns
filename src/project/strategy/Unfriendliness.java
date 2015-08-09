@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -322,8 +321,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     private boolean checkSupply(Color cl, Game game){
     	boolean flag = false;
     	Supply supply = game.getPlayArea().getSupply();
-        int i = 0;
-        for (Color color : Color.values()) 
+        for (int i =0; i<Color.values().length; i++) 
         {
             try {
             	if(supply.get(cl).size() > 0){
@@ -353,7 +351,6 @@ public class Unfriendliness extends UnfriendlyStrategy{
         ArrayList<Integer> jthSolution = new ArrayList<Integer>();
         ArrayList<Integer> kthSolution = new ArrayList<Integer>();
         ArrayList<Integer> solution = new ArrayList<Integer>(3);
-        int valueCounter=0;
         Queue<Player> realplayers = game.getPlayers();
         PlayArea realplayarea = game.getPlayArea();
         
@@ -377,19 +374,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
                     
                     ArrayList<Player> playerList = new ArrayList<Player>(players);
                     Player player = playerList.get(0);
-                    Player nextPlayer = playerList.get(1);
-                    
-                    ArrayList<Position> availableList = playarea.getPositionAvailableLakeTileOnBoard();
-
-                    
                     LakeTile active_laketile = player.getLakeTiles().get(i);
-                    ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = player.checkPlaceLakeTile(playarea, active_laketile);
-
-                    int pos_laketile_opt = j;
-                    HashMap<Rotation, Vector<Object>> adjacent_colors = player.getPossibleRotation(availableList, adjacent_color_list, playarea, active_laketile, pos_laketile_opt);
-
                     //System.out.println(" value of k : " + k);
-
                     if(k>=1){
                         active_laketile.changeRotation(Rotation.D90);
                     }
@@ -448,7 +434,6 @@ public class Unfriendliness extends UnfriendlyStrategy{
 
     public boolean checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
-        Stack<LanternCard> temp = new Stack<LanternCard>();
         Queue<Player> players = game.getPlayers();
 		int valueCounter =0;
 		boolean flag = false;

@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Vector;
 import java.util.Map.Entry;
 
@@ -29,8 +28,6 @@ public class Greed extends GreedyStrategy{
 	 */
 	private static final long serialVersionUID = 5692856303792375794L;
 	int lakeTiletochoose = 0;
-    private static final Random RANDOM = new Random();
-    
     
     /**
      * to check if the player can make a dedication or not for the
@@ -388,8 +385,7 @@ public class Greed extends GreedyStrategy{
     private boolean checkSupply(Color cl, Game game){
     	boolean flag = false;
     	Supply supply = game.getPlayArea().getSupply();
-        int i = 0;
-        for (Color color : Color.values()) 
+        for (int i=0; i<Color.values().length; i++) 
         {
             try {
             	if(supply.get(cl).size() > 0){

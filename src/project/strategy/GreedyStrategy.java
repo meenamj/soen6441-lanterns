@@ -3,7 +3,6 @@ package project.strategy;
 import java.util.ArrayList;
 import java.util.Queue;
 
-import project.Color;
 import project.Game;
 import project.Player;
 
@@ -29,9 +28,6 @@ public abstract class GreedyStrategy implements Strategy{
 		Queue<Player> players = gameClone.getPlayers();
 		ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
-        
-		Color c ;
-		
 		int in = 0;
 		boolean validation = false;
 		do
