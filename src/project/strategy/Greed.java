@@ -55,7 +55,7 @@ public class Greed extends GreedyStrategy{
      * @param players queue of all the players
      * @return choice number based on the possible dedication 
      */
-    protected int whichDedication(Queue<Player> players){
+    protected int selectDedication(Queue<Player> players){
         int choice=0;
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
@@ -127,9 +127,9 @@ public class Greed extends GreedyStrategy{
          colors.put(Color.RED, RED);
          colors.put(Color.BLACK, BLACK);
          
-            
+         
+         //sort the map in descending order of the number of colors
          Map<Color,Integer> sortedMap = sortByComparator(colors, DESC);
-         //System.out.println(sortedMap);
          ExchnageOptions = ExchangeLanternCard(sortedMap,player,game);
 
          return ExchnageOptions;
@@ -143,27 +143,26 @@ public class Greed extends GreedyStrategy{
      * @return pair of solution to be selected for the exchange of a lantern card
      */
     protected int[] ExchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
-        int[] colors = new int[7];
+        int[] numOfLanterns = new int[7];
         Color[] c = new Color[7];
         int[] ExchnageOptions = new int[2];
         int counter = 0;
          for (Entry<Color, Integer> entry : sortedMap.entrySet())
          {
-            //System.out.println("Key : " + entry.getKey() + " Value : "+ entry.getValue());
-            colors[counter] = entry.getValue();
+        	numOfLanterns[counter] = entry.getValue();
             c[counter] = entry.getKey();
             counter++;
          }
 
         if(player.getLanternCards().size() >= 7)
-         {
-             findSevenOfKindPattern(player, game, colors, c, ExchnageOptions);
+        {
+        	ExchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
          else if(player.getLanternCards().size() <= 4){
-             findFourOfKindPattern(player, game, colors, c, ExchnageOptions);
+        	 ExchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
          else{
-             findThreePairPattern(player, game, colors, c, ExchnageOptions);
+        	 ExchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
         return ExchnageOptions;
     }
@@ -176,11 +175,32 @@ public class Greed extends GreedyStrategy{
      * @param c color of lantern card
      * @param ExchnageOptions Lantern cards to be exchanges options
      */
-	private void findThreePairPattern(Player player, Game game, int[] colors,
-			Color[] c, int[] ExchnageOptions) {
-		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] ExchnageOptions) {
+		 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[2],game)){
 			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
+			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[2] + " to " + c[3]);
+		 }
+		 else if(colors[0] == 3 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[0],game)){
+			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		     //System.out.println(c[2] + " to " + c[3]);
+		 }
+		 else if(colors[0] == 3 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[2],game)){
+			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
 			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
 			 }
 		 	 else{
@@ -206,6 +226,7 @@ public class Greed extends GreedyStrategy{
 			 ExchnageOptions[1] = 9;
 			 //System.out.println("Not a good idea to exchange lantern cards..");
 		 }
+		 return ExchnageOptions;
 	}
     /**
      * Decide which lantern card to exchange to make a Four of a Kind dedication
@@ -216,7 +237,7 @@ public class Greed extends GreedyStrategy{
      * @param ExchnageOptions Lantern cards to be exchanges options
      */
 
-	private void findFourOfKindPattern(Player player, Game game, int[] colors,
+	private int[] findFourOfKindPattern(Player player, Game game, int[] colors,
 			Color[] c, int[] ExchnageOptions) {
 		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[0],game)){
@@ -258,6 +279,7 @@ public class Greed extends GreedyStrategy{
 			 ExchnageOptions[1] = 9;
 			 //System.out.println("Not a good idea to exchange lantern cards..");
 		 }
+		return ExchnageOptions;
 	}
     /**
      * Decide which lantern card to exchange to make a Seven Unique Dedication
@@ -268,7 +290,7 @@ public class Greed extends GreedyStrategy{
      * @param ExchnageOptions Lantern cards to be exchanges options
      */
 
-	private void findSevenOfKindPattern(Player player, Game game, int[] colors,
+	private int[] findSevenOfKindPattern(Player player, Game game, int[] colors,
 			Color[] c, int[] ExchnageOptions) {
 		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
 			if(checkSupply(c[5],game)){
@@ -309,6 +331,7 @@ public class Greed extends GreedyStrategy{
 			 ExchnageOptions[1] = 9;
 		     //System.out.println("Not a good idea to exchange lantern cards...");
 		 }
+		return ExchnageOptions;
 	}
     
     /**
@@ -412,7 +435,7 @@ public class Greed extends GreedyStrategy{
     protected ArrayList<Integer> simulateGamePlay(Game game) throws Exception
     {
         ArrayList<Integer> solution = new ArrayList<Integer>(4);
-        int valueCounter=0; int temp =0;
+        int valueCounter=0; int maxValue =0;
         Queue<Player> realplayers = game.getPlayers();
         PlayArea realplayarea = game.getPlayArea();
         
@@ -423,8 +446,7 @@ public class Greed extends GreedyStrategy{
 
         for(int i=0;i<realplayer.getLakeTiles().size();i++)
         {
-            System.out.println(" value of i : " + i);
-            //System.out.println(" list :"+realavailableList.size());
+            //System.out.println(" value of i : " + i);
             for(int j=0; j<realavailableList.size();j++)
             {
                 //System.out.println(" value of j : " + j);
@@ -456,18 +478,15 @@ public class Greed extends GreedyStrategy{
                     checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
                     valueCounter = checkgetBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
                     
-                    //System.out.println("temp value : " + temp);
-                    //System.out.println("value counter value : " + valueCounter);
-                    if(valueCounter > temp)
+                    if(valueCounter > maxValue)
                     {
                         solution.clear();
                         solution.add(i);
                         solution.add(j);
                         solution.add(k);
                         solution.add(valueCounter);
-                        temp = valueCounter;
+                        maxValue = valueCounter;
                     }
-                    //System.out.println("your lantern color :"+ lanterncolor);
                     if(solution.size()==0){
                         solution.add(0);
                         solution.add(0);
@@ -475,12 +494,10 @@ public class Greed extends GreedyStrategy{
                         solution.add(0);
                     }
                 }
-                //System.out.println();
-
             }
         }
         
-        System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
+        //System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
         return solution;
     }
     
@@ -540,7 +557,6 @@ public class Greed extends GreedyStrategy{
                 }
             }
         }
-        //System.out.println("value counter in bonus  : " + valueCounter);
         return valueCounter;
     }
 
@@ -585,7 +601,6 @@ public class Greed extends GreedyStrategy{
             //System.out.println("extra lantern cards : " + lanterncard);
             valueCounter++;
         }
-        //System.out.println("value counter in bonus direction : " + valueCounter);
         return valueCounter;
     }
     
