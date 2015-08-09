@@ -685,4 +685,17 @@ public class PlayArea implements Serializable {
 		}
 		return text;
 	}
+	
+	public int getNumberLakeTileOnBoard(){
+		int num_laketile = 0;
+		for (int y = 0; y < lakeTilesOnBoard.length; y++) {
+			for (int x = 0; x < lakeTilesOnBoard[y].length; x++) {
+				if(lakeTilesOnBoard[x][y]!=null)
+				{
+					num_laketile++;
+				}
+			}
+		}
+		return num_laketile;
+	}
 }
