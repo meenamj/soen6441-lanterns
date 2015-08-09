@@ -50,7 +50,6 @@ public abstract class PassingPowerBoatDisaster implements Disaster{
 		LakeTile[][] board = game.getPlayArea().getLakeTilesOnBoard();
 		Random r = new Random();
 		int number_laketile_onboard = countLakeTileOnBoard(board);
-		System.out.println("number_laketile_onboard ::" +number_laketile_onboard);
 		if(number_laketile_onboard==0)
 		{
 			return "";
