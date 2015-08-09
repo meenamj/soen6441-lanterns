@@ -1,5 +1,11 @@
 package project.disaster;
 
+/**
+ * Th
+ * @author Nittakit
+ *
+ */
+
 public class PassingPowerBoat extends PassingPowerBoatDisaster{
 
 	/**
