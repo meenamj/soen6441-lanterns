@@ -16,15 +16,15 @@ public abstract class TsunamiDisaster implements Disaster{
 	protected TsunamiDisaster(int nplayer) {
 		if(nplayer==2)
 		{
-			chance = 20;
+			chance = 10;
 		}
 		else if(nplayer==3)
 		{
-			chance = 15;
+			chance = 7;
 		}
 		else
 		{
-			chance = 10;
+			chance = 5;
 		}
 		
 	}
