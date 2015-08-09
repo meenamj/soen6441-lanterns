@@ -16,7 +16,10 @@ public class LightningStrikeDisaster implements Disaster{
 	private static final long serialVersionUID = -1203306784472254204L;
 	
 	int chance = 0;
-	
+	/**
+	 * This method set the chance of a Lightning strike disaster base on the number of player
+	 * @param nplayer Number of player
+	 */
 	protected LightningStrikeDisaster(int nplayer) {
 		if(nplayer==2)
 		{

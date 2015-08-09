@@ -7,14 +7,21 @@ import java.util.Random;
 import project.Game;
 import project.LakeTile;
 import project.Position;
-
+/**
+ * 
+ * @author Nuttakit
+ * @version 3.0
+ */
 public class PassingPowerBoatDisaster implements Disaster{
 	/**
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 2298762894237856734L;
 	int chance = 0;
-	
+	/**
+	 * This method set the chance of a power boat disaster base on the number of player
+	 * @param nplayer Number of player
+	 */
 	protected PassingPowerBoatDisaster(int nplayer) {
 		if(nplayer==2)
 		{
@@ -30,6 +37,7 @@ public class PassingPowerBoatDisaster implements Disaster{
 		}
 	}
 	
+
 	public boolean getDisaster(){
 		Random random = new Random();
 		int risk = random.nextInt(100);
@@ -57,7 +65,11 @@ public class PassingPowerBoatDisaster implements Disaster{
 		}
 	}
 	
-	
+	/**
+	 *This method remove lake tile after a disaster and make sure there are no gap in lake tiles on board
+	 * @param game The current game 
+	 * @return The positions of lake tiles to be remove
+	 */
 	private String removeALakeTile(Game game){
 		LakeTile[][] board = game.getPlayArea().getLakeTilesOnBoard();
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -91,8 +103,12 @@ public class PassingPowerBoatDisaster implements Disaster{
 		board[x][y] = null;
 		return "("+x+","+y+") ";
 	}
-	
-
+		
+	/**
+	 * This method counts the number of lake tile on the board
+	 * @param board The board containing lake tiles
+	 * @return The number of lake tiles on the board
+	 */
 	private int countLakeTileOnBoard(LakeTile[][] board){
 		int count = 0;
 		for (int y = 0; y < board.length; y++) {
@@ -104,6 +120,11 @@ public class PassingPowerBoatDisaster implements Disaster{
 		return count;
 	}
 	
+	/**
+	 * This method get all the lake tile position on the board
+	 * @param board The containing the player lake tile
+	 * @return the position of the lake tiles
+	 */
 	private ArrayList<Position> getAllLakeTilePositionOnBoard(LakeTile[][] board){
 		ArrayList<Position> all_laketile_position = new ArrayList<Position>();
 		for (int y = 0; y < board.length; y++) {

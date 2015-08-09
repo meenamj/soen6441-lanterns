@@ -8,6 +8,11 @@ public abstract class TsunamiDisaster implements Disaster{
 	 */
 	private static final long serialVersionUID = -8342469732431843801L;
 	int chance = 0;
+	
+	/**
+	 * This method set the chance of a Tsunami disaster base on the number of player
+	 * @param nplayer Number of player
+	 */
 	protected TsunamiDisaster(int nplayer) {
 		if(nplayer==2)
 		{
