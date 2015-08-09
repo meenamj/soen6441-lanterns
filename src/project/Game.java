@@ -209,16 +209,15 @@ public class Game implements Serializable {
 		// create players according to number of players
 		for (int i = 0; i < names.length; i++) 
 		{
-			if(strategies[i]==0){
+			if(strategies[i]==Strategy.GREEDY_STRATEGY){
 				player = new Player(names[i], new Greed());
-			}
-			else if(strategies[i]==1){
+			}else if(strategies[i]==Strategy.UNFRIENDLY_STRATEGY){
 				player = new Player(names[i], new Unfriendliness());
-			}else if(strategies[i]==2){
+			}else if(strategies[i]==Strategy.RANDOM_STRATEGY){
 				player = new Player(names[i], new Random());
-			}else if(strategies[i]==3){
+			}else if(strategies[i]==Strategy.BASIC_STRATEGY){
 				player = new Player(names[i], new Basic());
-			}else if(strategies[i]==4){
+			}else if(strategies[i]==Strategy.HUMAN_STRATEGY){
 				player = new Player(names[i], new Human());
 			}
 			// initialize all the stuff for the new player
@@ -1027,15 +1026,15 @@ public class Game implements Serializable {
 						"3. Basic\n" +
 						"4. Human");
 				int input_num = new Human().inputOption(5, Name.START,this);
-				if(input_num == 0){
+				if(input_num == Strategy.GREEDY_STRATEGY){
 					player.setStrategy(new Greed());
-				}else if(input_num == 1){
+				}else if(input_num == Strategy.UNFRIENDLY_STRATEGY){
 					player.setStrategy(new Unfriendliness());
-				}else if(input_num == 2){
+				}else if(input_num == Strategy.RANDOM_STRATEGY){
 					player.setStrategy(new Random());
-				}else if(input_num == 3){
+				}else if(input_num == Strategy.BASIC_STRATEGY){
 					player.setStrategy(new Basic());
-				}else if(input_num == 4){
+				}else if(input_num == Strategy.HUMAN_STRATEGY){
 					player.setStrategy(new Human());
 				}
 			}
