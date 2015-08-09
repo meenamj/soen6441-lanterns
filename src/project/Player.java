@@ -3,10 +3,13 @@ package project;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Scanner;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.Vector;
+
+import project.strategy.Strategy;
+import project.strategy.Strategy.Name;
+
 
 /**
  * player is the person who play the game
@@ -17,6 +20,11 @@ import java.util.Vector;
 public class Player implements Serializable {
 	
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -8362237489470234660L;
+
+	/**
 	 * player index
 	 */
 	private int index;
@@ -26,6 +34,10 @@ public class Player implements Serializable {
 	 */
 	private String name;
 	
+	/**
+	 * strategy
+	 */
+	private Strategy strategy;
 	/**
 	 * the amount of favor tokens which player has now
 	 */
@@ -55,8 +67,6 @@ public class Player implements Serializable {
 	 * The list of three pair card a player has on hand
 	 */
 	private ArrayList<Color> threePairList = new ArrayList<Color>();
-
-	public static Scanner scan;
 
 	/**
 	 * Get name of player
@@ -94,6 +104,11 @@ public class Player implements Serializable {
 		this.index = index;
 	}
 
+	
+	public Strategy getStrategy(){
+		return strategy;
+	}
+	
 	/**
 	 * Get number of favor token on player hand
 	 * 
@@ -176,12 +191,13 @@ public class Player implements Serializable {
 	 * @param name
 	 *            the name of game players
 	 */
-	public Player(String name) {
+	public Player(String name, Strategy strategy) {
 		this.name = name;
 		lanternCards = new ArrayList<LanternCard>();
 		lakeTiles = new ArrayList<LakeTile>();
 		dedicationTokens = new ArrayList<DedicationToken>();
 		numberOfFavorTokens = 0;
+		this.strategy = strategy;
 	}
 
 	/**
@@ -585,22 +601,22 @@ public class Player implements Serializable {
 	 * @param player
 	 *            active player object1
 	 */
-	public void exchangeSupplyLanternCard(PlayArea playArea)
+	public void exchangeSupplyLanternCard(Game game)
 	{
-		Scanner inputscan = new Scanner(System.in);
+		Supply supply = game.getPlayArea().getSupply();
 		System.out.println("\nLantern Card Supply :");
 		int i = 0;
 		ArrayList<Color> buffer = new ArrayList<Color>();
 		for (Color c : Color.values()) 
 		{
 			try {
-				if (playArea.getSupply().get(c).size() > 0) {
+				if (supply.get(c).size() > 0) {
 					System.out.println("Index :"
 							+ i
 							+ " :"
 							+ Color.getColorText(c, Symbol.BULLET)
 							+ " : "
-							+ playArea.getSupply().get(c).size());
+							+ supply.get(c).size());
 					buffer.add(c);
 					i++;
 				}
@@ -610,16 +626,15 @@ public class Player implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		String in = null;
+		int in = 0;
 		boolean validation = false;
 		do 
 		{
-			in = inputscan.next();
+			in = getStrategy().inputOption(buffer.size(), Name.CHOOSE_LANTERN_SUPPLY, game);
 			for (i = 0; i < buffer.size(); i++) 
 			{
-				if (in.equals("" + i)) 
+				if (in == i) 
 				{
-					Supply supply = playArea.getSupply();
 					Stack<LanternCard> stack = supply.get(buffer.get(i));
 					getLanternCards().add(stack.pop());
 					validation = true;
@@ -634,7 +649,7 @@ public class Player implements Serializable {
 	 * @param playArea play area
 	 * @throws Exception exception
 	 */
-	public void exchangeLanCard(PlayArea playArea) throws Exception 
+	public void exchangeLanCard(Game game) throws Exception 
 	{
 		if ((getNumberOfFavorTokens() < 2)
 				|| (getLanternCards().size() == 0))
@@ -648,10 +663,10 @@ public class Player implements Serializable {
 		{
 			// remove lantern card from player's hand and add that card
 			// to supply stack
-			exchangePlayerLanternCard(playArea);
+			exchangePlayerLanternCard(game);
 			// remove lantern card from supply stack and add it to
 			// player's hand
-			exchangeSupplyLanternCard(playArea);
+			exchangeSupplyLanternCard(game);
 		}
 	}
 	
@@ -664,9 +679,8 @@ public class Player implements Serializable {
 	 * @throws Exception if the player does not exist
 	 * 
 	 */
-	public void exchangePlayerLanternCard(PlayArea playArea) throws Exception 
+	public void exchangePlayerLanternCard(Game game) throws Exception 
 	{
-		Scanner inputscan = new Scanner(System.in);
 		System.out.println("Choose a lantern card you want to exchange");
 		ArrayList<LanternCard> lanternCards = getLanternCards();
 
@@ -696,20 +710,21 @@ public class Player implements Serializable {
 			}
 		}
 
-		String in = null;
+		int in = 0;
 		boolean existCard = true;
 		do {
-			in = inputscan.next();
-			HashMap<Color, Stack<LanternCard>> supply = playArea.getSupply();
+			in = getStrategy().inputOption(arrays.size(), Name.CHOOSE_LANTERN_HAND, game);
+			HashMap<Color, Stack<LanternCard>> supply = game.getPlayArea().getSupply();
 			for (int i = 0; i < arrays.size(); i++) 
 			{
-				if (in.equals("" + i)) 
+				if (in == i) 
 				{
 					System.out.print("");
 					Stack<LanternCard> lantern_stack = supply.get(arrays.get(i)
 							.getColor());
 					lantern_stack.add(arrays.get(i));
 					lanternCards.remove(arrays.get(i));
+					setNumberOfFavorTokens(getNumberOfFavorTokens()-2);
 					existCard = false;
 				}
 			}
@@ -722,7 +737,7 @@ public class Player implements Serializable {
 	 * @param current_player
 	 * @throws Exception
 	 */
-	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	public ArrayList<HashMap<Rotation, Vector<Object>>> checkPlaceLakeTile(PlayArea play_area, LakeTile active_laketile) throws Exception 
 	{
 		
 		// get the laketile which player wants to put then remove the
@@ -730,6 +745,19 @@ public class Player implements Serializable {
 		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
 		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
 		optionOnBoard(list, adjacent_color_list, play_area);
+		return adjacent_color_list;
+		
+		
+	}
+	
+	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	{
+		
+		// get the laketile which player wants to put then remove the
+		// tile on their hand
+		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
+		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
+		optionOnBoardText(list, adjacent_color_list, play_area);
 		return adjacent_color_list;
 		
 		
@@ -764,23 +792,39 @@ public class Player implements Serializable {
 	public String getCurrentPlayerLakeTileText() throws Exception 
 	{
 		String text = "";
+		String line1 = "";
+		String line2 = "";
+		String line3 = "";
 		for (LakeTile lake_tile : getLakeTiles())
 		{
 			int index = getLakeTiles().indexOf(lake_tile);
-			text += "index : " + index + ":";
-			text += String.format("%2s -", lake_tile.getIndex());
+			Queue<Color> color_queue = lake_tile.getColorOfFourSides();
+			ArrayList<Color> color_list = new ArrayList<Color>(color_queue);
 			
-			for (Color c : lake_tile.getColorOfFourSides())
-			{
-				text += Color.getColorText(c, Symbol.BULLET);
-				text += " ";
-			}
+			line1 += String.format("%8s","");
+			line1 += Color.getColorText(color_list.get(0), " ");
+			line1 += String.format("%3s","");
+			
+			line2 += " "+index + ":";
+			line2 += String.format("%2s ", lake_tile.getIndex());
+			line2 += Color.getColorText(color_list.get(3), " ");
+			line2 += " ";
 			if (lake_tile.isPlatform()) 
 			{
-				text += Symbol.PLATFORM;
+				line2 += "O";
+			}else{
+				line2 += "X";
 			}
-			text += "\n";
+			line2 += " "+Color.getColorText(color_list.get(1), " ")+" ";
+			
+			line3 += String.format("%8s","");
+			line3 += Color.getColorText(color_list.get(2), " ");
+			line3 += String.format("%3s","");
+			
 		}
+		text += line1+"\n";
+		text += line2+"\n";
+		text += line3+"\n";
 		return text;
 	}
 	
@@ -795,22 +839,28 @@ public class Player implements Serializable {
 		String text = "";
 		int sideOfLakeTile = 4;
 		text += "How do you want to rotate the lake tile?\n";
+		String line1 = new String();
+		String line2 = new String();
+		String line3 = new String();
+		
 		for (int i = 0; i < sideOfLakeTile; i++)
 		{
-			text += i + ":";
 			ArrayList<Color> four_side_colors = new ArrayList<Color>(
 					l.getColorOfFourSides());
-			text += Color.getColorText(four_side_colors.get(0),Symbol.UP);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(2),Symbol.DOWN);
-			text += " ";
-			text += Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
-			text += " ";
-			text += "\n";
+			line1 += "      " + Color.getColorText(four_side_colors.get(0),Symbol.UP)+"   ";
+			line2 += " "+i+": "+Color.getColorText(four_side_colors.get(3),Symbol.LEFT);
+			if(l.isPlatform()){
+				line2 += " O ";
+			}else{
+				line2 += " X ";
+			}
+			line2 += Color.getColorText(four_side_colors.get(1),Symbol.RIGHT)+" ";
+			line3 += "      "+Color.getColorText(four_side_colors.get(2),Symbol.DOWN)+"   ";
 			l.getColorOfFourSides().add(l.getColorOfFourSides().remove());
 		}
+		text+=line1+"\n";
+		text+=line2+"\n";
+		text+=line3+"\n";
 		return text;
 	}
 	
@@ -838,20 +888,39 @@ public class Player implements Serializable {
 			PlayArea play_area)
 			throws Exception
 	{
-		System.out.println("Available index :::");
 		
 		for (int i = 0; i < list.size(); i++) 
 		{
 			Position index = list.get(i);
-			System.out.print("option " + i + " ::" + index.getText());
 
 			// show information beside the possible lake tile
 			HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
-			System.out.println(play_area.getAdjacentColorText(color_platform));
 			adjacent_color_list.add(color_platform);
-			System.out.println();
+
 		}
 		
 	}
+	public void optionOnBoardText(ArrayList<Position> list,
+			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
+			PlayArea play_area)
+			throws Exception
+	{
+		System.out.println("Available index :::");
 
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Position index = list.get(i);
+				System.out.print("option " + i + " ::" + index.getText());
+	
+				// show information beside the possible lake tile
+				HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
+				System.out.println(play_area.getAdjacentColorText(color_platform));
+				adjacent_color_list.add(color_platform);
+				System.out.println();
+			}
+	}
+	
+	public void setStrategy(Strategy strategy){
+		this.strategy = strategy;
+	}
 }

@@ -8,6 +8,10 @@ import java.io.Serializable;
  */
 public class LanternCard implements Serializable{
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -3356057491692327091L;
+	/**
 	 * color of lantern card
 	 */
 	private Color c;

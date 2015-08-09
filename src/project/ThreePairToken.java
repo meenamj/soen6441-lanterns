@@ -9,6 +9,10 @@ package project;
 public class ThreePairToken extends DedicationToken {
 	
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -1143854564213189338L;
+	/**
 	 * used for order the card in three pair token stack
 	 */
 	static final int[] honorList = { 5, 5, 6, 6, 7, 7, 8, 8, 9 };

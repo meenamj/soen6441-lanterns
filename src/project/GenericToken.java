@@ -8,6 +8,11 @@ package project;
  */
 public class GenericToken extends DedicationToken {
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -3774879643860794453L;
+
+	/**
 	 * Contructor of generic token
 	 */
 	public GenericToken() {

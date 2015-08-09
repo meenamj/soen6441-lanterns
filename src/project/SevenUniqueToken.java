@@ -9,7 +9,13 @@ package project;
  */
 
 public class SevenUniqueToken extends DedicationToken {
-	//This honorList is used for order the card in seven unique token stack
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = -8255380834896808320L;
+	/**
+	 * This honorList is used for order the card in seven unique token stack
+	 */
 	static final int[] honorList = { 5, 6, 7, 7, 8, 8, 9, 9, 10 };
 	/**
 	 * Contructor of seven unique token

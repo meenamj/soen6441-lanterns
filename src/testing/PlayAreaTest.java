@@ -2,30 +2,28 @@ package testing;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import project.Color;
-import project.FourOfAKindToken;
 import project.LakeTile;
 import project.LanternCard;
 import project.PlayArea;
 import project.Player;
+import project.strategy.Human;
 
 public class PlayAreaTest {
 	private Player py1,py2,py3,py4;
 	private Queue<Player> fourPyList,threePyList,twoPyList;
 	@Before
 	 public void setUp(){
-	  py1 = new Player("Tester1");
-	  py2 = new Player("Tester2");
-	  py3 = new Player("Tester3");
-	  py4 = new Player("Tester4");
+	  py1 = new Player("Tester1", new Human());
+	  py2 = new Player("Tester2", new Human());
+	  py3 = new Player("Tester3", new Human());
+	  py4 = new Player("Tester4", new Human());
 	  
 	  py1.getLanternCards().add(new LanternCard(Color.RED));
 	  py1.getLanternCards().add(new LanternCard(Color.RED));

@@ -7,6 +7,12 @@ package project;
  * @version 1.1
  */
 public class FourOfAKindToken extends DedicationToken {
+	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 1170053206011471035L;
+	
 	//This honorList is used for order the card in four of a kind token stack
 	static final int[] honorList = { 4, 5, 5, 5, 6, 6, 7, 7, 8 };
 	/**

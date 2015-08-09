@@ -4,6 +4,25 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import project.disaster.Disaster;
+import project.disaster.LightningStrike;
+import project.disaster.PassingPowerBoat;
+import project.disaster.Tsunami;
+import project.rule.NHonorPoint;
+import project.rule.NLakeTilesOnBoard;
+import project.rule.Rule;
+import project.rule.Base;
+import project.strategy.Basic;
+import project.strategy.Greed;
+import project.strategy.Human;
+import project.strategy.Random;
+import project.strategy.Strategy;
+import project.strategy.Strategy.Name;
+import project.strategy.Unfriendliness;
+
+
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
  * 
@@ -12,15 +31,59 @@ import java.util.Map.Entry;
  */
 
 public class Game implements Serializable {
+	
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 4065252587270966918L;
 
 	/**
 	 * the list of players in the game
+	 * 
+	 * You can get the first player by element method
+	 * <code>Player first_player = getPlayers().element();</code>
+	 * also, pop method, however, after using this method, the player will not in the queue object.
+	 * <code>Player first_player = getPlayers().pop();</code>
+	 * So, when finishing the turn, the player is put into the last by push method
+	 * <code>getPlayers().push(first_player)
 	 */
 	private Queue<Player> players;
+	
 	/**
 	 * the list of players' name in the game
 	 */
 	private String[] playersNames;
+	
+	/**
+	 * the number of strategies
+	 * 0: Greedy - try to make dedication as possible
+	 * 1: Unfriendly - try not to help other players as possible
+	 * 2: Random - random everything as possible (high overhead)
+	 * 3: Basic - choose only first option on place laketile as possible
+	 * 4: Human - you can control everything by yourself
+	 */
+	private int[] strategies;
+	
+	/**
+	 * the rule of the game
+	 */
+	private Rule rule;
+	
+	/**
+	 * the disaster of the game
+	 * there are 3 kinds of disaster
+	 * 1: Tsunami - clear all lake tile on board
+	 * to get the tsunami object
+	 * <code>Tsunami disaster = (Tsunami)disasters.get(0)</code>
+	 * 2: Passing Power Boat - clear some lake tile on board
+	 * to get the passing power boat object
+	 * <code>PassingPowerBoat disaster = (PassingPowerBoat)disasters.get(1)</code>
+	 * 3: Lightning Strike - remove some dedication tokens on players randomly
+	 * to get the lightning strike object
+	 * <code>LightningStrike disaster = new (LightningStrike)disasters.get(2)</code>
+	 */
+	private ArrayList<Disaster> disasters;
+	
 	/**
 	 * the play area which provided lantern cards, lake tiles and dedication
 	 * token
@@ -28,8 +91,7 @@ public class Game implements Serializable {
 	private PlayArea playArea;
 
 	/**
-	 * 
-	 * Get a group of player
+	 * Get a queue of player
 	 * 
 	 * @return the list of players
 	 */
@@ -41,8 +103,7 @@ public class Game implements Serializable {
 	/**
 	 * Set a group of Player
 	 * 
-	 * @param players
-	 *            the list of players
+	 * @param players the list of players
 	 */
 	public void setPlayers(Queue<Player> players) 
 	{
@@ -71,18 +132,25 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * 
 	 * constructor of the game
 	 * 
-	 * @param playersNames
-	 *            the name of players
-	 * @throws Exception
-	 *             used when the players are more than 4 or less than 1
+	 * @param playersNames the name of players
+	 * @param strategies the technique to play of each players
+	 * there are 5 strategies such as Greedy, Unfriendly, Random, Base or Human
+	 * @param rule how to win the game
+	 * there are 3 rules;  lake tile stack is empty(basic rule)
+	 * ,n lake tile on board and n honor to choose;
+	 * @param disasters unexpected situations in the game
+	 * there are 3 disasters; tsunami, passing power boat and lightning strike
+	 * @throws Exception used when there are not between 2-4 players
 	 */
-	public Game(String... playersNames) throws Exception 
+	public Game(String[] playersNames, int[] strategies, Rule rule, ArrayList<Disaster> disasters) throws Exception 
 	{
+		this.disasters = disasters;
 		this.playersNames = playersNames;
-
+		this.strategies = strategies;
+		setRule(rule);
+		
 		if (playersNames.length > 1 && playersNames.length < 5) 
 		{
 			startGame();
@@ -91,6 +159,20 @@ public class Game implements Serializable {
 		{
 			throw new Exception();
 		}
+	}
+	
+	/**
+	 * constructor to create clone of Game class
+	 * to clone this object, commons lang library
+	 *  is necessary to use the method clone on the
+	 *  static class SerializationUtils
+	 * <code>SerializationUtils.clone(object);</code>
+	 * @return Game the clone object of game
+	 */
+	public Game clone(){
+		Game game  = SerializationUtils.clone(this);
+
+		return game;
 	}
 
 	/**
@@ -112,8 +194,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * this method is used to create players and add them into arraylist of
-	 * players
+	 * Create players, players' strategies
+	 * then add them into queue of players
 	 * 
 	 * @param names
 	 *            create the game of players
@@ -127,17 +209,58 @@ public class Game implements Serializable {
 		// create players according to number of players
 		for (int i = 0; i < names.length; i++) 
 		{
-			player = new Player(names[i]);
+			if(strategies[i]==Strategy.GREEDY_STRATEGY){
+				player = new Player(names[i], new Greed());
+			}else if(strategies[i]==Strategy.UNFRIENDLY_STRATEGY){
+				player = new Player(names[i], new Unfriendliness());
+			}else if(strategies[i]==Strategy.RANDOM_STRATEGY){
+				player = new Player(names[i], new Random());
+			}else if(strategies[i]==Strategy.BASIC_STRATEGY){
+				player = new Player(names[i], new Basic());
+			}else if(strategies[i]==Strategy.HUMAN_STRATEGY){
+				player = new Player(names[i], new Human());
+			}
 			// initialize all the stuff for the new player
 			players.add(player);
 		}
 	}
-
+	
 	/**
-	 * this main method is used to control and run the game
+	 * Setter of disasters
+	 * @param d the list of disaster
+	 */
+	public void setDisasters(ArrayList<Disaster> d){
+		this.disasters = d;
+	}
+	
+	/**
+	 * Getter of disaster
+	 * @return the list of disasters
+	 */
+	public ArrayList<Disaster> getDisasters(){
+		return disasters;
+	}
+	
+	/**
+	 * Setter of Rule
+	 * @param r the rule of game
+	 */
+	public void setRule(Rule r){
+		this.rule = r;
+	}
+	
+	/**
+	 * Getter of Rule
+	 * @return the rule of game
+	 */
+	public Rule getRule(){
+		return rule;
+	}
+	
+	/**
+	 * this main method is used to run the game to select the starting menu 
 	 * 
-	 * @param args
-	 *            [] the first input from command line
+	 * @param args [] the first input from command line
 	 * @throws Exception
 	 *             used to when the game load or save are error
 	 */
@@ -152,7 +275,7 @@ public class Game implements Serializable {
 		System.out.println("0. New Game");
 		System.out.println("1. Download");
 		System.out.println("2. Exit");
-		int in = inputOption(3);
+		int in = new Human().inputOption(3, Strategy.Name.START,null);
 		Game game = null;
 		if (in == 0) 
 		{
@@ -167,6 +290,10 @@ public class Game implements Serializable {
 				System.out.println(error_text);
 				game = startOption();
 			}
+			else
+			{
+				game.updateStrategy();
+			}
 		} else
 		{
 			System.out.print("Goodbye");
@@ -175,6 +302,11 @@ public class Game implements Serializable {
 		return game;
 	}
 	
+	/**
+	 * to get messages of validation to show on the console
+	 * in case the game can't load correctly
+	 * @return error validation
+	 */
 	public String getValidationError(){
 		String error_info = "";
 		if(!playArea.getSupply().validate(getPlayers().size())){
@@ -190,51 +322,125 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * This method displays the number of player allowed and collect number of player and their names
-	 * @return player name
+	 * This method displays the number of player allowed
+	 * and selected number of player, their names, their strategies,
+	 * and a rule of the game
+	 * @return game
 	 * @throws Exception use when player enters incorrect number of player
 	 */
 	public static Game putPlayerNamesOption() throws Exception 
 	{
-		Scanner scanner = new Scanner(System.in);
-		String in = null;
 		String[] names = null;
 		System.out.print("How many players? (select 2,3 or 4) : ");
-		
-		do {
-			if (in != null) 
-			{
-				System.out.println(in + " is not in the option");
-			}
-			in = scanner.next();
-		} 
-		while (!in.equals("2") && !in.equals("3") && !in.equals("4"));
-
-		int nplayer = Integer.parseInt(in);
+		int nplayer = new Human().inputOption(2, 4);
 		names = new String[nplayer];
-		
+		int[] strategies = new int[nplayer];
 		for (int i = 0; i < nplayer; i++) 
 		{
 			System.out.println("Player[" + i + "] name:");
-			names[i] = new String(scanner.next());
+			names[i] = new Human().inputString();
+			System.out.println("Which computer-based players you want?");
+			System.out.println("0. Greed\n" +
+					"1. Unfriend\n" +
+					"2. Random\n" +
+					"3. Basic\n" +
+					"4. Human");
+			strategies[i] = new Human().inputOption(5, Strategy.Name.START,null);
 		}
-		return new Game(names);
+		Rule rule = ruleMenu(nplayer);
+		ArrayList<Disaster> disasters = disasterMenu(nplayer);
+		return new Game(names, strategies, rule, disasters);
 	}
-
+	
+	/**
+	 * to ask if the game has disaster or not.
+	 * @param nplayer the number of player in the game
+	 * @return disasters in the game; tsunami, lightning strike and power boat
+	 */
+	public static ArrayList<Disaster> disasterMenu(int nplayer){
+		Disaster disaster = null;
+		System.out.println("Do you want Disaster? Y/N");
+		boolean is_disaster = new Human().inputYesNo();
+		ArrayList<Disaster> disasters = new ArrayList<Disaster>(); 
+		if(is_disaster){
+			disaster = new Tsunami(nplayer);
+			disasters.add(disaster);
+			disaster = new PassingPowerBoat(nplayer);
+			disasters.add(disaster);
+			disaster = new LightningStrike(nplayer);
+			disasters.add(disaster);
+		}
+		return disasters;
+	}
+	
+	/**
+	 * show menu of the rules in the game
+	 * @param nplayer the number of player in the game
+	 * @return rules in the game; laketile stack overflow, n laketile on board, and n honor value
+	 */
+	public static Rule ruleMenu(int nplayer){
+		Rule rule = null;
+		System.out.println("Choose the rule of game ::");
+		System.out.println("0. Base Rule\n" +
+				"1. N Lake tiles on board Rule\n" +
+				"2. N Honor Point Rule");
+		int rule_choice = new Human().inputOption(3, Strategy.Name.START,null);
+		if(rule_choice==0){
+			rule = new Base();
+		}else if(rule_choice==1){
+			System.out.println("How many round do you want to play?");
+			int max_laketile_stack = 0;
+			if(nplayer==4){
+				max_laketile_stack = 20;
+			}else if(nplayer==3){
+				max_laketile_stack = 18;
+			}else{
+				max_laketile_stack = 16;
+			}
+			int max_round = max_laketile_stack/nplayer;
+			for(int i =0;i<max_round-2;i++){
+				System.out.println("option"+i+"::"+(i+2));
+			}
+			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
+			rule = new NLakeTilesOnBoard(round+2);
+		}else if(rule_choice==2){
+			System.out.println("How many Honor point do you want to finish the game?");
+			int sum_honor = 0;
+			for(int i = 0; i<DedicationToken.dotsList.length;i++){
+				if(DedicationToken.dotsList[i]<nplayer)
+				{
+					sum_honor +=FourOfAKindToken.honorList[i];
+					sum_honor +=ThreePairToken.honorList[i];
+					sum_honor +=SevenUniqueToken.honorList[i];
+				}
+			}
+			
+			int average_honor = sum_honor/nplayer;
+			for(int i = 0; i<average_honor-4; i++){
+				System.out.println("option"+i+"::"+(i+4));
+			}
+			int win_honor = new Human().inputOption(average_honor-4, Strategy.Name.START,null);
+			rule = new NHonorPoint(win_honor+4);
+		}
+		return rule;
+	}
+	
+	/**
+	 * to type the file name
+	 * @param game the Game
+	 */
 	public static void saveGameOption(Game game) 
 	{
-		Scanner scan = new Scanner(System.in);
 		System.out.println("Put File Name To Save");
-		Game.saveGame(game, scan.next());
+		String filename = new Human().inputString();
+		Game.saveGame(game, filename);
 	}
 
 	/**
 	 * Save state of the game
 	 * 
-	 * @param g
-	 *            the Game
-	 * @param fname
-	 *            the name of the saved file
+	 * @param g the Game
+	 * @param fname the name of the saved file
 	 */
 	private static void saveGame(Game g, String fname) 
 	{
@@ -248,10 +454,9 @@ public class Game implements Serializable {
 	public static Game loadGameOption()
 	{
 		Game game = null;
-		Scanner scanner = new Scanner(System.in);
-		String in = null;
 		System.out.println("Put File Name");
-		game = Game.loadGame(scanner.next());
+		String file_name = new Human().inputString();
+		game = Game.loadGame(file_name);
 		if (game == null)
 		{
 			System.out.println("Put Another File Name");
@@ -263,8 +468,7 @@ public class Game implements Serializable {
 	/**
 	 * Load state of the game
 	 * 
-	 * @param fname
-	 *            the name of the saved file
+	 * @param fname the name of the saved file
 	 * @return Game the state of the game
 	 */
 	private static Game loadGame(String fname) 
@@ -273,7 +477,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * get information of the card on play area and players hand
+	 * get text of stuff such as lantern stacks, dedication stacks on play area
+	 * and text of players' stuff.
 	 * @return String
 	 * @throws Exception
 	 */
@@ -371,14 +576,12 @@ public class Game implements Serializable {
 		return text;
 	}
 
-	// Build-2
-
 	/**
 	 * Options to be displayed
 	 * 
 	 * @return in input selected by user
 	 */
-	public static int Menu() {
+	public int Menu() {
 		System.out.println("Select the one of the options(0-3):");
 		System.out.println(" 0. Exit");
 		System.out.println(" 1. Exchange a Lantern Card (optional) ");
@@ -386,18 +589,18 @@ public class Game implements Serializable {
 		System.out.println(" 3. Place a Lake Tile (mandatory) ");
 		System.out.println(" 4. Save Game ");
 		System.out.println(" 5. Load Game ");
-		return inputOption(6);
+		Player current_player = getPlayers().element();
+		return current_player.getStrategy().inputOption(6, Strategy.Name.MAINMENU,this);
 	}
 
 	/**
-	 * Start Game
+	 * Show base information for each player turn in the game
+	 * and prepare the 3 laketiles for each players during the game
 	 * 
 	 * @throws Exception if the color does not exist
 	 */
 	public void play() throws Exception 
 	{
-		int input = 0;
-		String choice;
 		boolean quit = false;
 		System.out.println(getInformationText());
 		do {
@@ -433,75 +636,6 @@ public class Game implements Serializable {
 		System.out.println("Good Bye");
 	}
 
-	
-
-	/**
-	 * get number of lantern cards a player has, to check it should not 
-	 * exceed 12
-	 * @return count number of the lantern card a player has
-	 */
-	public int getNumberOfLanternCardsOnHand() 
-	{
-		int count = players.element().getLanternCards().size();
-		return count;
-	}
-
-	/**
-	 * text of the lake tile a player need to put next ( 4 sides )
-	 * @return String the information of player lake tile 
-	 * @throws Exception if the player does not exist
-	 */
-	public String getPlayerLakeTileText() throws Exception 
-	{
-		String text = "";
-		for (int j = 1; j < 5; j++) 
-		{
-			Player current_player = players.element();
-			text += j + " : index :";
-			LakeTile player_laketile = current_player.getLakeTiles().get(0);
-			text += player_laketile.getIndex();
-			text += " ";
-			int i = 1;
-			for (Color c : player_laketile.getColorOfFourSides()) 
-			{
-				text += Color.getColorText(c, Symbol.BULLET);
-				text += "P"+(i++);
-			}
-			System.out.print("platform::");
-			
-			if (player_laketile.isPlatform()) 
-			{
-				text += Symbol.PLATFORM;
-				text += "\n";
-			}
-			
-			if (j == 1) {
-				text += "Rotation : 0";
-			} else if (j == 2) {
-				text += "Rotation : 90";
-			} else if (j == 3) {
-				text += "Rotation : 180";
-			} else if (j == 4) {
-				text += "Rotation : 270";
-			}
-		}
-		
-		return text;
-	}
-
-	
-
-	public boolean isNumberOfLanternCardsOnHandsOver() 
-	{
-		int lanternCards;
-		lanternCards = getNumberOfLanternCardsOnHand();
-		return lanternCards > 12;
-	}
-
-
-
-	
-
 	/**
 	 * The active player may perform each of these actions once per turn
 	 * @param current_player active player
@@ -514,11 +648,17 @@ public class Game implements Serializable {
 		{
 		case 1:
 
-			current_player.exchangeLanCard(playArea);
+			current_player.exchangeLanCard(this);
 			break;
 
 		case 2:
 			makeADedicationMenu(current_player);
+			if (getRule().getClass().getSimpleName().equals("NHonorPointRule")
+					&&getRule().rule(this)) 
+			{
+				System.out.println(getTheWinner());
+				System.exit(0);
+			}
 			break;
 
 		case 3:
@@ -540,7 +680,7 @@ public class Game implements Serializable {
 				
 				System.out.println();
 				System.out.println(current_player.getCurrentPlayerLakeTileText());
-				int input1 = inputOption(current_player.getLakeTiles().size());
+				int input1 = current_player.getStrategy().inputOption(current_player.getLakeTiles().size(), Strategy.Name.SELECT_LAKE,this);
 				LakeTile active_laketile = current_player.getLakeTiles().remove(input1);
 				ArrayList<Position> list = playArea.getPositionAvailableLakeTileOnBoard();
 				
@@ -549,12 +689,12 @@ public class Game implements Serializable {
 				System.out.print("which position you want to put laketile::");
 				// input position and check
 				
-				int pos_laketile_opt = inputOption(list.size());
+				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size(), Strategy.Name.SELECT_BOARD_POSITION,this);
 				HashMap<Rotation, Vector<Object>> adjacent_colors = current_player.getPossibleRotation(list, adjacent_color_list, playArea, active_laketile, pos_laketile_opt);
 				///
 				System.out.println(current_player.getPossibleRotationText(active_laketile));
 				
-				int rotation_opt = inputOption(4);
+				int rotation_opt = current_player.getStrategy().inputOption(4, Strategy.Name.SELECT_LAKE_ROTATION,this);
 				current_player.setRotationOnActiveLakeTile(active_laketile, rotation_opt);
 				///
 				
@@ -568,16 +708,27 @@ public class Game implements Serializable {
 				players.add(players.remove());
 				
 				// to get the winner
-				ArrayList<LakeTile> laketile = players.element().getLakeTiles();
-				
-				if (laketile.size() == 0) 
+				if (getRule().rule(this)) 
 				{
 					System.out.println(getTheWinner());
 					System.exit(0);
 				}
+				boolean showBeforeDisaster = true;
+				for(int i = 0; i< getDisasters().size(); i++)
+				{
+					Disaster disaster = getDisasters().get(i);
+					boolean is_disaster = disaster.getDisaster();
+					if (is_disaster){
+						if(showBeforeDisaster){
+							System.out.println("The Board before Disaster::");
+							System.out.println(playArea.getLakeTileBoardText());
+							showBeforeDisaster = false;
+						}
+						String text = disaster.attack(this);
+						System.out.println(text);
+					}
+				}
 			}
-			
-			
 			break;
 			
 		case 4:
@@ -591,6 +742,7 @@ public class Game implements Serializable {
 				System.out.println(error_text);
 				System.out.println("continue playing the current game");
 			}else{
+				g.updateStrategy();
 				g.play();
 			}
 			break;
@@ -615,7 +767,7 @@ public class Game implements Serializable {
 	 * @param lanternStacks lantern card stack 
 	 */
 
-	private void distributeLanternCard(LakeTile active_laketile, Supply supply) 
+	public void distributeLanternCard(LakeTile active_laketile, Supply supply) 
 	{
 		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		for (int i = 0; i < players.size(); i++) 
@@ -675,7 +827,7 @@ public class Game implements Serializable {
 		System.out.println(" 2. Seven Unique");
 		do 
 		{
-			choice = inputOption(3);
+			choice = current_player.getStrategy().inputOption(3, Strategy.Name.MAKE_DEDICATION,this);
 		} 
 		while (choice < 0 && choice > 2);
 		
@@ -857,33 +1009,36 @@ public class Game implements Serializable {
 		winnerStr +=winner_lan_card + " lantern card";
 		return winnerStr;
 	}
-
-	/**
-	 * This method check the input the user provides
-	 * @param n_option user input
-	 * @return integer value of the option selected
-	 */
-	public static int inputOption(int n_option)
-	{
-		Scanner inputscan = new Scanner(System.in);
-		String in = null;
-		boolean validation = false;
-		do
-		{
-			if (in != null) 
-			{
-				System.out.println(in + " is not in the option");
-			}
-			in = inputscan.next();
-			for (int i = 0; i < n_option; i++)
-			{
-				if (in.equals("" + i)) 
-				{
-					validation = true;
+	
+	public void updateStrategy(){
+		System.out.println("Do you want to change strategy? Y/N");
+		boolean is_changed_strategy = new Human().inputYesNo();
+		if(is_changed_strategy){
+			ArrayList<Player> player_list = new ArrayList<Player>(players);
+			for(Player player : player_list){
+				System.out.print(player.getName()+" has ");
+				String strategy_name = player.getStrategy().getClass().getSimpleName();
+				System.out.println(strategy_name);
+				System.out.println("Which strategy do you want to change?");
+				System.out.println("0. Greed\n" +
+						"1. Unfriend\n" +
+						"2. Random\n" +
+						"3. Basic\n" +
+						"4. Human");
+				int input_num = new Human().inputOption(5, Name.START,this);
+				if(input_num == Strategy.GREEDY_STRATEGY){
+					player.setStrategy(new Greed());
+				}else if(input_num == Strategy.UNFRIENDLY_STRATEGY){
+					player.setStrategy(new Unfriendliness());
+				}else if(input_num == Strategy.RANDOM_STRATEGY){
+					player.setStrategy(new Random());
+				}else if(input_num == Strategy.BASIC_STRATEGY){
+					player.setStrategy(new Basic());
+				}else if(input_num == Strategy.HUMAN_STRATEGY){
+					player.setStrategy(new Human());
 				}
 			}
+				
 		}
-		while (!validation);
-		return Integer.parseInt(in);
 	}
 }

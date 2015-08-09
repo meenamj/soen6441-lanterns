@@ -14,6 +14,10 @@ import java.util.Queue;
 public class LakeTile implements Serializable {
 
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 7134010658100386026L;
+	/**
 	 * index
 	 */
 	private int index;

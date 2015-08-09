@@ -10,6 +10,11 @@ import java.util.Map.Entry;
 public class Supply extends HashMap<Color, Stack<LanternCard>>implements Serializable{
 	
 	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 8764536661432159523L;
+
+	/**
 	 * Constructor of supply
 	 * this method is used to create number of each lantern card in the stacks related to number of players
 	 * @param num_player the number of player
