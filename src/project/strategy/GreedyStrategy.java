@@ -63,7 +63,7 @@ public abstract class GreedyStrategy implements Strategy{
 						in = ExchangeOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
-						int choice = whichDedication(players);
+						int choice = selectDedication(players);
 						in = choice;
 					}
 					else if(status == Name.SELECT_LAKE){
@@ -84,11 +84,9 @@ public abstract class GreedyStrategy implements Strategy{
 	
 	}
 	
-	//protected abstract void PickALakeTile(Queue<Player> players);
-	//protected abstract Position checkLakeTilewithAvailable (Queue<Player> player, PlayArea playarea) throws Exception;
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
 	protected abstract boolean canMakeDedication(Queue<Player> players);
-	protected abstract int whichDedication(Queue<Player> players);
+	protected abstract int selectDedication(Queue<Player> players);
 	protected abstract boolean canExchange(Queue<Player> players, Game game);
 	protected abstract int[] performExchange(Player player,Game game);
 }
