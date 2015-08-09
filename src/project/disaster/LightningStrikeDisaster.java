@@ -58,10 +58,12 @@ public abstract class LightningStrikeDisaster implements Disaster{
 		Random random = new Random();
 		ArrayList<DedicationToken> player_dedication = null;
 		int num_remove_dedication = random.nextInt(max_remove_dedication)+1;
+		int counter = 0;
 		for(Player player : players){
 			if(player.getDedicationTokens().size()>=num_remove_dedication){
 				player_dedication=player.getDedicationTokens();
 				if(random.nextBoolean()){
+					counter++;
 					Collections.shuffle(player_dedication);
 					text += player.getName();
 					text += " lost ";
@@ -76,6 +78,12 @@ public abstract class LightningStrikeDisaster implements Disaster{
 					text += "\n";
 				}
 			}
+		}
+		if(counter==0){
+			attack(game);
+		}else{
+			System.out.print("number of players ::"+counter);
+			System.out.println("number of lost dedication tokens ::"+ num_remove_dedication);
 		}
 		return "Lightning Strike is attacking players\n"+text;
 	}
