@@ -33,11 +33,11 @@ public abstract class PassingPowerBoatDisaster implements Disaster {
 	 */
 	protected PassingPowerBoatDisaster(int nplayer) {
 		if (nplayer == 2) {
-			chance = 20;
-		} else if (nplayer == 3) {
-			chance = 15;
-		} else {
 			chance = 10;
+		} else if (nplayer == 3) {
+			chance = 7;
+		} else {
+			chance = 5;
 		}
 	}
 
