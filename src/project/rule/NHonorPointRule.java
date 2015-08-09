@@ -1,7 +1,6 @@
 package project.rule;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Queue;
 
 import project.Game;
