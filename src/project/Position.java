@@ -1,12 +1,18 @@
 package project;
 
+import java.io.Serializable;
+
 /**
  * Position class is used to represent position of lake tiles with all information
  * on the game board based on x and y coordinates and to get and set position of lake tiles on the board 
  * @author n_bhut
  *
  */
-public class Position {
+public class Position implements Serializable{
+	/**
+	 * it is used to keep the correct version
+	 */
+	private static final long serialVersionUID = 6025980374523401609L;
 	private int x;
 	private int y;
 	
