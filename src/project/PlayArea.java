@@ -451,8 +451,10 @@ public class PlayArea implements Serializable {
 					line2_str += String.format("%11s", "");
 					line3_str += String.format("%11s", "");
 				} else {
-					index_str += " (" + x + "," + y + ")";
-					index_str += String.format("%2s", l.getIndex())+" ";
+					index_str += String.format("%2s", l.getIndex());
+					index_str += ":";
+					index_str += String.format("%-7s","(" + x + "," + y + ")");
+					index_str += " ";
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
 					line1_str += "     "+Color.getColorText(laketile_colors.get(0),
