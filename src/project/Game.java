@@ -365,9 +365,9 @@ public class Game implements Serializable {
 		if(is_disaster){
 			disaster = new Tsunami(nplayer);
 			disasters.add(disaster);
-			disaster = new LightningStrike(nplayer);
-			disasters.add(disaster);
 			disaster = new PassingPowerBoat(nplayer);
+			disasters.add(disaster);
+			disaster = new LightningStrike(nplayer);
 			disasters.add(disaster);
 		}
 		return disasters;
