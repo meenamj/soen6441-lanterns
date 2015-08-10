@@ -2,7 +2,7 @@ package project;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.Map.Entry;
+
 /** 
  * This supply class will be used for seven lantern stacks creation
  * @author Meenakshi
@@ -64,7 +64,7 @@ public class Supply extends HashMap<Color, Stack<LanternCard>>implements Seriali
 	 */
 	public String getNumberColorListText() throws Exception{
 		String text = "";
-		for (Entry<Color, Stack<LanternCard>> c : this.entrySet()){
+		for (Map.Entry<Color, Stack<LanternCard>> c : this.entrySet()){
 			text += Color.getColorText(c.getKey()," ");
 			text += c.getValue().size();
 			text += " ";
