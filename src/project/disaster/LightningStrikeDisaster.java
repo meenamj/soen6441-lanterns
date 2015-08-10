@@ -1,12 +1,18 @@
 package project.disaster;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Random;
 
 import project.DedicationToken;
 import project.Game;
 import project.Player;
+/**
+ * This class implement the lighting strike disaster type
+ * @author Meena
+ * @version 1.0
+ */
 
 public abstract class LightningStrikeDisaster implements Disaster {
 

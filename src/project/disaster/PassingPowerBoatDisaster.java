@@ -11,9 +11,9 @@ import project.LakeTile;
 import project.Position;
 
 /**
- * 
+ * This class implement the passing power boat disaster type
  * @author Nuttakit
- * @version 3.0
+ * @version 1.0
  */
 public abstract class PassingPowerBoatDisaster implements Disaster {
 	/**

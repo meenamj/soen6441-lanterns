@@ -3,7 +3,11 @@ package project.rule;
 import project.Game;
 import project.Player;
 
-
+/**
+ * This class serves as an abstract class for base rule
+ * @author Nuttakit
+ * @version 1.0
+ */
 public abstract class BaseRule implements Rule{
 	/**
 	 * it is used to keep the correct version

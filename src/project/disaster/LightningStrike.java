@@ -1,4 +1,10 @@
 package project.disaster;
+/**
+ * This class extends the Lightning strike abstract class
+ * @author Meena
+ * @version 1.0
+ *
+ */
 
 public class LightningStrike extends LightningStrikeDisaster{
 	

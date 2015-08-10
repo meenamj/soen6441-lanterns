@@ -1,6 +1,11 @@
 package project.disaster;
 
 import java.util.Random;
+/**
+ * This class implement the Tsunami disaster type
+ * @author Jide
+ *
+ */
 
 public abstract class TsunamiDisaster implements Disaster{
 	/**

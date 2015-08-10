@@ -597,9 +597,8 @@ public class Player implements Serializable {
 	
 	/**
 	 * Selection and removal of a lantern card form supply stack
-	 * 
-	 * @param player
-	 *            active player object1
+	 * @param game current game 
+	 *   
 	 */
 	public void exchangeSupplyLanternCard(Game game)
 	{
@@ -644,10 +643,11 @@ public class Player implements Serializable {
 
 	}
 	
+
 	/**
 	 * Exchange a lantern card option
-	 * @param playArea play area
-	 * @throws Exception exception
+	 * @param game current game
+	 * @throws Exception Exception
 	 */
 	public void exchangeLanCard(Game game) throws Exception 
 	{
@@ -670,14 +670,10 @@ public class Player implements Serializable {
 		}
 	}
 	
-
 	/**
 	 * Selection and removal of a lantern card form player's stack
-	 * 
-	 * @param player
-	 *            active player object
-	 * @throws Exception if the player does not exist
-	 * 
+	 * @param game current game played
+	 * @throws Exception Exception
 	 */
 	public void exchangePlayerLanternCard(Game game) throws Exception 
 	{
@@ -734,8 +730,10 @@ public class Player implements Serializable {
 
 	/**
 	 * This method check if a player can place a lake tile and display position to place a lake tile
-	 * @param current_player
-	 * @throws Exception
+	 * @param play_area current play area
+	 * @param active_laketile active lake tile
+	 * @return adjacent color
+	 * @throws Exception Exception
 	 */
 	public ArrayList<HashMap<Rotation, Vector<Object>>> checkPlaceLakeTile(PlayArea play_area, LakeTile active_laketile) throws Exception 
 	{

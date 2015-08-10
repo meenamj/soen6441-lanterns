@@ -1,6 +1,11 @@
 package project.rule;
 
 import project.Game;
+/**
+ * This is an abstract class for the Number of Lake Tile rule
+ * @author Idris
+ * @version 1.0
+ */
 
 public abstract class NLakeTilesOnBoardRule implements Rule{
 	
@@ -39,7 +44,10 @@ public abstract class NLakeTilesOnBoardRule implements Rule{
 		}
 		return is_winner;
 	}
-	
+	/**
+	 * This method set the final round of the game based on the number of lake tile played
+	 * @param final_round final round of the game
+	 */
 	public void setFinalRound(int final_round){
 		this.final_round = final_round;
 	}

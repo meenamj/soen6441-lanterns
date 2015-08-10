@@ -5,6 +5,11 @@ import java.util.Queue;
 
 import project.Game;
 import project.Player;
+/**
+ * This class is an abstract class for the honor point rule type.
+ * @author Nirav
+ * @version 1.0
+ */
 
 public abstract class NHonorPointRule implements Rule{
 	/**
@@ -40,7 +45,10 @@ public abstract class NHonorPointRule implements Rule{
 		}
 		return false;
 	}
-	
+	/**
+	 * This method set the winner based on their honor point
+	 * @param win_honor Winner honor point
+	 */
 	public void setWinnerHonor(int win_honor){
 		this.win_honor = win_honor;
 	}

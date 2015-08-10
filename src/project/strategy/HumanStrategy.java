@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 import project.Game;
 
-
+/**
+ * This class represent the abstract class of the Human strategy player type
+ * @author Idris
+ * @version 1.0
+ */
 
 public abstract class HumanStrategy implements Strategy{
 	
@@ -21,9 +25,11 @@ public abstract class HumanStrategy implements Strategy{
 	transient Scanner inputscan;
 	
 	/**
-	 * This method check the input the user provides
-	 * @param n_option user input
-	 * @return integer value of the option selected
+	 * This method determine the strategy of the player in a game and what option they have selected
+	 * @param number_options option selected by player
+	 * @param status what strategy is currently being used by player
+	 * @param game The current game played
+	 * @return The option selected by player
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{

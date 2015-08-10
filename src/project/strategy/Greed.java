@@ -21,7 +21,11 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-
+/**
+ * This class represent the concrete class for Greedy strategy player type
+ * @author Nirav
+ * @version 1.0
+ */
 public class Greed extends GreedyStrategy{
     /**
 	 * it is used to keep the correct version
@@ -502,9 +506,17 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * This method distribute lantern card from supply to player
+     *
      * @param active_laketile lake tile from the stack
      * @param lanternStacks lantern card stack 
+     */
+    
+    /**
+      This method distribute lantern card from supply to player 
+     * @param active_laketile active lake tile
+     * @param supply lantern card supply
+     * @param game current game being played
+     * @return lantern card
      */
 
     public String checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 

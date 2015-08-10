@@ -22,7 +22,11 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-
+/**
+ * This class represent the concrete class for the unfriendly player strategy type
+ * @author Nirav
+ * @version 1.0
+ */
 public class Unfriendliness extends UnfriendlyStrategy{
     
 	/**
@@ -416,8 +420,9 @@ public class Unfriendliness extends UnfriendlyStrategy{
     
     /**
      * To pick random value from a given array
-     * @param array
-     * @return
+     * @param min minimum range
+     * @param max Maximum range
+     * @return random number
      */
     public int randInt(int min, int max) {
         Random rand = new Random();
@@ -427,11 +432,17 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * This method distribute lantern card from supply to player
+     * 
      * @param active_laketile lake tile from the stack
      * @param lanternStacks lantern card stack 
      */
-
+    /**
+     * This method distribute lantern card from supply to player
+     * @param active_laketile active lake tile 
+     * @param supply lantern card suply
+     * @param game current game being played
+     * @return boolean
+     */
     public boolean checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
         Queue<Player> players = game.getPlayers();

@@ -3,6 +3,13 @@ package project.disaster;
 import project.Game;
 import project.LakeTile;
 
+/**
+ * This class extends the Tsunami abstract class
+ * @author Avneet
+ * @version 1.0
+ *
+ */
+
 public class Tsunami extends TsunamiDisaster{
 
 	/**

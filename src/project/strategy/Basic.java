@@ -1,4 +1,9 @@
 package project.strategy;
+/**
+ * This class represent the basis strategy player type
+ * @author Idris
+ * @version 1.0
+ */
 
 public class Basic extends BasicStrategy{
 

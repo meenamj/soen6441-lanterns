@@ -6,7 +6,11 @@ import java.util.Queue;
 import project.Game;
 import project.Player;
 
-
+/**
+ * This class represent the abtract class for the unfriendly player strategy class
+ * @author Nirav
+ * @version 1.0
+ */
 public abstract class UnfriendlyStrategy implements Strategy{
 	/**
 	 * it is used to keep the correct version
@@ -16,11 +20,11 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	int[] ExchangeOptions = new int[2];
 	
 	/**
-	 * This method check the input the user provides
-	 * @param number_options available for the user input
-	 * @param status name of the option menu
-	 * @param game instance of the game
-	 * @return integer value of the option selected
+	 * This method determine the strategy of the player in a game and what option they have selected
+	 * @param number_options option selected by player
+	 * @param status what strategy is currently being used by player
+	 * @param game The current game played
+	 * @return The option selected by player
 	 */
 	public int inputOption(int number_options, Strategy.Name status, Game game)
 	{

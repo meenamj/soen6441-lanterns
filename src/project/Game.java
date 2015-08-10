@@ -764,7 +764,7 @@ public class Game implements Serializable {
 	/**
 	 * This method distribute lantern card from supply to player
 	 * @param active_laketile lake tile from the stack
-	 * @param lanternStacks lantern card stack 
+	 * @param supply lantern card supply stack 
 	 */
 
 	public void distributeLanternCard(LakeTile active_laketile, Supply supply) 

@@ -1,11 +1,11 @@
 package project.disaster;
 
 /**
- * Th
- * @author Nittakit
+ * This class extends the Passing power boat abstract class
+ * @author Nuttakit
+ * @version 1.0
  *
  */
-
 public class PassingPowerBoat extends PassingPowerBoatDisaster{
 
 	/**

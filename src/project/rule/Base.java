@@ -1,4 +1,9 @@
 package project.rule;
+/**
+ * This class extends base rule abstract class
+ * @author Nuttakit
+ * @version 1.0
+ */
 
 public class Base extends BaseRule{
 
