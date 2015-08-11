@@ -6,9 +6,12 @@ import java.util.Queue;
 import project.Game;
 import project.Player;
 /**
- * This class represent the abstract class for greedy player strategy class
+ * This class represent the abstract class for greedy player strategy class,
+ * the greedy player always makes the move which will bring the best immediate return
+ * (i.e. always try to place a Lake Tile which will help arrange a dedication, 
+ * and always make a dedication as soon as possible) 
  * @author Nirav
- * @version 1.0
+ * 
  */
 public abstract class GreedyStrategy implements Strategy{
 	/**

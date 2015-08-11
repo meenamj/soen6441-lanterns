@@ -7,7 +7,11 @@ import project.Game;
 import project.Player;
 
 /**
- * This class represent the abtract class for the unfriendly player strategy class
+ * This class represent the abstract class for the unfriendly player strategy class.
+ * the unfriendly player always makes a move which will bring the most harm to one 
+ * or more opponents (i.e. wherever possible, always place a Lake Tile in such a 
+ * way as to minimize bonuses going to other players, and/or attempt to prevent 
+ * other players from collecting the Lantern Cards they need to make a dedication).
  * @author Nirav
  * @version 1.0
  */
@@ -16,7 +20,17 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = -2977512618052097832L;
+	
+	/**
+	 * Solution contains values of inputs selected after selecting a option to place
+	 * a lake tile.
+	 */
 	ArrayList<Integer> solution = new ArrayList<Integer>();
+	
+	/**
+	 * ExchangeOptions contains values to be selected as a player lantern card,
+	 * and a card from a supply lantern card stack to replace with.
+	 */
 	int[] ExchangeOptions = new int[2];
 	
 	/**
@@ -48,7 +62,7 @@ public abstract class UnfriendlyStrategy implements Strategy{
 						if(canMakeDedication(players)){
 							in = 2;
 						}
-						else if(canExchange(players, gameClone)){
+						else if(canExchangeLanternCard(players, gameClone)){
 							ExchangeOptions = performExchange(player,gameClone);
 							in = 1;
 						}
@@ -69,7 +83,7 @@ public abstract class UnfriendlyStrategy implements Strategy{
 						in = ExchangeOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
-						int choice = whichDedication(players);
+						int choice = selectDedication(players);
 						in = choice;
 					}
 					else if(status == Name.SELECT_LAKE){
@@ -90,9 +104,28 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	
 	}
 	
+	/**
+	 * Check for all possible solutions, and pick the best one to place a lake tile, which can earn
+	 * the greedy player, maximum lantern cards, and favor tokens
+	 * @param game instance of the game class
+	 * @return best solution to place a lake tile
+	 * @throws Exception occurs if color not found
+	 */
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
+	
+	/**
+	 * To check if a player can make a dedication, based on the number of lantern cards
+	 * @param players list of all the players
+	 * @return true if dedication is possible to make, false otherwise
+	 */
 	protected abstract boolean canMakeDedication(Queue<Player> players);
-	protected abstract int whichDedication(Queue<Player> players);
-	protected abstract boolean canExchange(Queue<Player> players, Game game);
+	
+	/**
+	 * To
+	 * @param players
+	 * @return
+	 */
+	protected abstract int selectDedication(Queue<Player> players);
+	protected abstract boolean canExchangeLanternCard(Queue<Player> players, Game game);
 	protected abstract int[] performExchange(Player player,Game game);
 }

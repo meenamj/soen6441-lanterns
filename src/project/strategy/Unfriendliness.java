@@ -23,7 +23,9 @@ import project.Position;
 import project.Rotation;
 import project.Supply;
 /**
- * This class represent the concrete class for the unfriendly player strategy type
+ * This class represent the concrete class for the unfriendly player strategy type,
+ * Unfriendly player selects an option to place a lake tile, which does not give any 
+ * Opponent player a lantern card to make a dedication. 
  * @author Nirav
  * @version 1.0
  */
@@ -33,48 +35,51 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 7175461946886588653L;
+	private static final int fourOfaKind = 0;
+	private static final int threePair = 1;
+	private static final int sevenUnique = 2;
 	int lakeTiletochoose = 0;
     
     /**
      * to check if the player can make a dedication or not for the
-     * current situation
+     * current stack of lantern cards
      * @param players Queue of all the players
-     * @return flag true if make a dedication is possible, false otherwise
+     * @return isDedicatoinPossible true if make a dedication is possible, false otherwise
      */
     protected boolean canMakeDedication(Queue<Player> players){
-        boolean flag;
+        boolean isDedicatoinPossible;
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         if(player.isFourOfAKind() || player.isThreePair() || player.isSevenUnique()){
             //System.out.println("Dedication is possible to make");
-            flag = true;
+        	isDedicatoinPossible = true;
         }
         else{
            // System.out.println("Dedication is not possible");
-            flag=false;
+        	isDedicatoinPossible=false;
         }
-        return flag;
+        return isDedicatoinPossible;
     }
     
     /**
-     * check which dedication is possible to make, and return the choice based on the possibilities
+     * To check which dedication is possible to make, and return the choice 
+     * based on the possibilities
      * @param players queue of all the players
      * @return choice number based on the possible dedication 
      */
-    protected int whichDedication(Queue<Player> players){
+    protected int selectDedication(Queue<Player> players){
         int choice=0;
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         if(player.isSevenUnique()){
-            choice = 2;
+            choice = sevenUnique;
         }
         else if(player.isFourOfAKind()){
-            choice = 0;
+            choice = fourOfaKind;
         }
         else if(player.isThreePair()){
-            choice = 1;
+            choice = threePair;
         }
-        
         return choice;
     }
     
@@ -84,8 +89,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @param game instance of the game class
      * @return true if the exchange is possible, false otherwise 
      */
-    protected boolean canExchange(Queue<Player> players, Game game){
-        boolean flag;
+    protected boolean canExchangeLanternCard(Queue<Player> players, Game game){
+        boolean isExchangePossible;
         int[] ExchnageOptions = new int[2];
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
@@ -94,13 +99,13 @@ public class Unfriendliness extends UnfriendlyStrategy{
 
         if(player.getNumberOfFavorTokens() > 2 && (ExchnageOptions[0] < 9 && ExchnageOptions[1] < 9)){
             //System.out.println("Exchange a lantern card is possible");
-            flag = true;
+        	isExchangePossible = true;
         }
         else{
            // System.out.println("Can not Exchange lantern card");
-            flag=false;
+        	isExchangePossible=false;
         }
-        return flag;
+        return isExchangePossible;
         
     }
     
@@ -135,130 +140,183 @@ public class Unfriendliness extends UnfriendlyStrategy{
          
             
          Map<Color,Integer> sortedMap = sortByComparator(colors, DESC);
-         //System.out.println(sortedMap);
          ExchnageOptions = ExchangeLanternCard(sortedMap,player,game);
 
          return ExchnageOptions;
     }
     
     /**
-     * Decide which lantern card to exchange with which while performing an exchange
+     * Decide which lantern card to exchange 
      * @param sortedMap sorted HashMap of color and value pair
      * @param player current player
      * @param game clone of the game instance
      * @return pair of solution to be selected for the exchange of a lantern card
      */
     protected int[] ExchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
-        int[] colors = new int[7];
+        int[] numOfLanterns = new int[7];
         Color[] c = new Color[7];
         int[] ExchnageOptions = new int[2];
         int counter = 0;
          for (Entry<Color, Integer> entry : sortedMap.entrySet())
          {
-            colors[counter] = entry.getValue();
+        	numOfLanterns[counter] = entry.getValue();
             c[counter] = entry.getKey();
             counter++;
          }
 
         if(player.getLanternCards().size() >= 7)
-         {
-             if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	if(checkSupply(c[5],game)){
-            		ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-            		ExchnageOptions[1] = ChooseSupplyLanternCard(c[5],game);
-            	}
-            	else{
-            		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-            	}
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[6],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[6],game);
-            	 }
-             	else{
-             		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             	}
-             }
-             else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             	 }
-             }
-             else{
-            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             }
+        {
+        	ExchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
          else if(player.getLanternCards().size() <= 4){
-             if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-	             	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             	 }
-             }
-             else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             	 }
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[0],game)){
-	            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-	            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             	 }
-             }
-             else{
-            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             }
+        	 ExchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
          else{
-             if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
-            	 if(checkSupply(c[2],game)){
-            	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
-            	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;ExchnageOptions[1] = 9;
-             	 }
-             }
-             else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
-            	 if(checkSupply(c[1],game)){
-            		 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
-            		 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],game);
-            	 }
-             	 else{
-             		 ExchnageOptions[0] = 9;ExchnageOptions[1] = 9;
-             	 }
-             }
-             else{
-            	 ExchnageOptions[0] = 9; ExchnageOptions[1] = 9;
-             }
+        	 ExchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, ExchnageOptions);
          }
         return ExchnageOptions;
     }
     
     /**
+     * Decide which lantern card to exchange to make a three Pair dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] ExchnageOptions) {
+		 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[2],game)){
+			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
+			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[3],c[2],game,player);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[1],game)){
+				 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
+				 ExchnageOptions[1] = ChooseSupplyLanternCard(c[4],c[1],game,player);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+		 }
+		 return ExchnageOptions;
+	}
+    /**
+     * Decide which lantern card to exchange to make a Four of a Kind dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+
+	private int[] findFourOfKindPattern(Player player, Game game, int[] colors,
+			Color[] c, int[] ExchnageOptions) {
+		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+			 }
+		 	 else{
+		     	 ExchnageOptions[0] = 9;
+		         ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
+			 if(checkSupply(c[0],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],c[0],game,player);
+			 }
+		 	 else{
+		 		 ExchnageOptions[0] = 9;
+		     	 ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+		 }
+		return ExchnageOptions;
+	}
+    /**
+     * Decide which lantern card to exchange to make a Seven Unique Dedication
+     * @param player current player
+     * @param game Clone of the game instance
+     * @param colors lantern cards color
+     * @param c color of lantern card
+     * @param ExchnageOptions Lantern cards to be exchanges options
+     */
+
+	private int[] findSevenOfKindPattern(Player player, Game game, int[] colors,
+			Color[] c, int[] ExchnageOptions) {
+		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
+			if(checkSupply(c[5],game)){
+				ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+				ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[5],game,player);
+			}
+			else{
+				ExchnageOptions[0] = 9;
+		    	ExchnageOptions[1] = 9;
+			}
+		 }
+		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[6],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[6],game,player);
+			 }
+		 	else{
+		 		ExchnageOptions[0] = 9;
+		     	ExchnageOptions[1] = 9;
+		 	}
+		 }
+		 else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
+			 if(checkSupply(c[2],game)){
+		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[2],game,player);
+			 }
+		 	 else{
+		 		ExchnageOptions[0] = 9;
+		     	ExchnageOptions[1] = 9;
+		 	 }
+		 }
+		 else{
+			 ExchnageOptions[0] = 9;
+			 ExchnageOptions[1] = 9;
+		 }
+		return ExchnageOptions;
+	}
+    
+    /**
      * select a lantern card from player stack to exchange
-     * @param c color to exchange
+     * @param playerCard color to exchange
+     * @param game clone instance of game class
+     * @param player current player
      * @return option number to input
      */
-    protected int ChoosePlayerLanternCard(Color cl,Game game, Player player){
+    protected int ChoosePlayerLanternCard(Color playerCard,Game game, Player player){
     	
-    	int PlayerCardOptionNumber=0;
+    	int playerCardOptionNumber=0;
 		ArrayList<LanternCard> lanternCards = player.getLanternCards();
 
 		ArrayList<LanternCard> arrays = new ArrayList<LanternCard>();
@@ -276,22 +334,36 @@ public class Unfriendliness extends UnfriendlyStrategy{
 			if (!existColor) 
 			{
 				arrays.add(lanternCards.get(i));
-				if(lanternCards.get(i).getColor() == cl){
-					PlayerCardOptionNumber = counter;
+				if(lanternCards.get(i).getColor() == playerCard){
+					playerCardOptionNumber = counter;
 				}
 				counter++;
 			}
 		}
-        return PlayerCardOptionNumber;
+        return playerCardOptionNumber;
     }
     
     /**
      * select a lantern card to exchange from supply
-     * @param c color to exchange
+     * @param playerCard a card color to put in the supply
+     * @param supplyCard a card color to get from the supply
+     * @param game clone instance of game class
+     * @param player current_player
      * @return option number to input
      */
-    protected int ChooseSupplyLanternCard(Color cl, Game game){
-        Supply supply = game.getPlayArea().getSupply();
+    protected int ChooseSupplyLanternCard(Color playerCard,Color supplyCard, Game game, Player player){
+        Supply Lanternsupply = game.getPlayArea().getSupply();
+        HashMap<Color, Stack<LanternCard>> supply = Lanternsupply;
+		
+        for (int i = 0; i < player.getLanternCards().size(); i++) 
+		{
+			if (player.getLanternCards().get(i).getColor() == playerCard) 
+			{
+		        Stack<LanternCard> lantern_stack = supply.get(playerCard);
+				lantern_stack.add(player.getLanternCards().get(i));    
+			}
+		}
+		
         ArrayList<Color> buffer = new ArrayList<Color>();
         int cardOptionNumber=0;
         int i = 0;
@@ -300,7 +372,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
             try {
                 if (supply.get(color).size() > 0) 
                 {
-                    if(cl == color)
+                	
+                    if(supplyCard == color)
                     {
                         cardOptionNumber = i;
                         buffer.add(color);
@@ -322,13 +395,13 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @param game clone instance of game class
      * @return flag true if the color is available , false otherwise
      */
-    private boolean checkSupply(Color cl, Game game){
+    private boolean checkSupply(Color supplyCard, Game game){
     	boolean flag = false;
     	Supply supply = game.getPlayArea().getSupply();
         for (int i =0; i<Color.values().length; i++) 
         {
             try {
-            	if(supply.get(cl).size() > 0){
+            	if(supply.get(supplyCard).size() > 0){
             		flag = true;
             	}
                 else{
@@ -365,10 +438,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
 
         for(int i=0;i<realplayer.getLakeTiles().size();i++)
         {
-           // System.out.println(" value of i : " + i);
             for(int j=0; j<realavailableList.size();j++)
             {
-                //System.out.println(" value of j : " + j);
                 for(int k=0;k<4;k++)
                 {
                     Game gameObject = game.clone();
@@ -379,7 +450,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
                     ArrayList<Player> playerList = new ArrayList<Player>(players);
                     Player player = playerList.get(0);
                     LakeTile active_laketile = player.getLakeTiles().get(i);
-                    //System.out.println(" value of k : " + k);
+                    
                     if(k>=1){
                         active_laketile.changeRotation(Rotation.D90);
                     }
@@ -389,16 +460,10 @@ public class Unfriendliness extends UnfriendlyStrategy{
                         jthSolution.add(j);
                         kthSolution.add(k);
                     }
-                    
-                    
                 }
-
             }
         }
-        //System.out.println("ith : "+ithSolution);
-        //System.out.println("jth : "+jthSolution);
-        //System.out.println("kth : "+ kthSolution);
-        
+
         int index =0;
         if(ithSolution.size() >0){
         	index = randInt(1,ithSolution.size()-1);
@@ -432,14 +497,9 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * 
-     * @param active_laketile lake tile from the stack
-     * @param lanternStacks lantern card stack 
-     */
-    /**
      * This method distribute lantern card from supply to player
      * @param active_laketile active lake tile 
-     * @param supply lantern card suply
+     * @param supply lantern card supply
      * @param game current game being played
      * @return boolean
      */
@@ -447,7 +507,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     {
         Queue<Player> players = game.getPlayers();
 		int valueCounter =0;
-		boolean flag = false;
+		boolean isSolution = false;
 		
 		ArrayList<Player> players_list = new ArrayList<Player>(players);
 		
@@ -471,23 +531,20 @@ public class Unfriendliness extends UnfriendlyStrategy{
 					}
 				}
 				if(getting_player.isFourOfAKind() || getting_player.isSevenUnique() || getting_player.isThreePair()){
-					//System.out.println(getting_player.getName()+" can make dedication ");
 					valueCounter = valueCounter +1;
 				}
 				else{
-					//System.out.println(getting_player.getName()+" can not make dedication ");
+					
 				}
 			}
 		}
 		if(valueCounter == 0){
-			flag = true;
+			isSolution = true;
 		}
-		return flag;
+		return isSolution;
         
     }
-    
 
-    
     /**
      * perform sorting on the HashMap of Lantern cards
      * @param unsortMap unsorted map
