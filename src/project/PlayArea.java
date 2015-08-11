@@ -658,7 +658,7 @@ public class PlayArea implements Serializable {
 	 * there are 4 rotations in the hashmap; 0,90,180 and 270 degrees;
 	 * in each rotations store the color
 	 * @return string of color and rotation in each sides
-	 * @throws Exception
+	 * @throws Exception when any colors on lake tile does not exists
 	 */
 	public String getAdjacentColorText(HashMap<Rotation, Vector<Object>> color_platform_store) throws Exception{
 		String text = "";

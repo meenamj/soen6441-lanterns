@@ -864,8 +864,9 @@ public class Player implements Serializable {
 	
 	/**
 	 * Execute this method, if the third option is selected by player.
-	 * @param pos Position instance
-	 * @param lakeTile LakeTile instance
+	 * @param pos position of lake tile
+	 * @param lakeTile the active lake tile 
+	 * @param playArea board stuff of the game
 	 */
 	public void placeALakeTile(Position pos, LakeTile lakeTile, PlayArea playArea) 
 	{
@@ -878,7 +879,7 @@ public class Player implements Serializable {
 	 * This method display the options a player can place the lake tile
 	 * @param list list of possible options
 	 * @param adjacent_color_list Adjacent color
-	 * @throws Exception
+	 * @throws Exception when any colors on lake tile does not exists
 	 */
 
 	public void optionOnBoard(ArrayList<Position> list,

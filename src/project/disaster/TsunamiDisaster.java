@@ -1,6 +1,8 @@
 package project.disaster;
 
 import java.util.Random;
+
+import project.Game;
 /**
  * This class implement the Tsunami disaster type
  * @author Jide
@@ -12,7 +14,7 @@ public abstract class TsunamiDisaster implements Disaster{
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = -8342469732431843801L;
-	int chance = 0;
+	int chance_percent = 0;
 	
 	/**
 	 * This method set the chance of a Tsunami disaster base on the number of player
@@ -21,15 +23,15 @@ public abstract class TsunamiDisaster implements Disaster{
 	protected TsunamiDisaster(int nplayer) {
 		if(nplayer==2)
 		{
-			chance = 10;
+			chance_percent = 10;
 		}
 		else if(nplayer==3)
 		{
-			chance = 7;
+			chance_percent = 7;
 		}
 		else
 		{
-			chance = 5;
+			chance_percent = 5;
 		}
 		
 	}
@@ -37,6 +39,12 @@ public abstract class TsunamiDisaster implements Disaster{
 	public boolean getDisaster(){
 		Random random = new Random();
 		int risk = random.nextInt(100);
-		return chance>risk;
+		return getChancePercent()>risk;
 	}
+	
+	public int getChancePercent(){
+		return chance_percent;
+	}
+	
+	public abstract String attack(Game game);
 }

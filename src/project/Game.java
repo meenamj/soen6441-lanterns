@@ -45,7 +45,7 @@ public class Game implements Serializable {
 	 * also, pop method, however, after using this method, the player will not in the queue object.
 	 * <code>Player first_player = getPlayers().pop();</code>
 	 * So, when finishing the turn, the player is put into the last by push method
-	 * <code>getPlayers().push(first_player)
+	 * <code>getPlayers().push(first_player)</code>
 	 */
 	private Queue<Player> players;
 	

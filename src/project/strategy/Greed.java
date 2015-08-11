@@ -22,7 +22,6 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-import project.strategy.Strategy.Name;
 
 public class Greed extends GreedyStrategy{
     /**

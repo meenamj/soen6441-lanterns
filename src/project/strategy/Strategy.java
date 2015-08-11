@@ -25,5 +25,5 @@ public interface Strategy extends Serializable{
 	 * @param game The current game played
 	 * @return The option selected by player
 	 */
-	public int inputOption(int number_options, Strategy.Name status, Game game);
+	public abstract int inputOption(int number_options, Strategy.Name status, Game game);
 }
