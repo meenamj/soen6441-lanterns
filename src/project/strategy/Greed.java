@@ -24,11 +24,21 @@ import project.Rotation;
 import project.Supply;
 import project.strategy.Strategy.Name;
 
+/**
+ * This class represent the concrete class for the greedy player strategy, greedy player
+ * always try to get more lantern cards, and to make dedication, so greedy player 
+ * tries to choose a solution, which can get it more lantern cards and favor tokens. 
+ * @author Nirav
+ *
+ */
 public class Greed extends GreedyStrategy{
     /**
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 5692856303792375794L;
+	private static final int fourOfaKind = 0;
+	private static final int threePair = 1;
+	private static final int sevenUnique = 2;
 	int lakeTiletochoose = 0;
     
     /**
@@ -62,13 +72,13 @@ public class Greed extends GreedyStrategy{
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         if(player.isSevenUnique()){
-            choice = 2;
+            choice = sevenUnique;
         }
         else if(player.isFourOfAKind()){
-            choice = 0;
+            choice = fourOfaKind;
         }
         else if(player.isThreePair()){
-            choice = 1;
+            choice = threePair;
         }
         
         return choice;
