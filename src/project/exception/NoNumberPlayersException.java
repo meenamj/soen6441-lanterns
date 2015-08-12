@@ -1,5 +1,8 @@
 package project.exception;
 
+/**
+ * this exception happens when number players not between 2-4
+ */
 public class NoNumberPlayersException extends Exception {
 	
 	/**
