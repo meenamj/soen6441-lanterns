@@ -484,7 +484,6 @@ public class Greed extends GreedyStrategy{
                         active_laketile.changeRotation(Rotation.D90);
                     }
                     
-                    checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
                     valueCounter = checkgetBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
                     
                     if(valueCounter > maxValue)
@@ -507,21 +506,6 @@ public class Greed extends GreedyStrategy{
         }   
         //System.out.println("Best Solution is : I :" + solution.get(0)+" J : " +solution.get(1)+" K : "+solution.get(2)+" with value : " +solution.get(3));
         return solution;
-    }
-    
-    /**
-     * This method distribute lantern card from supply to player
-     * @param active_laketile lake tile from the stack
-     * @param supply lanternStacks lantern card stack
-     * @param game clone instance of game class
-     * @return lanternCard a lanternCard the current player get after the lake tile placed
-     */
-    public String checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
-    {
-        ArrayList<Color> color_list = new ArrayList<Color>(active_laketile.getColorOfFourSides());
-        String lanternCard = color_list.get(0).name();
-        
-        return lanternCard;
     }
     
     /**
