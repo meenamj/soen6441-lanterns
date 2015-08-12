@@ -67,12 +67,24 @@ public class DisasterTest {
 	}
 	
 	@Test
+	public void testNotNullTsunami(){
+		Tsunami tsunami = (Tsunami)game.getDisasters().get(Disaster.TSUNAMI);
+		assertNotNull(tsunami);
+	}
+	
+	@Test
 	public void testTsunami(){
 		PlayArea play_area = game.getPlayArea();
 		assertEquals("Number of Laketile on board should be 4", 4, play_area.getNumberLakeTileOnBoard());
 		Disaster tsunami = game.getDisasters().get(Disaster.TSUNAMI);
 		tsunami.attack(game);
 		assertEquals("Number of Laketile on board should be 0", 0, play_area.getNumberLakeTileOnBoard());
+	}
+	
+	@Test
+	public void testNotNullPassingPowerBoat(){
+		PassingPowerBoat passing_boat = (PassingPowerBoat) game.getDisasters().get(Disaster.PASSING_BOAT);
+		assertNotNull(passing_boat);
 	}
 	
 	@Test
@@ -83,6 +95,12 @@ public class DisasterTest {
 		passing_boat.attack(game);
 		int number_laketile_after_disaster = play_area.getNumberLakeTileOnBoard();
 		assertTrue("Number of Laketile on board should not be 4", number_laketile_after_disaster!=4);
+	}
+	
+	@Test
+	public void testNotNullLightningStrike(){
+		LightningStrike lightning_strike = (LightningStrike) game.getDisasters().get(Disaster.LIGHTNING_STRIKE);
+		assertNotNull(lightning_strike);
 	}
 	
 	@Test
@@ -118,7 +136,7 @@ public class DisasterTest {
 		Player player3 = players.remove();
 		dedicationList = new ArrayList<DedicationToken>();
 		dedicationList.add(four_8honor);
-		dedicationList.add(seven_10honor);
+		dedi)cationList.add(seven_10honor);
 		dedicationList.add(three_9honor);
 		player3.setDedicationTokens(dedicationList);
 		players.add(player3);
