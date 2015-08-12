@@ -136,7 +136,7 @@ public class DisasterTest {
 		Player player3 = players.remove();
 		dedicationList = new ArrayList<DedicationToken>();
 		dedicationList.add(four_8honor);
-		dedi)cationList.add(seven_10honor);
+		dedicationList.add(seven_10honor);
 		dedicationList.add(three_9honor);
 		player3.setDedicationTokens(dedicationList);
 		players.add(player3);
