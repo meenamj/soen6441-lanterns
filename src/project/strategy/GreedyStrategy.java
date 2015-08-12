@@ -19,8 +19,8 @@ public abstract class GreedyStrategy implements Strategy{
 	 * it is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 8668713217327493214L;
-	ArrayList<Integer> solution = new ArrayList<Integer>();
-	int[] ExchangeOptions = new int[2];
+	private ArrayList<Integer> solution = new ArrayList<Integer>();
+	private int[] exchangeOptions = new int[2];
 	
 	/**
 	 * This method determine the strategy of the player in a game and what option they have selected
@@ -51,7 +51,7 @@ public abstract class GreedyStrategy implements Strategy{
 							in = 2;
 						}
 						else if(canExchangeLanternCard(players, gameClone)){
-							ExchangeOptions = performExchange(player,gameClone);
+							exchangeOptions = performExchange(player,gameClone);
 							in = 1;
 						}
 						else {
@@ -65,10 +65,10 @@ public abstract class GreedyStrategy implements Strategy{
 						}
 					}
 					else if(status == Name.CHOOSE_LANTERN_HAND){
-						in = ExchangeOptions[0];
+						in = exchangeOptions[0];
 					}
 					else if(status == Name.CHOOSE_LANTERN_SUPPLY){
-						in = ExchangeOptions[1];
+						in = exchangeOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
 						int choice = selectDedication(players);

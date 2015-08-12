@@ -25,13 +25,13 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	 * Solution contains values of inputs selected after selecting a option to place
 	 * a lake tile.
 	 */
-	ArrayList<Integer> solution = new ArrayList<Integer>();
+	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	
 	/**
 	 * ExchangeOptions contains values to be selected as a player lantern card,
 	 * and a card from a supply lantern card stack to replace with.
 	 */
-	int[] ExchangeOptions = new int[2];
+	private int[] exchangeOptions = new int[2];
 	
 	/**
 	 * This method determine the strategy of the player in a game and what option they have selected
@@ -63,7 +63,7 @@ public abstract class UnfriendlyStrategy implements Strategy{
 							in = 2;
 						}
 						else if(canExchangeLanternCard(players, gameClone)){
-							ExchangeOptions = performExchange(player,gameClone);
+							exchangeOptions = performExchange(player,gameClone);
 							in = 1;
 						}
 						else {
@@ -77,10 +77,10 @@ public abstract class UnfriendlyStrategy implements Strategy{
 						}
 					}
 					else if(status == Name.CHOOSE_LANTERN_HAND){
-						in = ExchangeOptions[0];
+						in = exchangeOptions[0];
 					}
 					else if(status == Name.CHOOSE_LANTERN_SUPPLY){
-						in = ExchangeOptions[1];
+						in = exchangeOptions[1];
 					}
 					else if(status == Name.MAKE_DEDICATION){
 						int choice = selectDedication(players);
