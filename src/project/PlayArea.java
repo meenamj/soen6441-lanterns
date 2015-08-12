@@ -10,6 +10,8 @@ import java.util.Stack;
 import java.util.Vector;
 import java.util.Map.Entry;
 
+import project.exception.ColorNotExistedException;
+
 /**
  * play area is a place for players to put a lake tile and draw dedication
  * tokens
@@ -429,10 +431,10 @@ public class PlayArea implements Serializable {
 
 	/**
 	 * display all open positions on the board based on the current arrangements of the lake tiles
-	 * @return text of all laketile on board
-	 * @throws Exception if the color does not exist
+	 * @return text of all lake tile on board
+	 * @throws ColorNotExistedException when color of lake tile does not exist
 	 */
-	public String getLakeTileBoardText() throws Exception {
+	public String getLakeTileBoardText() throws ColorNotExistedException {
 		ArrayList<String> index = new ArrayList<String>();
 		ArrayList<String> line1 = new ArrayList<String>();
 		ArrayList<String> line2 = new ArrayList<String>();
@@ -457,19 +459,22 @@ public class PlayArea implements Serializable {
 					index_str += " ";
 					ArrayList<Color> laketile_colors = new ArrayList<Color>(
 							l.getColorOfFourSides());
-					line1_str += "     "+Color.getColorText(laketile_colors.get(0),
-							Symbol.UP) + "     ";
-					line2_str += "   "+Color.getColorText(laketile_colors.get(3),
-							Symbol.LEFT) + " ";
+					line1_str += "     ";
+					line1_str += Color.getColorText(laketile_colors.get(0),Symbol.UP); 
+					line1_str += "     ";
+					line2_str += "   ";
+					line2_str += Color.getColorText(laketile_colors.get(3),Symbol.LEFT); 
+					line2_str += " ";
 					if (l.isPlatform()) {
 						line2_str += "0 ";
 					} else {
 						line2_str += "X ";
 					}
-					line2_str += Color.getColorText(laketile_colors.get(1),
-							Symbol.RIGHT) + "   ";
-					line3_str += "     "+Color.getColorText(laketile_colors.get(2),
-							Symbol.DOWN) + "     ";
+					line2_str += Color.getColorText(laketile_colors.get(1),Symbol.RIGHT);
+					line2_str += "   ";
+					line3_str += "     ";
+					line3_str += Color.getColorText(laketile_colors.get(2),Symbol.DOWN);
+					line3_str += "     ";
 				}
 			}
 			index.add(index_str+"\n");
@@ -591,10 +596,8 @@ public class PlayArea implements Serializable {
 	 * and get information of those lake tiles
 	 * @param pos position of the current lake tile
 	 * @return HashMap adjacent color and platform of lake tile on board around the lake tile position.
-	 * @throws Exception if the color does not exist
 	 */
-	public HashMap<Rotation, Vector<Object>> getAdjacentColor(Position pos)
-			throws Exception {
+	public HashMap<Rotation, Vector<Object>> getAdjacentColor(Position pos) {
 		HashMap<Rotation, Vector<Object>> color_platform_store = new HashMap<Rotation, Vector<Object>>();
 		boolean isPlatform = false;
 		int x = pos.getX();
@@ -625,8 +628,7 @@ public class PlayArea implements Serializable {
 		}
 		if (x + 1 < lakeTilesOnBoard.length && lakeTilesOnBoard[x+1][y] != null) {
 			Queue<Color> color = lakeTilesOnBoard[x+1][y].getColorOfFourSides();
-			isPlatform = lakeTilesOnBoard[x+1][y]
-					.isPlatform();
+			isPlatform = lakeTilesOnBoard[x+1][y].isPlatform();
 			ArrayList<Color> l = new ArrayList<Color>(color);
 			Color c = l.get(3);
 			
@@ -658,9 +660,9 @@ public class PlayArea implements Serializable {
 	 * there are 4 rotations in the hashmap; 0,90,180 and 270 degrees;
 	 * in each rotations store the color
 	 * @return string of color and rotation in each sides
-	 * @throws Exception when any colors on lake tile does not exists
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists
 	 */
-	public String getAdjacentColorText(HashMap<Rotation, Vector<Object>> color_platform_store) throws Exception{
+	public String getAdjacentColorText(HashMap<Rotation, Vector<Object>> color_platform_store) throws ColorNotExistedException {
 		String text = "";
 		for (Entry<Rotation, Vector<Object>> color_platform_set : color_platform_store.entrySet()) {
 			Rotation rotation = color_platform_set.getKey();

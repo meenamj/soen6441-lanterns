@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import project.exception.RotationNotExistedException;
+
 /**
  * Lake tile is a card to place to the game After that player can get lantern
  * cards following the direction of the placed lake tile.
@@ -141,7 +143,7 @@ public class LakeTile implements Serializable {
 		}
 	}
 	
-	public Color getSideOfColor(Rotation r) throws Exception{
+	public Color getSideOfColor(Rotation r) throws RotationNotExistedException{
 		ArrayList<Color> color = new ArrayList<Color>(colorOfFourSides);
 		if(r.equals(Rotation.D0)){
 			return color.get(0);
@@ -152,7 +154,7 @@ public class LakeTile implements Serializable {
 		}else if(r.equals(Rotation.D270)){
 			return color.get(3);
 		}else{
-			throw new Exception();
+			throw new RotationNotExistedException("lake tile index::" + index);
 		}
 		
 	}

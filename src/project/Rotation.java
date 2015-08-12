@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import project.exception.RotationNotExistedException;
+
 public enum Rotation {
 	D0, D90, D180, D270;
 	/**
@@ -34,9 +36,9 @@ public enum Rotation {
 	 * To get the rotation value for the specified degree value
 	 * @param rotation represents degree value in integer form
 	 * @return required rotation value
-	 * @throws Exception if the rotation is not from the degree list [0,90,180.270]
+	 * @throws RotationNotExistedException if the rotation is not from the degree list [0,90,180.270]
 	 */
-	public static Rotation getRotation(int rotation) throws Exception{
+	public static Rotation getRotation(int rotation) throws RotationNotExistedException{
 		if (rotation==0){
 			return D0;
 		}else if(rotation==90){
@@ -46,7 +48,7 @@ public enum Rotation {
 		}else if(rotation==270){
 			return D270;
 		}else{
-			throw new Exception("not available for this degree");
+			throw new RotationNotExistedException("Degree "+rotation);
 		}
 	}
 }

@@ -7,6 +7,8 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.Vector;
 
+import project.exception.ColorNotExistedException;
+import project.exception.RotationNotExistedException;
 import project.strategy.Strategy;
 import project.strategy.Strategy.Name;
 
@@ -186,10 +188,16 @@ public class Player implements Serializable {
 	}
 
 	/**
+	 * 
 	 * Constructor of player used at the beginning of the game
 	 * 
-	 * @param name
-	 *            the name of game players
+	 * @param name the name of game players
+	 * @param strategy there are 5 strategies
+	 * 0: Greedy - try to make dedication as possible
+	 * 1: Unfriendly - try not to help other players as possible
+	 * 2: Random - random everything as possible (high overhead)
+	 * 3: Basic - choose only first option on place laketile as possible
+	 * 4: Human - you can control everything by yourself
 	 */
 	public Player(String name, Strategy strategy) {
 		this.name = name;
@@ -537,9 +545,9 @@ public class Player implements Serializable {
 	 * get player information such as name, active or inactive, lantern card Favor token and dedication token
 	 * @param current_player the active player
 	 * @return String information of player 
-	 * @throws Exception if the color does not exist
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists
 	 */
-	public String getInformationText(Player current_player) throws Exception
+	public String getInformationText(Player current_player) throws ColorNotExistedException
 	{
 		String text = "";
 		
@@ -598,9 +606,10 @@ public class Player implements Serializable {
 	/**
 	 * Selection and removal of a lantern card form supply stack
 	 * @param game current game 
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists 
 	 *   
 	 */
-	public void exchangeSupplyLanternCard(Game game)
+	public void exchangeSupplyLanternCard(Game game) throws ColorNotExistedException
 	{
 		Supply supply = game.getPlayArea().getSupply();
 		System.out.println("\nLantern Card Supply :");
@@ -608,11 +617,8 @@ public class Player implements Serializable {
 		ArrayList<Color> buffer = new ArrayList<Color>();
 		for (Color c : Color.values()) 
 		{
-			try {
-				if (supply.get(c).size() > 0) {
-					System.out.println("Index :"
-							+ i
-							+ " :"
+			if (supply.get(c).size() > 0) {
+				System.out.println("Index :"+ i+ " :"
 							+ Color.getColorText(c, Symbol.BULLET)
 							+ " : "
 							+ supply.get(c).size());
@@ -620,10 +626,7 @@ public class Player implements Serializable {
 					i++;
 				}
 
-			} catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
+			
 		}
 		int in = 0;
 		boolean validation = false;
@@ -647,16 +650,16 @@ public class Player implements Serializable {
 	/**
 	 * Exchange a lantern card option
 	 * @param game current game
-	 * @throws Exception Exception
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists 
 	 */
-	public void exchangeLanCard(Game game) throws Exception 
+	public void exchangeLanCard(Game game) throws ColorNotExistedException
 	{
 		if ((getNumberOfFavorTokens() < 2)
 				|| (getLanternCards().size() == 0))
 		{
 			System.out.println("Sorry..you can not perform this action.");
-			System.out.println("you do not have enough favor tokens or you " +
-					"don't have a lantern card to exchange.");
+			System.out.print("you do not have enough favor tokens or you ");
+			System.out.println("don't have a lantern card to exchange.");
 		} 
 		
 		else 
@@ -673,9 +676,10 @@ public class Player implements Serializable {
 	/**
 	 * Selection and removal of a lantern card form player's stack
 	 * @param game current game played
-	 * @throws Exception Exception
+	 * @throws ColorNotExistedException when colors of lake tile,
+	 *  dedication token or lantern card do not exist.
 	 */
-	public void exchangePlayerLanternCard(Game game) throws Exception 
+	public void exchangePlayerLanternCard(Game game) throws ColorNotExistedException
 	{
 		System.out.println("Choose a lantern card you want to exchange");
 		ArrayList<LanternCard> lanternCards = getLanternCards();
@@ -697,11 +701,13 @@ public class Player implements Serializable {
 			if (!existColor) 
 			{
 				arrays.add(lanternCards.get(i));
-				System.out.println("Index:"
-						+ counter
-						+ " : "
-						+ Color.getColorText(lanternCards.get(i).getColor(),
-								" ") + " ");
+				System.out.print("Index:");
+				System.out.print(counter);
+				System.out.print(" : ");
+				Color lantern_color = lanternCards.get(i).getColor();
+				String color_text = Color.getColorText(lantern_color," ");
+				System.out.print(color_text);
+				System.out.println(" ");
 				counter++;
 			}
 		}
@@ -732,10 +738,9 @@ public class Player implements Serializable {
 	 * This method check if a player can place a lake tile and display position to place a lake tile
 	 * @param play_area current play area
 	 * @param active_laketile active lake tile
-	 * @return adjacent color
-	 * @throws Exception Exception
+	 * @return adjacent color 
 	 */
-	public ArrayList<HashMap<Rotation, Vector<Object>>> checkPlaceLakeTile(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	public ArrayList<HashMap<Rotation, Vector<Object>>> getListPlaceLakeTile(PlayArea play_area, LakeTile active_laketile) 
 	{
 		
 		// get the laketile which player wants to put then remove the
@@ -748,21 +753,25 @@ public class Player implements Serializable {
 		
 	}
 	
-	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws Exception 
+	/**
+	 * second step of player placing lake tile
+	 * @param play_area a object including all stuff on the board
+	 * @param active_laketile the active lake tile that player choose
+	 * @return list of available lake tiles with color nearby close to these lake tiles
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists 
+	 */
+	public ArrayList<HashMap<Rotation, Vector<Object>>> placeLakeTileMenu(PlayArea play_area, LakeTile active_laketile) throws ColorNotExistedException 
 	{
-		
 		// get the laketile which player wants to put then remove the
 		// tile on their hand
 		ArrayList<Position> list = play_area.getPositionAvailableLakeTileOnBoard();
 		ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = new ArrayList<HashMap<Rotation, Vector<Object>>>();
 		optionOnBoardText(list, adjacent_color_list, play_area);
 		return adjacent_color_list;
-		
-		
 	}
 	
 	
-	public void setRotationOnActiveLakeTile(LakeTile active_laketile,int rotation_input) throws Exception{
+	public void setRotationOnActiveLakeTile(LakeTile active_laketile,int rotation_input) throws RotationNotExistedException{
 		//method2
 		
 		int rotation = rotation_input * 90;
@@ -772,22 +781,32 @@ public class Player implements Serializable {
 		active_laketile.changeRotation(active_laketile.getRotation());
 	}
 	
-	public HashMap<Rotation, Vector<Object>> getPossibleRotation(ArrayList<Position> list,
+	/**
+	 * 
+	 * @param list list of possible position that can put a lake tile on the board
+	 * @param adjacent_color_list list of colors nearby possible lake tiles
+	 * @param play_area all stuff on the game
+	 * @param active_laketile the lake tile that player put on the board
+	 * @param pos_laketile_opt the option number that player put on the board
+	 * @return the list of value that play the game
+	 */
+	public HashMap<Rotation, Vector<Object>> getPossibleRotation(
+			ArrayList<Position> list,
 			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
-			PlayArea play_area, LakeTile active_laketile,int pos_laketile_opt){
-	////method1
-			placeALakeTile(list.get(pos_laketile_opt), active_laketile, play_area);
-			HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list
-					.get(pos_laketile_opt);
-			return adjacent_colors;
+			PlayArea play_area, LakeTile active_laketile,
+			int pos_laketile_opt){
+		Position laketile_pos = list.get(pos_laketile_opt);
+		placeALakeTile(laketile_pos, active_laketile, play_area);
+		HashMap<Rotation, Vector<Object>> adjacent_colors = adjacent_color_list.get(pos_laketile_opt);
+		return adjacent_colors;
 	}
 	
 	/**
 	 * text of all lake tiles of the current player
 	 * @return information of all current lake tiles to put on the board
-	 * @throws Exception exception
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists
 	 */
-	public String getCurrentPlayerLakeTileText() throws Exception 
+	public String getCurrentPlayerLakeTileText() throws ColorNotExistedException 
 	{
 		String text = "";
 		String line1 = "";
@@ -830,9 +849,9 @@ public class Player implements Serializable {
 	 * text of all the possible ways to rotate a lake tile
 	 * @param l LakeTile
 	 * @return String information of possible ways to rotate
-	 * @throws Exception exception
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists 
 	 */
-	public String getPossibleRotationText(LakeTile l) throws Exception 
+	public String getPossibleRotationText(LakeTile l) throws ColorNotExistedException 
 	{
 		String text = "";
 		int sideOfLakeTile = 4;
@@ -876,16 +895,15 @@ public class Player implements Serializable {
 	}
 	
 	/**
-	 * This method display the options a player can place the lake tile
+	 * This method calculate the options a player can place the lake tile
 	 * @param list list of possible options
 	 * @param adjacent_color_list Adjacent color
-	 * @throws Exception when any colors on lake tile does not exists
+	 * @param playArea board stuff of the game
 	 */
 
 	public void optionOnBoard(ArrayList<Position> list,
 			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
-			PlayArea play_area)
-			throws Exception
+			PlayArea playArea)
 	{
 		
 		for (int i = 0; i < list.size(); i++) 
@@ -893,16 +911,24 @@ public class Player implements Serializable {
 			Position index = list.get(i);
 
 			// show information beside the possible lake tile
-			HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
+			HashMap<Rotation, Vector<Object>> color_platform = playArea.getAdjacentColor(index);
 			adjacent_color_list.add(color_platform);
 
 		}
 		
 	}
+	
+	/**
+	 * 
+	 * This method display the options a player can place the lake tile
+	 * @param list list of possible options
+	 * @param adjacent_color_list Adjacent color
+	 * @param playArea board stuff of the game
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists. 
+	 */
 	public void optionOnBoardText(ArrayList<Position> list,
 			ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list,
-			PlayArea play_area)
-			throws Exception
+			PlayArea playArea) throws ColorNotExistedException
 	{
 		System.out.println("Available index :::");
 
@@ -912,13 +938,17 @@ public class Player implements Serializable {
 				System.out.print("option " + i + " ::" + index.getText());
 	
 				// show information beside the possible lake tile
-				HashMap<Rotation, Vector<Object>> color_platform = play_area.getAdjacentColor(index);
-				System.out.println(play_area.getAdjacentColorText(color_platform));
+				HashMap<Rotation, Vector<Object>> color_platform = playArea.getAdjacentColor(index);
+				System.out.println(playArea.getAdjacentColorText(color_platform));
 				adjacent_color_list.add(color_platform);
 				System.out.println();
 			}
 	}
 	
+	/**
+	 * set the strategy on the play
+	 * @param strategy player strategy
+	 */
 	public void setStrategy(Strategy strategy){
 		this.strategy = strategy;
 	}

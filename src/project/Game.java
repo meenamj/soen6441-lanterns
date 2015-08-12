@@ -6,22 +6,12 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.SerializationUtils;
 
-import project.disaster.Disaster;
-import project.disaster.LightningStrike;
-import project.disaster.PassingPowerBoat;
-import project.disaster.Tsunami;
-import project.rule.NHonorPoint;
-import project.rule.NLakeTilesOnBoard;
-import project.rule.Rule;
-import project.rule.Base;
-import project.strategy.Basic;
-import project.strategy.Greed;
-import project.strategy.Human;
+import project.disaster.*;
+import project.exception.*;
+import project.rule.*;
+import project.strategy.*;
 import project.strategy.Random;
-import project.strategy.Strategy;
 import project.strategy.Strategy.Name;
-import project.strategy.Unfriendliness;
-
 
 /**
  * The game named Lanterns : Harvest Festival This class is used to run the game
@@ -142,9 +132,9 @@ public class Game implements Serializable {
 	 * ,n lake tile on board and n honor to choose;
 	 * @param disasters unexpected situations in the game
 	 * there are 3 disasters; tsunami, passing power boat and lightning strike
-	 * @throws Exception used when there are not between 2-4 players
+	 * @throws NoNumberPlayersException used when there are not between 2-4 players
 	 */
-	public Game(String[] playersNames, int[] strategies, Rule rule, ArrayList<Disaster> disasters) throws Exception 
+	public Game(String[] playersNames, int[] strategies, Rule rule, ArrayList<Disaster> disasters) throws NoNumberPlayersException  
 	{
 		this.disasters = disasters;
 		this.playersNames = playersNames;
@@ -157,7 +147,7 @@ public class Game implements Serializable {
 		} 
 		else 
 		{
-			throw new Exception();
+			throw new NoNumberPlayersException(playersNames.length);
 		}
 	}
 	
@@ -171,7 +161,6 @@ public class Game implements Serializable {
 	 */
 	public Game clone(){
 		Game game  = SerializationUtils.clone(this);
-
 		return game;
 	}
 
@@ -261,17 +250,21 @@ public class Game implements Serializable {
 	 * this main method is used to run the game to select the starting menu 
 	 * 
 	 * @param args [] the first input from command line
-	 * @throws Exception
-	 *             used to when the game load or save are error
+	 * @throws Exception used to when the game are error    
 	 */
-	public static void main(String args[]) throws Exception 
+	public static void main(String args[]) throws Exception
 	{
 		Game game = Game.startOption();
 		// Start Game
 		game.play();
 	}
 
-	public static Game startOption() throws Exception {
+	/**
+	 * 
+	 * @return the game object
+	 * @throws NoNumberPlayersException when the number of players are not between 2-4
+	 */
+	public static Game startOption() throws NoNumberPlayersException {
 		System.out.println("0. New Game");
 		System.out.println("1. Download");
 		System.out.println("2. Exit");
@@ -326,9 +319,9 @@ public class Game implements Serializable {
 	 * and selected number of player, their names, their strategies,
 	 * and a rule of the game
 	 * @return game
-	 * @throws Exception use when player enters incorrect number of player
+	 * @throws NoNumberPlayersException use when player enters incorrect number of player 
 	 */
-	public static Game putPlayerNamesOption() throws Exception 
+	public static Game putPlayerNamesOption() throws NoNumberPlayersException  
 	{
 		String[] names = null;
 		System.out.print("How many players? (select 2,3 or 4) : ");
@@ -479,10 +472,10 @@ public class Game implements Serializable {
 	/**
 	 * get text of stuff such as lantern stacks, dedication stacks on play area
 	 * and text of players' stuff.
-	 * @return String
-	 * @throws Exception
+	 * @return String the starting game information
+	 * @throws ColorNotExistedException when the color does not exist
 	 */
-	private String getInformationText() throws Exception 
+	private String getInformationText() throws ColorNotExistedException  
 	{
 		String text = "\nFour Of A Kind Token Stack";
 		Stack<FourOfAKindToken> four_kind_stack = playArea.getFourOfAKindTokens();
@@ -596,10 +589,11 @@ public class Game implements Serializable {
 	/**
 	 * Show base information for each player turn in the game
 	 * and prepare the 3 laketiles for each players during the game
-	 * 
-	 * @throws Exception if the color does not exist
+	 * @throws ColorNotExistedException when color of dedication token,
+	 *  lantern or lake tile does not exist 
+	 * @throws RotationNotExistedException when any rotations on lake tile does not exists
 	 */
-	public void play() throws Exception 
+	public void play() throws ColorNotExistedException, RotationNotExistedException  
 	{
 		boolean quit = false;
 		System.out.println(getInformationText());
@@ -639,9 +633,10 @@ public class Game implements Serializable {
 	/**
 	 * The active player may perform each of these actions once per turn
 	 * @param current_player active player
-	 * @throws Exception exception
+	 * @throws ColorNotExistedException when any colors on lake tile does not exists
+	 * @throws RotationNotExistedException when any rotations on lake tile does not exists
 	 */
-	public void gameCoreOption(Player current_player) throws Exception 
+	public void gameCoreOption(Player current_player) throws ColorNotExistedException, RotationNotExistedException   
 	{
 		int input = Menu();
 		switch (input) 
@@ -849,9 +844,9 @@ public class Game implements Serializable {
 	 * This method give bonus lake tile if two color of the same are facing each other
 	 * @param active_laketile lake tile on the play area
 	 * @param adjacent_colors adjacent color
-	 * @throws Exception exception
+	 * @throws RotationNotExistedException when any rotations on lake tile does not exists
 	 */
-	public void getBonusPlaceLakeTile(LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws Exception 
+	public void getBonusPlaceLakeTile(LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors) throws RotationNotExistedException 
 	{
 		// get bonus for adjacent and platform
 		for (int i = 0; i < adjacent_colors.size(); i++) 
@@ -883,14 +878,14 @@ public class Game implements Serializable {
 
 	/**
 	 * This method checks the direction to give bonus
-	 * Comparing one color side of player's laketile with adjacent color
+	 * Comparing one color side of player's lake tile with adjacent color
 	 * @param r Degree of rotation
 	 * @param active_laketile lake tile on play area
 	 * @param color_platform color of platform
-	 * @throws Exception exception
+	 * @throws RotationNotExistedException when any rotations on lake tile does not exists  
 	 */
 	private void getBonusDirection(Rotation r, LakeTile active_laketile,
-			Vector<Object> color_platform) throws Exception 
+			Vector<Object> color_platform) throws RotationNotExistedException
 	{
 		Player current_player = players.element();
 		Color side_color = active_laketile.getSideOfColor(r);

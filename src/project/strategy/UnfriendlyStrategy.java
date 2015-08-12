@@ -109,9 +109,8 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	 * the greedy player, maximum lantern cards, and favor tokens
 	 * @param game instance of the game class
 	 * @return best solution to place a lake tile
-	 * @throws Exception occurs if color not found
 	 */
-	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
+	protected abstract ArrayList<Integer> simulateGamePlay(Game game);
 	
 	/**
 	 * To check if a player can make a dedication, based on the number of lantern cards

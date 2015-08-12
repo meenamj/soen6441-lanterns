@@ -420,9 +420,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * check all possible solutions for each three steps of place a lake tile on the board and return
      * best solution to put a lake tile
      * @param game clone instance of game class 
-     * @throws Exception this color does not exist exception
      */
-    protected ArrayList<Integer> simulateGamePlay(Game game) throws Exception
+    protected ArrayList<Integer> simulateGamePlay(Game game)
     {
         ArrayList<Integer> ithSolution = new ArrayList<Integer>();
         ArrayList<Integer> jthSolution = new ArrayList<Integer>();

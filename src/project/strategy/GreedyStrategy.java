@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import project.Game;
 import project.Player;
+import project.exception.RotationNotExistedException;
 /**
  * This class represent the abstract class for greedy player strategy class,
  * the greedy player always makes the move which will bring the best immediate return
@@ -96,9 +97,9 @@ public abstract class GreedyStrategy implements Strategy{
 	 * the greedy player, maximum lantern cards, and favor tokens
 	 * @param game instance of the game class
 	 * @return best solution to place a lake tile
-	 * @throws Exception occurs if color not found
+	 * @throws RotationNotExistedException occurs if rotation not exist
 	 */
-	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
+	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws RotationNotExistedException;
 	
 	/**
 	 * To check if a player can make a dedication, based on the number of lantern cards

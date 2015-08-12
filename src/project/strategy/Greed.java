@@ -22,7 +22,7 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
-import project.strategy.Strategy.Name;
+import project.exception.RotationNotExistedException;
 
 /**
  * This class represent the concrete class for the greedy player strategy, greedy player
@@ -393,21 +393,16 @@ public class Greed extends GreedyStrategy{
         int i = 0;
         for (Color color : Color.values()) 
         {
-            try {
-                if (supply.get(color).size() > 0) 
-                {
-                	
-                    if(supplyCard == color)
-                    {
-                        cardOptionNumber = i;
-                        buffer.add(color);
-                    }
-                    i++;
-                }
-            } catch (Exception e) 
-            {
-                e.printStackTrace();
-            }
+            if (supply.get(color).size() > 0) 
+			{
+				
+			    if(supplyCard == color)
+			    {
+			        cardOptionNumber = i;
+			        buffer.add(color);
+			    }
+			    i++;
+			}
         }
         return cardOptionNumber;
     }
@@ -424,17 +419,11 @@ public class Greed extends GreedyStrategy{
     	Supply supply = game.getPlayArea().getSupply();
         for (int i=0; i<Color.values().length; i++) 
         {
-            try {
-            	if(supply.get(supplyCard).size() > 0){
-            		isCardAvailable = true;
-            	}
-                else{
-                	isCardAvailable = false;
-                }
-
-            } catch (Exception e) 
-            {
-                e.printStackTrace();
+            if(supply.get(supplyCard).size() > 0){
+            	isCardAvailable = true;
+            }
+            else{
+            	isCardAvailable = false;
             }
         }
         return isCardAvailable;
@@ -444,9 +433,9 @@ public class Greed extends GreedyStrategy{
      * check all possible solutions for each three steps of place a lake tile on the board and return
      * best solution to put a lake tile for a greedy player
      * @param game clone instance of game class 
-     * @throws Exception this color does not exist exception
+     * @throws RotationNotExistedException when the rotation of lake tile does not exist
      */
-    protected ArrayList<Integer> simulateGamePlay(Game game) throws Exception
+    protected ArrayList<Integer> simulateGamePlay(Game game) throws RotationNotExistedException 
     {
         ArrayList<Integer> solution = new ArrayList<Integer>(4);
         int valueCounter=0; int maxValue =0;
@@ -475,7 +464,7 @@ public class Greed extends GreedyStrategy{
                     ArrayList<Position> availableList = playarea.getPositionAvailableLakeTileOnBoard();
 
                     LakeTile active_laketile = player.getLakeTiles().get(i);
-                    ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = player.checkPlaceLakeTile(playarea, active_laketile);
+                    ArrayList<HashMap<Rotation, Vector<Object>>> adjacent_color_list = player.getListPlaceLakeTile(playarea, active_laketile);
 
                     int pos_laketile_opt = j;
                     HashMap<Rotation, Vector<Object>> adjacent_colors = player.getPossibleRotation(availableList, adjacent_color_list, playarea, active_laketile, pos_laketile_opt);
@@ -484,8 +473,8 @@ public class Greed extends GreedyStrategy{
                         active_laketile.changeRotation(Rotation.D90);
                     }
                     
-                    checkdistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
-                    valueCounter = checkgetBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
+                    getDistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
+                    valueCounter = getPriorityBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
                     
                     if(valueCounter > maxValue)
                     {
@@ -516,7 +505,7 @@ public class Greed extends GreedyStrategy{
      * @param game clone instance of game class
      * @return lanternCard a lanternCard the current player get after the lake tile placed
      */
-    public String checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
+    public String getDistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
         ArrayList<Color> color_list = new ArrayList<Color>(active_laketile.getColorOfFourSides());
         String lanternCard = color_list.get(0).name();
@@ -527,11 +516,14 @@ public class Greed extends GreedyStrategy{
     /**
      * This method give bonus lake tile if two color of the same are facing each other, and increase the 
      * counter value based on the lantern cards a player can get
+     * 
      * @param active_laketile lake tile on the play area
-     * @param adjacent_colors adjacent color
-     * @throws Exception exception
+     * @param adjacent_colors adjacent colors of all lake tiles nearby the active lake tile
+     * @param game the current of the game
+     * @return the number of bonus
+     * @throws RotationNotExistedException when the rotation does not exist
      */
-    public int checkgetBonusPlaceLakeTile(LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors, Game game) throws Exception 
+    public int getPriorityBonusPlaceLakeTile(LakeTile active_laketile, HashMap<Rotation, Vector<Object>> adjacent_colors, Game game) throws RotationNotExistedException 
     {
         int valueCounter=0;
         // get bonus for adjacent and platform
@@ -544,24 +536,24 @@ public class Greed extends GreedyStrategy{
                 if (c.getKey().equals(Rotation.D0)) 
                 {
                 	int bonusValue;
-                    bonusValue = checkgetBonusDirection(Rotation.D0, active_laketile, color_platform,game);
+                    bonusValue = getPriorityBonusDirection(Rotation.D0, active_laketile, color_platform,game);
                     valueCounter = valueCounter+ bonusValue;
                     
                 } else if (c.getKey().equals(Rotation.D90)) 
                 {
                 	int bonusValue;
-                	bonusValue = checkgetBonusDirection(Rotation.D90, active_laketile, color_platform,game);
+                	bonusValue = getPriorityBonusDirection(Rotation.D90, active_laketile, color_platform,game);
                 	valueCounter = valueCounter+ bonusValue;
                 } else if (c.getKey().equals(Rotation.D180)) 
                 {
                 	int bonusValue;
-                	bonusValue = checkgetBonusDirection(Rotation.D180, active_laketile, color_platform,game);
+                	bonusValue = getPriorityBonusDirection(Rotation.D180, active_laketile, color_platform,game);
                     valueCounter = valueCounter+ bonusValue;
                 } 
                 else if (c.getKey().equals(Rotation.D270)) 
                 {
                 	int bonusValue;
-                	bonusValue = checkgetBonusDirection(Rotation.D270, active_laketile, color_platform,game);
+                	bonusValue = getPriorityBonusDirection(Rotation.D270, active_laketile, color_platform,game);
                     valueCounter = valueCounter+ bonusValue;
                     
                 }
@@ -576,9 +568,9 @@ public class Greed extends GreedyStrategy{
      * @param r Degree of rotation
      * @param active_laketile lake tile on play area
      * @param color_platform color of platform
-     * @throws Exception exception
+     * @throws RotationNotExistedException when rotation of the lake tile does not exist
      */
-    private int checkgetBonusDirection(Rotation r, LakeTile active_laketile,Vector<Object> color_platform,Game game) throws Exception 
+    private int getPriorityBonusDirection(Rotation r, LakeTile active_laketile,Vector<Object> color_platform,Game game) throws RotationNotExistedException  
     {
         int valueCounter = 0;
         Queue<Player> players = game.getPlayers();

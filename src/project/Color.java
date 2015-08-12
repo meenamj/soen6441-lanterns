@@ -2,6 +2,8 @@ package project;
 
 import java.util.*;
 
+import project.exception.ColorNotExistedException;
+
 /**
  * This class is used to show the color of lantern cards, lake tiles for playing the game
  * @author avneet
@@ -39,9 +41,9 @@ public enum Color {
 	 * @param c color value
 	 * @param text a text value need to be printed inside the color block
 	 * @return ANSI value of the color
-	 * @throws Exception if the color does not exist
+	 * @throws ColorNotExistedException if the color does not exist
 	 */
-	public static String getColorText(Color c, String text) throws Exception{
+	public static String getColorText(Color c, String text) throws ColorNotExistedException{
 		if(c.equals(Color.ORANGE)){ 
 			return "\u001b[1;37m\u001b[43m"+text+"\u001b[47m\u001b[0m";
 		}else if(c.equals(Color.GREEN)){
@@ -57,7 +59,7 @@ public enum Color {
 		}else if(c.equals(Color.BLACK)){
 			return "\u001b[1;37m\u001b[40m"+text+"\u001b[47m\u001b[0m";
 		}else{
-			throw new Exception("this color does not exist");
+			throw new ColorNotExistedException("this color does not exist");
 		}
 	}
 }

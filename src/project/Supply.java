@@ -3,6 +3,8 @@ package project;
 import java.io.Serializable;
 import java.util.*;
 
+import project.exception.ColorNotExistedException;
+
 /** 
  * This supply class will be used for seven lantern stacks creation
  * @author Meenakshi
@@ -60,9 +62,10 @@ public class Supply extends HashMap<Color, Stack<LanternCard>>implements Seriali
 	/**
 	 * Prints number of the lantern cards (with color)
 	 * available of each color in the current supply stack
-	 * @throws Exception if the color does not exist
+	 * @return number of each lantern stack in the supply
+	 * @throws ColorNotExistedException if the color does not exist
 	 */
-	public String getNumberColorListText() throws Exception{
+	public String getNumberColorListText() throws ColorNotExistedException{
 		String text = "";
 		for (Map.Entry<Color, Stack<LanternCard>> c : this.entrySet()){
 			text += Color.getColorText(c.getKey()," ");
