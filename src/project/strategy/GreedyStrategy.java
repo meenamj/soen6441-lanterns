@@ -49,7 +49,7 @@ public abstract class GreedyStrategy implements Strategy{
 						if(canMakeDedication(players)){
 							in = 2;
 						}
-						else if(canExchange(players, gameClone)){
+						else if(canExchangeLanternCard(players, gameClone)){
 							ExchangeOptions = performExchange(player,gameClone);
 							in = 1;
 						}
@@ -91,9 +91,44 @@ public abstract class GreedyStrategy implements Strategy{
 	
 	}
 	
+	/**
+	 * Check for all possible solutions, and pick the best one to place a lake tile, which can earn
+	 * the greedy player, maximum lantern cards, and favor tokens
+	 * @param game instance of the game class
+	 * @return best solution to place a lake tile
+	 * @throws Exception occurs if color not found
+	 */
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws Exception;
+	
+	/**
+	 * To check if a player can make a dedication, based on the number of lantern cards
+	 * @param players list of all the players
+	 * @return true if dedication is possible to make, false otherwise
+	 */
 	protected abstract boolean canMakeDedication(Queue<Player> players);
+	
+	/**
+	 * To select which dedication to make
+	 * @param players
+	 * @return choice selected 
+	 */
 	protected abstract int selectDedication(Queue<Player> players);
-	protected abstract boolean canExchange(Queue<Player> players, Game game);
+	
+	/**
+	 * To check if a player can exchange a lantern card in order to perform 
+	 * a dedication
+	 * @param players list of players in the game
+	 * @param game clone instance of game class
+	 * @return true if exchange is possible, false otherwise
+	 */
+	protected abstract boolean canExchangeLanternCard(Queue<Player> players, Game game);
+	
+	/**
+	 * Perform exchange and get the lantern cards a player wants
+	 * to make a dedication
+	 * @param player current player
+	 * @param game clone instance of game class
+	 * @return inputs need to be provided in order to perform an exchange
+	 */
 	protected abstract int[] performExchange(Player player,Game game);
 }

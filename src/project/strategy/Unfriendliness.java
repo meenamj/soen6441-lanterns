@@ -91,13 +91,13 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
     protected boolean canExchangeLanternCard(Queue<Player> players, Game game){
         boolean isExchangePossible;
-        int[] ExchnageOptions = new int[2];
+        int[] exchnageOptions = new int[2];
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         
-        ExchnageOptions = performExchange(player,game);
+        exchnageOptions = performExchange(player,game);
 
-        if(player.getNumberOfFavorTokens() > 2 && (ExchnageOptions[0] < 9 && ExchnageOptions[1] < 9)){
+        if(player.getNumberOfFavorTokens() > 2 && (exchnageOptions[0] < 9 && exchnageOptions[1] < 9)){
             //System.out.println("Exchange a lantern card is possible");
         	isExchangePossible = true;
         }
@@ -118,7 +118,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
     protected int[] performExchange(Player player,Game game){
         boolean DESC = false;
-        int[] ExchnageOptions = new int[2];
+        int[] exchnageOptions = new int[2];
         
         int ORANGE = player.numOfCardColor(Color.ORANGE);
         int GREEN = player.numOfCardColor(Color.GREEN);
@@ -128,21 +128,22 @@ public class Unfriendliness extends UnfriendlyStrategy{
         int RED = player.numOfCardColor(Color.RED);
         int BLACK = player.numOfCardColor(Color.BLACK);
         
-         HashMap<Color,Integer> colors = new HashMap<Color,Integer>();
+      //pair of lantern cards and number of each available on the player hand
+         HashMap<Color,Integer> numOfLanternColor = new HashMap<Color,Integer>();
           // Put elements to the map
-         colors.put(Color.ORANGE, ORANGE);
-         colors.put(Color.GREEN, GREEN);
-         colors.put(Color.PURPLE, PURPLE);
-         colors.put(Color.WHITE, WHITE);
-         colors.put(Color.BLUE, BLUE);
-         colors.put(Color.RED, RED);
-         colors.put(Color.BLACK, BLACK);
+         numOfLanternColor.put(Color.ORANGE, ORANGE);
+         numOfLanternColor.put(Color.GREEN, GREEN);
+         numOfLanternColor.put(Color.PURPLE, PURPLE);
+         numOfLanternColor.put(Color.WHITE, WHITE);
+         numOfLanternColor.put(Color.BLUE, BLUE);
+         numOfLanternColor.put(Color.RED, RED);
+         numOfLanternColor.put(Color.BLACK, BLACK);
          
             
-         Map<Color,Integer> sortedMap = sortByComparator(colors, DESC);
-         ExchnageOptions = ExchangeLanternCard(sortedMap,player,game);
+         Map<Color,Integer> sortedMap = sortByComparator(numOfLanternColor, DESC);
+         exchnageOptions = ExchangeLanternCard(sortedMap,player,game);
 
-         return ExchnageOptions;
+         return exchnageOptions;
     }
     
     /**
@@ -155,7 +156,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     protected int[] ExchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
         int[] numOfLanterns = new int[7];
         Color[] c = new Color[7];
-        int[] ExchnageOptions = new int[2];
+        int[] exchnageOptions = new int[2];
         int counter = 0;
          for (Entry<Color, Integer> entry : sortedMap.entrySet())
          {
@@ -166,15 +167,15 @@ public class Unfriendliness extends UnfriendlyStrategy{
 
         if(player.getLanternCards().size() >= 7)
         {
-        	ExchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	exchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
          else if(player.getLanternCards().size() <= 4){
-        	 ExchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	 exchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
          else{
-        	 ExchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	 exchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
-        return ExchnageOptions;
+        return exchnageOptions;
     }
     
     /**
@@ -185,32 +186,32 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @param c color of lantern card
      * @param ExchnageOptions Lantern cards to be exchanges options
      */
-	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] ExchnageOptions) {
+	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] exchnageOptions) {
 		 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[2],game)){
-			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
-			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[3],c[2],game,player);
+			 exchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
+			 exchnageOptions[1] = ChooseSupplyLanternCard(c[3],c[2],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[1],game)){
-				 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
-				 ExchnageOptions[1] = ChooseSupplyLanternCard(c[4],c[1],game,player);
+				 exchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
+				 exchnageOptions[1] = ChooseSupplyLanternCard(c[4],c[1],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		 return ExchnageOptions;
+		 return exchnageOptions;
 	}
     /**
      * Decide which lantern card to exchange to make a Four of a Kind dedication
@@ -222,42 +223,42 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
 
 	private int[] findFourOfKindPattern(Player player, Game game, int[] colors,
-			Color[] c, int[] ExchnageOptions) {
+			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		     	 ExchnageOptions[0] = 9;
-		         ExchnageOptions[1] = 9;
+		     	 exchnageOptions[0] = 9;
+		         exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[2],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		return ExchnageOptions;
+		return exchnageOptions;
 	}
     /**
      * Decide which lantern card to exchange to make a Seven Unique Dedication
@@ -269,42 +270,42 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
 
 	private int[] findSevenOfKindPattern(Player player, Game game, int[] colors,
-			Color[] c, int[] ExchnageOptions) {
+			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
 			if(checkSupply(c[5],game)){
-				ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-				ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[5],game,player);
+				exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+				exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[5],game,player);
 			}
 			else{
-				ExchnageOptions[0] = 9;
-		    	ExchnageOptions[1] = 9;
+				exchnageOptions[0] = 9;
+		    	exchnageOptions[1] = 9;
 			}
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[6],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[6],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[6],game,player);
 			 }
 		 	else{
-		 		ExchnageOptions[0] = 9;
-		     	ExchnageOptions[1] = 9;
+		 		exchnageOptions[0] = 9;
+		     	exchnageOptions[1] = 9;
 		 	}
 		 }
 		 else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[2],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[2],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[2],game,player);
 			 }
 		 	 else{
-		 		ExchnageOptions[0] = 9;
-		     	ExchnageOptions[1] = 9;
+		 		exchnageOptions[0] = 9;
+		     	exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		return ExchnageOptions;
+		return exchnageOptions;
 	}
     
     /**
@@ -352,8 +353,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @return option number to input
      */
     protected int ChooseSupplyLanternCard(Color playerCard,Color supplyCard, Game game, Player player){
-        Supply Lanternsupply = game.getPlayArea().getSupply();
-        HashMap<Color, Stack<LanternCard>> supply = Lanternsupply;
+        Supply lanternsupply = game.getPlayArea().getSupply();
+        HashMap<Color, Stack<LanternCard>> supply = lanternsupply;
 		
         for (int i = 0; i < player.getLanternCards().size(); i++) 
 		{
@@ -391,29 +392,28 @@ public class Unfriendliness extends UnfriendlyStrategy{
     /**
      * check lantern card supply to make sure the lantern card a player wants to exchange is
      * available in the supply stack otherwise return false
-     * @param cl color to search for in the supply stack
+     * @param supplyCard color to search for in the supply stack
      * @param game clone instance of game class
      * @return flag true if the color is available , false otherwise
      */
     private boolean checkSupply(Color supplyCard, Game game){
-    	boolean flag = false;
+    	boolean isCardAvailable = false;
     	Supply supply = game.getPlayArea().getSupply();
         for (int i =0; i<Color.values().length; i++) 
         {
             try {
             	if(supply.get(supplyCard).size() > 0){
-            		flag = true;
+            		isCardAvailable = true;
             	}
                 else{
-                	flag = false;
+                	isCardAvailable = false;
                 }
-
             } catch (Exception e) 
             {
                 e.printStackTrace();
             }
         }
-        return flag;
+        return isCardAvailable;
     }
     
     /**

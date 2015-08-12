@@ -22,6 +22,7 @@ import project.Player;
 import project.Position;
 import project.Rotation;
 import project.Supply;
+import project.strategy.Strategy.Name;
 
 /**
  * This class represent the concrete class for the greedy player strategy, greedy player
@@ -42,27 +43,28 @@ public class Greed extends GreedyStrategy{
     
     /**
      * to check if the player can make a dedication or not for the
-     * current situation
+     * current stack of lantern cards
      * @param players Queue of all the players
      * @return flag true if make a dedication is possible, false otherwise
      */
     protected boolean canMakeDedication(Queue<Player> players){
-        boolean flag;
+        boolean isDedicatoinPossible;
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         if(player.isFourOfAKind() || player.isThreePair() || player.isSevenUnique()){
             //System.out.println("Dedication is possible to make");
-            flag = true;
+        	isDedicatoinPossible = true;
         }
         else{
            // System.out.println("Dedication is not possible");
-            flag=false;
+        	isDedicatoinPossible=false;
         }
-        return flag;
+        return isDedicatoinPossible;
     }
     
     /**
-     * check which dedication is possible to make, and return the choice based on the possibilities
+     * check which dedication is possible to make, and return the choice 
+     * based on the possibilities
      * @param players queue of all the players
      * @return choice number based on the possible dedication 
      */
@@ -89,23 +91,23 @@ public class Greed extends GreedyStrategy{
      * @param game instance of the game class
      * @return true if the exchange is possible, false otherwise 
      */
-    protected boolean canExchange(Queue<Player> players, Game game){
-        boolean flag;
-        int[] ExchnageOptions = new int[2];
+    protected boolean canExchangeLanternCard(Queue<Player> players, Game game){
+        boolean isExchangePossible;
+        int[] exchnageOptions = new int[2];
         ArrayList<Player> playerList = new ArrayList<Player>(players);
         Player player = playerList.get(0);
         
-        ExchnageOptions = performExchange(player,game);
+        exchnageOptions = performExchange(player,game);
 
-        if(player.getNumberOfFavorTokens() >= 2 && (ExchnageOptions[0] < 9 && ExchnageOptions[1] < 9)){
+        if(player.getNumberOfFavorTokens() >= 2 && (exchnageOptions[0] < 9 && exchnageOptions[1] < 9)){
             //System.out.println("Exchange a lantern card is possible");
-            flag = true;
+        	isExchangePossible = true;
         }
         else{
            // System.out.println("Can not Exchange lantern card");
-            flag=false;
+        	isExchangePossible=false;
         }
-        return flag;
+        return isExchangePossible;
         
     }
     
@@ -118,7 +120,7 @@ public class Greed extends GreedyStrategy{
      */
     protected int[] performExchange(Player player,Game game){
         boolean DESC = false;
-        int[] ExchnageOptions = new int[2];
+        int[] exchnageOptions = new int[2];
         
         int ORANGE = player.numOfCardColor(Color.ORANGE);
         int GREEN = player.numOfCardColor(Color.GREEN);
@@ -128,22 +130,23 @@ public class Greed extends GreedyStrategy{
         int RED = player.numOfCardColor(Color.RED);
         int BLACK = player.numOfCardColor(Color.BLACK);
         
-         HashMap<Color,Integer> colors = new HashMap<Color,Integer>();
+        //pair of lantern cards and number of each available on the player hand 
+         HashMap<Color,Integer> numOfLanternColor = new HashMap<Color,Integer>();
           // Put elements to the map
-         colors.put(Color.ORANGE, ORANGE);
-         colors.put(Color.GREEN, GREEN);
-         colors.put(Color.PURPLE, PURPLE);
-         colors.put(Color.WHITE, WHITE);
-         colors.put(Color.BLUE, BLUE);
-         colors.put(Color.RED, RED);
-         colors.put(Color.BLACK, BLACK);
+         numOfLanternColor.put(Color.ORANGE, ORANGE);
+         numOfLanternColor.put(Color.GREEN, GREEN);
+         numOfLanternColor.put(Color.PURPLE, PURPLE);
+         numOfLanternColor.put(Color.WHITE, WHITE);
+         numOfLanternColor.put(Color.BLUE, BLUE);
+         numOfLanternColor.put(Color.RED, RED);
+         numOfLanternColor.put(Color.BLACK, BLACK);
          
          
          //sort the map in descending order of the number of colors
-         Map<Color,Integer> sortedMap = sortByComparator(colors, DESC);
-         ExchnageOptions = ExchangeLanternCard(sortedMap,player,game);
+         Map<Color,Integer> sortedMap = sortByComparator(numOfLanternColor, DESC);
+         exchnageOptions = ExchangeLanternCard(sortedMap,player,game);
 
-         return ExchnageOptions;
+         return exchnageOptions;
     }
     
     /**
@@ -156,7 +159,7 @@ public class Greed extends GreedyStrategy{
     protected int[] ExchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
         int[] numOfLanterns = new int[7];
         Color[] c = new Color[7];
-        int[] ExchnageOptions = new int[2];
+        int[] exchnageOptions = new int[2];
         int counter = 0;
          for (Entry<Color, Integer> entry : sortedMap.entrySet())
          {
@@ -167,15 +170,15 @@ public class Greed extends GreedyStrategy{
 
         if(player.getLanternCards().size() >= 7)
         {
-        	ExchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	exchnageOptions = findSevenOfKindPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
          else if(player.getLanternCards().size() <= 4){
-        	 ExchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	 exchnageOptions = findFourOfKindPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
          else{
-        	 ExchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, ExchnageOptions);
+        	 exchnageOptions = findThreePairPattern(player, game, numOfLanterns, c, exchnageOptions);
          }
-        return ExchnageOptions;
+        return exchnageOptions;
     }
 
     /**
@@ -184,101 +187,101 @@ public class Greed extends GreedyStrategy{
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
-	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] ExchnageOptions) {
+	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] exchnageOptions) {
 		 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[2],game)){
-			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
-			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[3],c[2],game,player);
+			 exchnageOptions[0] = ChoosePlayerLanternCard(c[3],game,player);
+			 exchnageOptions[1] = ChooseSupplyLanternCard(c[3],c[2],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 3 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[0],game)){
-			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+			 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+			 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 3 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[0],game)){
-			 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-			 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+			 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+			 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[1],game)){
-				 ExchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
-				 ExchnageOptions[1] = ChooseSupplyLanternCard(c[4],c[1],game,player);
+				 exchnageOptions[0] = ChoosePlayerLanternCard(c[4],game,player);
+				 exchnageOptions[1] = ChooseSupplyLanternCard(c[4],c[1],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		 return ExchnageOptions;
+		 return exchnageOptions;
 	}
+	
     /**
      * Decide which lantern card to exchange to make a Four of a Kind dedication
      * @param player current player
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
-
 	private int[] findFourOfKindPattern(Player player, Game game, int[] colors,
-			Color[] c, int[] ExchnageOptions) {
+			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		     	 ExchnageOptions[0] = 9;
-		         ExchnageOptions[1] = 9;
+		     	 exchnageOptions[0] = 9;
+		         exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 2 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[1],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[1],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && player.getNumberOfFavorTokens() >= 4){
 			 if(checkSupply(c[0],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[2],c[0],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[2],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[2],c[0],game,player);
 			 }
 		 	 else{
-		 		 ExchnageOptions[0] = 9;
-		     	 ExchnageOptions[1] = 9;
+		 		 exchnageOptions[0] = 9;
+		     	 exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		return ExchnageOptions;
+		return exchnageOptions;
 	}
     /**
      * Decide which lantern card to exchange to make a Seven Unique Dedication
@@ -286,56 +289,58 @@ public class Greed extends GreedyStrategy{
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
 
 	private int[] findSevenOfKindPattern(Player player, Game game, int[] colors,
-			Color[] c, int[] ExchnageOptions) {
+			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
 			if(checkSupply(c[5],game)){
-				ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-				ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[5],game,player);
+				exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+				exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[5],game,player);
 			}
 			else{
-				ExchnageOptions[0] = 9;
-		    	ExchnageOptions[1] = 9;
+				exchnageOptions[0] = 9;
+		    	exchnageOptions[1] = 9;
 			}
 		 }
 		 else if(colors[0] == 2 && colors[1] == 1 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && colors[5] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[6],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[6],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[6],game,player);
 			 }
 		 	else{
-		 		ExchnageOptions[0] = 9;
-		     	ExchnageOptions[1] = 9;
+		 		exchnageOptions[0] = 9;
+		     	exchnageOptions[1] = 9;
 		 	}
 		 }
 		 else if(colors[0] == 3 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
 			 if(checkSupply(c[2],game)){
-		    	 ExchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
-		    	 ExchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[2],game,player);
+		    	 exchnageOptions[0] = ChoosePlayerLanternCard(c[0],game,player);
+		    	 exchnageOptions[1] = ChooseSupplyLanternCard(c[0],c[2],game,player);
 			 }
 		 	 else{
-		 		ExchnageOptions[0] = 9;
-		     	ExchnageOptions[1] = 9;
+		 		exchnageOptions[0] = 9;
+		     	exchnageOptions[1] = 9;
 		 	 }
 		 }
 		 else{
-			 ExchnageOptions[0] = 9;
-			 ExchnageOptions[1] = 9;
+			 exchnageOptions[0] = 9;
+			 exchnageOptions[1] = 9;
 		 }
-		return ExchnageOptions;
+		return exchnageOptions;
 	}
     
-    /**
+	/**
      * select a lantern card from player stack to exchange
-     * @param c color to exchange
+     * @param playerCard color to exchange
+     * @param game clone instance of game class
+     * @param player current player
      * @return option number to input
      */
-    protected int ChoosePlayerLanternCard(Color cl,Game game, Player player){
+    protected int ChoosePlayerLanternCard(Color playerCard,Game game, Player player){
     	
-    	int PlayerCardOptionNumber=0;
+    	int playerCardOptionNumber=0;
 		ArrayList<LanternCard> lanternCards = player.getLanternCards();
 
 		ArrayList<LanternCard> arrays = new ArrayList<LanternCard>();
@@ -353,29 +358,32 @@ public class Greed extends GreedyStrategy{
 			if (!existColor) 
 			{
 				arrays.add(lanternCards.get(i));
-				if(lanternCards.get(i).getColor() == cl){
-					PlayerCardOptionNumber = counter;
+				if(lanternCards.get(i).getColor() == playerCard){
+					playerCardOptionNumber = counter;
 				}
 				counter++;
 			}
 		}
-        return PlayerCardOptionNumber;
+        return playerCardOptionNumber;
     }
     
     /**
      * select a lantern card to exchange from supply
-     * @param c color to exchange
+     * @param playerCard a card color to put in the supply
+     * @param supplyCard a card color to get from the supply
+     * @param game clone instance of game class
+     * @param player current_player
      * @return option number to input
      */
-    protected int ChooseSupplyLanternCard(Color pl,Color cl, Game game, Player player){
-        Supply Lanternsupply = game.getPlayArea().getSupply();
-        HashMap<Color, Stack<LanternCard>> supply = Lanternsupply;
+    protected int ChooseSupplyLanternCard(Color playerCard,Color supplyCard, Game game, Player player){
+        Supply lanternSupply = game.getPlayArea().getSupply();
+        HashMap<Color, Stack<LanternCard>> supply = lanternSupply;
 		
         for (int i = 0; i < player.getLanternCards().size(); i++) 
 	{
-		if (player.getLanternCards().get(i).getColor() == pl) 
+		if (player.getLanternCards().get(i).getColor() == playerCard) 
 		{
-	        Stack<LanternCard> lantern_stack = supply.get(pl);
+	        Stack<LanternCard> lantern_stack = supply.get(playerCard);
 			lantern_stack.add(player.getLanternCards().get(i));    
 		}
 	}
@@ -389,7 +397,7 @@ public class Greed extends GreedyStrategy{
                 if (supply.get(color).size() > 0) 
                 {
                 	
-                    if(cl == color)
+                    if(supplyCard == color)
                     {
                         cardOptionNumber = i;
                         buffer.add(color);
@@ -407,21 +415,21 @@ public class Greed extends GreedyStrategy{
     /**
      * check lantern card supply to make sure the lantern card a player wants to exchange is
      * available in the supply stack otherwise return false
-     * @param cl color to search for in the supply stack
+     * @param supplyCard color to search for in the supply stack
      * @param game clone instance of game class
      * @return flag true if the color is available , false otherwise
      */
-    private boolean checkSupply(Color cl, Game game){
-    	boolean flag = false;
+    private boolean checkSupply(Color supplyCard, Game game){
+    	boolean isCardAvailable = false;
     	Supply supply = game.getPlayArea().getSupply();
         for (int i=0; i<Color.values().length; i++) 
         {
             try {
-            	if(supply.get(cl).size() > 0){
-            		flag = true;
+            	if(supply.get(supplyCard).size() > 0){
+            		isCardAvailable = true;
             	}
                 else{
-                	flag = false;
+                	isCardAvailable = false;
                 }
 
             } catch (Exception e) 
@@ -429,12 +437,12 @@ public class Greed extends GreedyStrategy{
                 e.printStackTrace();
             }
         }
-        return flag;
+        return isCardAvailable;
     }
     
     /**
      * check all possible solutions for each three steps of place a lake tile on the board and return
-     * best solution to put a lake tile
+     * best solution to put a lake tile for a greedy player
      * @param game clone instance of game class 
      * @throws Exception this color does not exist exception
      */
@@ -504,9 +512,10 @@ public class Greed extends GreedyStrategy{
     /**
      * This method distribute lantern card from supply to player
      * @param active_laketile lake tile from the stack
-     * @param lanternStacks lantern card stack 
+     * @param supply lanternStacks lantern card stack
+     * @param game clone instance of game class
+     * @return lanternCard a lanternCard the current player get after the lake tile placed
      */
-
     public String checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
         ArrayList<Color> color_list = new ArrayList<Color>(active_laketile.getColorOfFourSides());
@@ -516,7 +525,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * This method give bonus lake tile if two color of the same are facing each other
+     * This method give bonus lake tile if two color of the same are facing each other, and increase the 
+     * counter value based on the lantern cards a player can get
      * @param active_laketile lake tile on the play area
      * @param adjacent_colors adjacent color
      * @throws Exception exception
@@ -562,7 +572,7 @@ public class Greed extends GreedyStrategy{
 
     /**
      * This method checks the direction to give bonus
-     * Comparing one color side of player's laketile with adjacent color
+     * Comparing one color side of player's lake tile with adjacent color
      * @param r Degree of rotation
      * @param active_laketile lake tile on play area
      * @param color_platform color of platform

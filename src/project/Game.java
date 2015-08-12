@@ -386,7 +386,7 @@ public class Game implements Serializable {
 				"2. N Honor Point Rule");
 		int rule_choice = new Human().inputOption(3, Strategy.Name.START,null);
 		if(rule_choice==0){
-			rule = new Base();
+			rule = (Rule) new Base();
 		}else if(rule_choice==1){
 			System.out.println("How many round do you want to play?");
 			int max_laketile_stack = 0;
@@ -402,7 +402,7 @@ public class Game implements Serializable {
 				System.out.println("option"+i+"::"+(i+2));
 			}
 			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
-			rule = new NLakeTilesOnBoard(round+2);
+			rule = (Rule) new NLakeTilesOnBoard(round+2);
 		}else if(rule_choice==2){
 			System.out.println("How many Honor point do you want to finish the game?");
 			int sum_honor = 0;
