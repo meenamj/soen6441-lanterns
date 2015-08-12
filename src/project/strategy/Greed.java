@@ -473,7 +473,6 @@ public class Greed extends GreedyStrategy{
                         active_laketile.changeRotation(Rotation.D90);
                     }
                     
-                    getDistributeLanternCard(active_laketile, playarea.getSupply(),gameObject);
                     valueCounter = getPriorityBonusPlaceLakeTile(active_laketile, adjacent_colors,gameObject);
                     
                     if(valueCounter > maxValue)
@@ -499,6 +498,7 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
+<<<<<<< HEAD
      * This method distribute lantern card from supply to player
      * @param active_laketile lake tile from the stack
      * @param supply lanternStacks lantern card stack
@@ -514,6 +514,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
+=======
+>>>>>>> 6680f76b23b5397b4dccea584a2db1693464fa2a
      * This method give bonus lake tile if two color of the same are facing each other, and increase the 
      * counter value based on the lantern cards a player can get
      * 

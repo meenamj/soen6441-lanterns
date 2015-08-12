@@ -308,7 +308,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
 		return exchnageOptions;
 	}
     
-    /**
+	/**
      * select a lantern card from player stack to exchange
      * @param playerCard color to exchange
      * @param game clone instance of game class
@@ -353,17 +353,17 @@ public class Unfriendliness extends UnfriendlyStrategy{
      * @return option number to input
      */
     protected int ChooseSupplyLanternCard(Color playerCard,Color supplyCard, Game game, Player player){
-        Supply lanternsupply = game.getPlayArea().getSupply();
-        HashMap<Color, Stack<LanternCard>> supply = lanternsupply;
+        Supply lanternSupply = game.getPlayArea().getSupply();
+        HashMap<Color, Stack<LanternCard>> supply = lanternSupply;
 		
         for (int i = 0; i < player.getLanternCards().size(); i++) 
+	{
+		if (player.getLanternCards().get(i).getColor() == playerCard) 
 		{
-			if (player.getLanternCards().get(i).getColor() == playerCard) 
-			{
-		        Stack<LanternCard> lantern_stack = supply.get(playerCard);
-				lantern_stack.add(player.getLanternCards().get(i));    
-			}
+	        Stack<LanternCard> lantern_stack = supply.get(playerCard);
+			lantern_stack.add(player.getLanternCards().get(i));    
 		}
+	}
 		
         ArrayList<Color> buffer = new ArrayList<Color>();
         int cardOptionNumber=0;
@@ -399,7 +399,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     private boolean checkSupply(Color supplyCard, Game game){
     	boolean isCardAvailable = false;
     	Supply supply = game.getPlayArea().getSupply();
-        for (int i =0; i<Color.values().length; i++) 
+        for (int i=0; i<Color.values().length; i++) 
         {
             try {
             	if(supply.get(supplyCard).size() > 0){
@@ -408,6 +408,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
                 else{
                 	isCardAvailable = false;
                 }
+
             } catch (Exception e) 
             {
                 e.printStackTrace();
@@ -466,6 +467,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
         int index =0;
         if(ithSolution.size() >0){
         	index = randInt(1,ithSolution.size()-1);
+        	
         	solution.add(ithSolution.get(index));
         	solution.add(jthSolution.get(index));
         	solution.add(kthSolution.get(index));
@@ -490,7 +492,13 @@ public class Unfriendliness extends UnfriendlyStrategy{
      */
     public int randInt(int min, int max) {
         Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
+        int randomNum;
+        if(max!=0){
+        	randomNum = rand.nextInt((max - min) + 1) + min;
+        }
+        else{
+        	randomNum=0;
+        }
 
         return randomNum;
     }
