@@ -22,7 +22,13 @@ public interface Disaster extends Serializable{
 	 * @return boolean
 	 */
 	public abstract boolean getDisaster();
-	
+
+	/**
+	 * To get the chance to use the attack method
+	 * @return chance of disaster existence by percentage
+	 */
+	public abstract int getChancePercent();
+
 	/**
 	 * This method causes an attack on the current game played
 	 * @param game the current game
@@ -30,9 +36,4 @@ public interface Disaster extends Serializable{
 	 */
 	public abstract String attack(Game game);
 	
-	/**
-	 * To get the chance to use the attack method
-	 * @return chance of disaster existance by percentage
-	 */
-	public abstract int getChancePercent();
 }

@@ -29,15 +29,6 @@ public class LightningStrike extends LightningStrikeDisaster{
 		super(nplayer);
 		// TODO Auto-generated constructor stub
 	}
-	/**
-	 * to check if disaster is occurred or not
-	 * @return boolean get disaster or not get disaster in the game
-	 */
-	public boolean getDisaster() {
-		Random random = new Random();
-		int risk = random.nextInt(100);
-		return getChancePercent() > risk;
-	}
 
 	/**
 	 * this attack used to remove the dedication tokens on player hand randomly

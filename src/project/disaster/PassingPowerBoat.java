@@ -42,16 +42,6 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 	private ArrayList<Position> removed_position;
 
 	/**
-	 * to check if disaster is occurred or not
-	 * @return boolean get disaster or not get disaster in the game
-	 */
-	public boolean getDisaster() {
-		Random random = new Random();
-		int risk = random.nextInt(100);
-		return getChancePercent() > risk;
-	}
-
-	/**
 	 * this attack used to remove some lake tiles on board randomly
 	 * without gap between them
 	 * @param game the current game

@@ -1,5 +1,7 @@
 package project.disaster;
 
+import java.util.Random;
+
 import project.Game;
 
 /**
@@ -33,6 +35,16 @@ public abstract class PassingPowerBoatDisaster implements Disaster {
 	
 	public int getChancePercent(){
 		return chance_percent;
+	}
+	
+	/**
+	 * to check if disaster is occurred or not
+	 * @return boolean get disaster or not get disaster in the game
+	 */
+	public boolean getDisaster() {
+		Random random = new Random();
+		int risk = random.nextInt(100);
+		return getChancePercent() > risk;
 	}
 	
 	public abstract String attack(Game game);
