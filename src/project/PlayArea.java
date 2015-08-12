@@ -489,7 +489,7 @@ public class PlayArea implements Serializable {
 			text += line2.get(i);
 			text += line3.get(i);
 		}
-		return text;
+		return ":::Lake Tile Board:::\n"+text;
 	}
 
 	/**

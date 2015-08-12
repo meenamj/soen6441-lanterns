@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import project.exception.ColorNotExistedException;
 import project.exception.RotationNotExistedException;
 
 /**
@@ -156,6 +157,28 @@ public class LakeTile implements Serializable {
 		}else{
 			throw new RotationNotExistedException("lake tile index::" + index);
 		}
-		
+	}
+	
+	/**
+	 * to show new lake tile which just draw on the stack
+	 * @return text of new lake tile with color and platform
+	 * @throws ColorNotExistedException when colors does not exist
+	 */
+	public String getTextLakeTile() throws ColorNotExistedException{
+		String text ="";
+		ArrayList<Color> list = new ArrayList<Color>(colorOfFourSides);
+		text += String.format("%5s", "");
+		text += Color.getColorText(list.get(0), " ");
+		text += "\n";
+		text += String.format("%2s",getIndex());
+		text += " ";
+		text += Color.getColorText(list.get(3), " ");
+		text += " X ";
+		text += Color.getColorText(list.get(1), " ");
+		text += "\n";
+		text += String.format("%5s", "");
+		text += Color.getColorText(list.get(2), " ");
+		text += "\n";
+		return text;
 	}
 }

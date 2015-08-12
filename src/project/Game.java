@@ -606,6 +606,7 @@ public class Game implements Serializable {
 			{
 				System.out.println("Draw New LakeTile");
 				LakeTile new_laketile = playArea.getLakeTiles().pop();
+				System.out.println(new_laketile.getTextLakeTile());
 				current_player.getLakeTiles().add(new_laketile);
 			}
 			System.out.print(playArea.getLakeTileBoardText());
