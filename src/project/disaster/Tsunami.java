@@ -13,12 +13,12 @@ import project.LakeTile;
 public class Tsunami extends TsunamiDisaster{
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 1939659623614440133L;
 
 	/**
-	 * constractor of passing power boat
+	 * Constructor of passing power boat.
 	 * @param nplayer the number of player in the game
 	 */
 	public Tsunami(int nplayer) {
@@ -27,7 +27,7 @@ public class Tsunami extends TsunamiDisaster{
 	}
 	
 	/**
-	 * this attack used to remove all lake tiles on board 
+	 * This attack used to remove all lake tiles on board. 
 	 * @param game the current game
 	 * @return the dedication information of the disaster on the player hand
 	 */

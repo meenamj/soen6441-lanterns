@@ -5,7 +5,7 @@ import java.util.Scanner;
 import project.Game;
 
 /**
- * This class represent the abstract class of the Human strategy player type
+ * This class represent the abstract class of the Human strategy player type.
  * @author Idris
  * @version 1.0
  */
@@ -13,19 +13,19 @@ import project.Game;
 public abstract class HumanStrategy implements Strategy{
 	
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -5446700812827463498L;
 	
 	/**
-	 * scanner is used to get input option
-	 * postscript :: scanner class is not implements serialize
-	 * transient is used for prevent this case
+	 * Scanner is used to get input option.<br>
+	 * Postscript :: scanner class is not implements serialize.
+	 * transient is used for prevent this case.
 	 */
 	transient Scanner inputscan;
 	
 	/**
-	 * This method determine the strategy of the player in a game and what option they have selected
+	 * This method determine the strategy of the player in a game and what option they have selected.
 	 * @param number_options option selected by player
 	 * @param status what strategy is currently being used by player
 	 * @param game The current game played
@@ -55,6 +55,12 @@ public abstract class HumanStrategy implements Strategy{
 		return Integer.parseInt(in);
 	}
 	
+	/**
+	 * This method is to get options players can select.
+	 * @param start_options start number of option which players can select.
+	 * @param end_options last number option which players can select.
+	 * @return The option selected by player.
+	 */
 	public int inputOption(int start_options, int end_options)
 	{
 		inputscan = new Scanner(System.in);
@@ -78,7 +84,10 @@ public abstract class HumanStrategy implements Strategy{
 		while (!validation);
 		return Integer.parseInt(in);
 	}
-	
+	/**
+	 * This method is to get options players can select.
+	 * @return true/false depends on questions.
+	 */
 	public boolean inputYesNo(){
 		inputscan = new Scanner(System.in);
 		String in = null;
@@ -96,7 +105,10 @@ public abstract class HumanStrategy implements Strategy{
 			return false;
 		}
 	}
-	
+	/**
+	 * This method is for the players to put input string.
+	 * @return text of input.
+	 */
 	public String inputString(){
 		inputscan = new Scanner(System.in);
 		return inputscan.next();

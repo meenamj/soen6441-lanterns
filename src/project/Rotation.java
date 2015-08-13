@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import project.exception.RotationNotExistedException;
-
+/**
+ * This class is used to show the rotation of lake tiles on the game board.
+ */
 public enum Rotation {
 	D0, D90, D180, D270;
 	/**

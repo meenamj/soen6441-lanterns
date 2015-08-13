@@ -5,7 +5,7 @@ import java.util.Random;
 import project.Game;
 import project.Player;
 /**
- * This class represent the abstract class for the random strategy player
+ * This class represent the abstract class for the random strategy player.
  * @author Idris
  * @version 1.0
  */
@@ -16,7 +16,7 @@ public abstract class RandomStrategy implements Strategy{
 	private static final long serialVersionUID = -6960493685653641656L;
 
 	/**
-	 * This method determine the strategy of the player in a game and what option they have selected
+	 * This method determine the strategy of the player in a game and what option they have selected.
 	 * @param number_options option selected by player
 	 * @param status what strategy is currently being used by player
 	 * @param game The current game played

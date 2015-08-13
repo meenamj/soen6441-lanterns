@@ -2,7 +2,7 @@ package project;
 
 import java.io.Serializable;
 /**
- * Lantern card is a card which player can get after placed lake tile
+ * Lantern card is a card which player can get after placed lake tile.
  * @author Meenakshi
  * @version 1.1
  */

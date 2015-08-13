@@ -1,5 +1,7 @@
 package project;
-
+/**
+ * This class is used for getting a string of unicode.
+ */
 public class Symbol {
 	public final static String UP = "\u2191";
 	public final static String RIGHT = "\u2192";

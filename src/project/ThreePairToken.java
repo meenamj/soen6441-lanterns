@@ -2,7 +2,7 @@ package project;
 /**
  * Three pair token is one of dedication token
  * when players have three pair lantern cards,
- * the player can exchange this card
+ * the player can exchange this card.
  * @author Idris
  * @version 1.1
  */

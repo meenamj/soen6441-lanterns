@@ -7,17 +7,17 @@ import project.Game;
 import project.Player;
 
 /**
- * This class represent the abstract class for the unfriendly player strategy class.
- * the unfriendly player always makes a move which will bring the most harm to one 
- * or more opponents (i.e. wherever possible, always place a Lake Tile in such a 
- * way as to minimize bonuses going to other players, and/or attempt to prevent 
+ * This class represent the abstract class for the unfriendly player strategy class.<br>
+ * the unfriendly player always makes a move which will bring the most harm to one <br>
+ * or more opponents (i.e. wherever possible, always place a Lake Tile in such a <br>
+ * way as to minimize bonuses going to other players, and/or attempt to prevent <br>
  * other players from collecting the Lantern Cards they need to make a dedication).
  * @author Nirav
  * @version 1.0
  */
 public abstract class UnfriendlyStrategy implements Strategy{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -2977512618052097832L;
 	
@@ -28,13 +28,14 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	
 	/**
-	 * ExchangeOptions contains values to be selected as a player lantern card,
+	 * ExchangeOptions contains values to be selected as a player lantern card, <br>
 	 * and a card from a supply lantern card stack to replace with.
 	 */
 	private int[] exchangeOptions = new int[2];
 	
 	/**
-	 * This method determine the strategy of the player in a game and what option they have selected
+	 * This method determine the strategy of the player in a game <br>
+	 * and what option they have selected.
 	 * @param number_options option selected by player
 	 * @param status what strategy is currently being used by player
 	 * @param game The current game played
@@ -105,30 +106,32 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	}
 	
 	/**
-	 * Check for all possible solutions, and pick the best one to place a lake tile, which can earn
-	 * the greedy player, maximum lantern cards, and favor tokens
+	 * This method is to check for all possible solutions, and pick the best one to <br>
+	 * place a lake tile, which can earn the greedy player, maximum lantern cards, <br>
+	 * and favor tokens.
 	 * @param game instance of the game class
 	 * @return best solution to place a lake tile
 	 */
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game);
 	
 	/**
-	 * To check if a player can make a dedication, based on the number of lantern cards
+	 * This method is to check if a player can make a dedication, based on the number <br>
+	 * of lantern cards.
 	 * @param players list of all the players
 	 * @return true if dedication is possible to make, false otherwise
 	 */
 	protected abstract boolean canMakeDedication(Queue<Player> players);
 	
 	/**
-	 * To select which dedication to make
+	 * This method is to select which dedication to make.
 	 * @param players
 	 * @return choice selected 
 	 */
 	protected abstract int selectDedication(Queue<Player> players);
 	
 	/**
-	 * To check if a player can exchange a lantern card in order to perform 
-	 * a dedication
+	 * This method is to check if a player can exchange a lantern card in order to <br>
+	 * perform a dedication.
 	 * @param players list of players in the game
 	 * @param game clone instance of game class
 	 * @return true if exchange is possible, false otherwise
@@ -136,7 +139,7 @@ public abstract class UnfriendlyStrategy implements Strategy{
 	protected abstract boolean canExchangeLanternCard(Queue<Player> players, Game game);
 	
 	/**
-	 * Perform exchange and get the lantern cards a player wants
+	 * This method is to perform exchange and get the lantern cards a player wants <br>
 	 * to make a dedication
 	 * @param player current player
 	 * @param game clone instance of game class

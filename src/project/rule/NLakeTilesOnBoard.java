@@ -10,7 +10,7 @@ import project.Game;
  */
 public class NLakeTilesOnBoard extends NLakeTilesOnBoardRule{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 157377633433786705L;
 

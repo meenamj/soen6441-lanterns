@@ -5,13 +5,13 @@ import java.util.Random;
 import project.Game;
 
 /**
- * This class implement the passing power boat disaster type
+ * This class implement the passing power boat disaster type.
  * @author Nuttakit
  * @version 1.0
  */
 public abstract class PassingPowerBoatDisaster implements Disaster {
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 2298762894237856734L;
 	
@@ -38,7 +38,7 @@ public abstract class PassingPowerBoatDisaster implements Disaster {
 	}
 	
 	/**
-	 * to check if disaster is occurred or not
+	 * This method is to check if disaster is occurred or not.
 	 * @return boolean get disaster or not get disaster in the game
 	 */
 	public boolean getDisaster() {

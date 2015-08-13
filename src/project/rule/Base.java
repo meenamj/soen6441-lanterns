@@ -4,7 +4,7 @@ import project.Game;
 import project.Player;
 
 /**
- * This class extends base rule abstract class
+ * This class extends base rule abstract class.
  * @author Nuttakit
  * @version 1.0
  */
@@ -12,10 +12,14 @@ import project.Player;
 public class Base extends BaseRule{
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -5800234720766555002L;
-
+	
+	/**
+	 * @param game the current game
+	 * @return true if the game ends
+	 */
 	@Override
 	public boolean rule(Game game) {
 		//get current player
@@ -28,7 +32,4 @@ public class Base extends BaseRule{
 		}
 		return is_winner;
 	}
-
-	
-
 }

@@ -5,7 +5,7 @@ import java.util.Random;
 import project.Game;
 
 /**
- * This class implement the lighting strike disaster type
+ * This class implement the lighting strike disaster type.
  * @author Meena
  * @version 1.0
  */
@@ -13,7 +13,7 @@ import project.Game;
 public abstract class LightningStrikeDisaster implements Disaster {
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version
 	 */
 	private static final long serialVersionUID = -1203306784472254204L;
 
@@ -21,7 +21,7 @@ public abstract class LightningStrikeDisaster implements Disaster {
 
 	/**
 	 * This method set the chance of a Lightning strike disaster base on the
-	 * number of player
+	 * number of player.
 	 * 
 	 * @param nplayer
 	 *            Number of player
@@ -41,8 +41,8 @@ public abstract class LightningStrikeDisaster implements Disaster {
 	}
 	
 	/**
-	 * to check if disaster is occurred or not
-	 * @return boolean get disaster or not get disaster in the game
+	 * This method is to check if disaster is occurred or not.
+	 * @return boolean get disaster or not get disaster in the game.
 	 */
 	public boolean getDisaster() {
 		Random random = new Random();

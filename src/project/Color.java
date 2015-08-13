@@ -5,7 +5,7 @@ import java.util.*;
 import project.exception.ColorNotExistedException;
 
 /**
- * This class is used to show the color of lantern cards, lake tiles for playing the game
+ * This class is used to show the color of lantern cards, lake tiles for playing the game.
  * @author avneet
  * @version 1.0
  */

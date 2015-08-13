@@ -11,7 +11,7 @@ public class NoNumberPlayersException extends Exception {
 	private static final long serialVersionUID = -7932736642754824635L;
 
 	/**
-	 * 
+	 * Constructor of the class.
 	 * @param num_player number of players 
 	 */
 	public NoNumberPlayersException(int num_player) {

@@ -31,7 +31,7 @@ public class LightningStrike extends LightningStrikeDisaster{
 	}
 
 	/**
-	 * this attack used to remove the dedication tokens on player hand randomly
+	 * This attack used to remove the dedication tokens on player hand randomly.
 	 * @param game the current game
 	 * @return the dedication information of the disaster on the player hand
 	 */

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import project.Game;
 /**
- * This class is an interface to all types of disaster
+ * This class is an interface to all types of disaster.
  * @author Nuttakit
  * @version 1.0
  */
@@ -16,8 +16,8 @@ public interface Disaster extends Serializable{
 	public static final int LIGHTNING_STRIKE = 2;
 	
 	/**
-	 * To compare the chance with random number.
-	 * if the random number is greater than chance
+	 * To compare the chance with random number.<br>
+	 * If the random number is greater than chance,
 	 * attack method will be used
 	 * @return boolean
 	 */

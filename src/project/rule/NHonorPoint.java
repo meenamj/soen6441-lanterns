@@ -7,14 +7,14 @@ import project.Game;
 import project.Player;
 
 /**
- * This class represent the honor point rule type and extends the abstract class of the Honor Point rule type
+ * This class represent the honor point rule type and extends the abstract class of the Honor Point rule type.
  * @author Nirav
  * @version 1.0
  */
 
 public class NHonorPoint extends NHonorPointRule{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 1113739222228659334L;
 	
@@ -26,6 +26,10 @@ public class NHonorPoint extends NHonorPointRule{
 		setWinnerHonorValue(win_honor);
 	}
 	
+	/**
+	 * @param game the current game
+	 * @return true if the game ends
+	 */
 	@Override
 	public boolean rule(Game game) {
 		//get current player

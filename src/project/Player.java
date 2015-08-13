@@ -14,7 +14,7 @@ import project.strategy.Strategy.Name;
 
 
 /**
- * player is the person who play the game
+ * Player is the person who play the game.
  * 
  * @author Idris
  * @version 1.3

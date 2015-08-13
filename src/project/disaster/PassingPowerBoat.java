@@ -19,12 +19,12 @@ import project.Position;
 public class PassingPowerBoat extends PassingPowerBoatDisaster{
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version
 	 */
 	private static final long serialVersionUID = 6545653312985307225L;
 
 	/**
-	 * constractor of passing power boat
+	 * Constructor of passing power boat
 	 * @param nplayer the number of player in the game
 	 */
 	public PassingPowerBoat(int nplayer) {
@@ -33,17 +33,17 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 	}
 	
 	/**
-	 * the list of removed laketiles on board
+	 * The list of removed lake tiles on board
 	 */
 	private ArrayList<LakeTile> removed_laketile;
 	/**
-	 * the list of positions that laketiles are removed on board
+	 * the list of positions that lake tiles are removed on board
 	 */
 	private ArrayList<Position> removed_position;
 
 	/**
-	 * this attack used to remove some lake tiles on board randomly
-	 * without gap between them
+	 * This attack used to remove some lake tiles on board randomly
+	 * without gap between them.
 	 * @param game the current game
 	 * @return the dedication information of the disaster on the player hand
 	 */
@@ -69,7 +69,7 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 
 	/**
 	 * This method remove lake tile after a disaster and make sure there are no
-	 * gap in lake tiles on board
+	 * gap in lake tiles on board.
 	 * 
 	 * @param game
 	 *            The current game
@@ -112,7 +112,7 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 	}
 
 	/**
-	 * This method counts the number of lake tile on the board
+	 * This method counts the number of lake tile on the board.
 	 * 
 	 * @param board
 	 *            The board containing lake tiles
@@ -130,7 +130,7 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 	}
 
 	/**
-	 * This method get all the lake tile position on the board
+	 * This method get all the lake tile position on the board.
 	 * 
 	 * @param board
 	 *            The containing the player lake tile
@@ -150,7 +150,7 @@ public class PassingPowerBoat extends PassingPowerBoatDisaster{
 	}
 
 	/**
-	 * the show the information of removed lake tiles on board by text
+	 * The show the information of removed lake tiles on board by text.
 	 * @return text of removed lake tiles
 	 */
 	private String showText() {

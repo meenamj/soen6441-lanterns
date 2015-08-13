@@ -11,13 +11,13 @@ import project.Game;
 
 public abstract class TsunamiDisaster implements Disaster{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -8342469732431843801L;
-	int chance_percent = 0;
+	private int chance_percent = 0;
 	
 	/**
-	 * This method set the chance of a Tsunami disaster base on the number of player
+	 * This method set the chance of a Tsunami disaster base on the number of player.
 	 * @param nplayer Number of player
 	 */
 	protected TsunamiDisaster(int nplayer) {
@@ -37,7 +37,7 @@ public abstract class TsunamiDisaster implements Disaster{
 	}
 	
 	/**
-	 * to check if disaster is occurred or not
+	 * This method is to check if disaster is occurred or not.
 	 * @return boolean get disaster or not get disaster in the game
 	 */
 	public boolean getDisaster() {
@@ -45,7 +45,10 @@ public abstract class TsunamiDisaster implements Disaster{
 		int risk = random.nextInt(100);
 		return getChancePercent() > risk;
 	}
-	
+	/**
+	 * This method is to check if disaster is occurred or not.
+	 * @return boolean get disaster or not get disaster in the game
+	 */
 	public int getChancePercent(){
 		return chance_percent;
 	}

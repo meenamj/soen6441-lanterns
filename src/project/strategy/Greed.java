@@ -25,15 +25,15 @@ import project.Supply;
 import project.exception.RotationNotExistedException;
 
 /**
- * This class represent the concrete class for the greedy player strategy, greedy player
- * always try to get more lantern cards, and to make dedication, so greedy player 
+ * This class represent the concrete class for the greedy player strategy, greedy player<br>
+ * always try to get more lantern cards, and to make dedication, so greedy player <br>
  * tries to choose a solution, which can get it more lantern cards and favor tokens. 
  * @author Nirav
  *
  */
 public class Greed extends GreedyStrategy{
     /**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 5692856303792375794L;
 	
@@ -42,8 +42,8 @@ public class Greed extends GreedyStrategy{
 	private static final int SEVEN_UNIQUE_CHOICE = 2;
     
     /**
-     * to check if the player can make a dedication or not for the
-     * current stack of lantern cards
+     * This method is to check if the player can make a dedication or not for the
+     * current stack of lantern cards.
      * @param players Queue of all the players
      * @return flag true if make a dedication is possible, false otherwise
      */
@@ -63,7 +63,7 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * check which dedication is possible to make, and return the choice 
+     * This method is to select which dedication is possible to make, and return the choice 
      * based on the possibilities
      * @param players queue of all the players
      * @return choice number based on the possible dedication 
@@ -86,7 +86,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * To check if lantern card exchange is possible for a player
+     * This method is to choose lantern card
+     *  if lantern card exchange is possible for a player
      * @param players queue of all the players
      * @param game instance of the game class
      * @return true if the exchange is possible, false otherwise 
@@ -112,8 +113,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * to perform an exchange of a lantern card, to get all the lantern cards on a player hand
-     * and put it in a HashMap
+     * This method is to perform an exchange of a lantern card, to get all the lantern cards on a player hand
+     * and put it in a HashMap.
      * @param player current player
      * @param game clone of the game instance
      * @return pair of solution to be selected for the exchange of a lantern card
@@ -144,19 +145,19 @@ public class Greed extends GreedyStrategy{
          
          //sort the map in descending order of the number of colors
          Map<Color,Integer> sortedMap = sortByComparator(numOfLanternColor, DESC);
-         exchnageOptions = ExchangeLanternCard(sortedMap,player,game);
+         exchnageOptions = exchangeLanternCard(sortedMap,player,game);
 
          return exchnageOptions;
     }
     
     /**
-     * Decide which lantern card to exchange 
+     * This method is choose the lantern card to exchange.
      * @param sortedMap sorted HashMap of color and value pair
      * @param player current player
      * @param game clone of the game instance
      * @return pair of solution to be selected for the exchange of a lantern card
      */
-    protected int[] ExchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
+    protected int[] exchangeLanternCard( Map<Color, Integer> sortedMap, Player player, Game game){
         int[] numOfLanterns = new int[7];
         Color[] c = new Color[7];
         int[] exchnageOptions = new int[2];
@@ -332,7 +333,7 @@ public class Greed extends GreedyStrategy{
 	}
     
 	/**
-     * select a lantern card from player stack to exchange
+     * This method is to select a lantern card from player stack to exchange.
      * @param playerCard color to exchange
      * @param game clone instance of game class
      * @param player current player
@@ -368,7 +369,7 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * select a lantern card to exchange from supply
+     * This method is to select a lantern card to exchange from supply.
      * @param playerCard a card color to put in the supply
      * @param supplyCard a card color to get from the supply
      * @param game clone instance of game class
@@ -408,8 +409,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * check lantern card supply to make sure the lantern card a player wants to exchange is
-     * available in the supply stack otherwise return false
+     * This method is to check lantern card supply to make sure the lantern card a player wants to exchange is
+     * available in the supply stack otherwise return false.
      * @param supplyCard color to search for in the supply stack
      * @param game clone instance of game class
      * @return flag true if the color is available , false otherwise
@@ -430,8 +431,8 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * check all possible solutions for each three steps of place a lake tile on the board and return
-     * best solution to put a lake tile for a greedy player
+     * This method is to get the best solution by checking all possible solutions<br>
+     * for each three steps of place a lake tile on the board for a greedy player.
      * @param game clone instance of game class 
      * @throws RotationNotExistedException when the rotation of lake tile does not exist
      */
@@ -499,7 +500,7 @@ public class Greed extends GreedyStrategy{
     
     /**
      * This method give bonus lake tile if two color of the same are facing each other, and increase the 
-     * counter value based on the lantern cards a player can get
+     * counter value based on the lantern cards a player can get.
      * 
      * @param active_laketile lake tile on the play area
      * @param adjacent_colors adjacent colors of all lake tiles nearby the active lake tile
@@ -547,8 +548,8 @@ public class Greed extends GreedyStrategy{
     }
 
     /**
-     * This method checks the direction to give bonus
-     * Comparing one color side of player's lake tile with adjacent color
+     * This method checks the direction to give bonus.<br>
+     * Comparing one color side of player's lake tile with adjacent color.
      * @param r Degree of rotation
      * @param active_laketile lake tile on play area
      * @param color_platform color of platform
@@ -588,7 +589,7 @@ public class Greed extends GreedyStrategy{
     }
     
     /**
-     * perform sorting on the HashMap of Lantern cards
+     * This method is to perform sorting on the HashMap of Lantern cards.
      * @param unsortMap unsorted map
      * @param order sorting order
      * @return sorted map

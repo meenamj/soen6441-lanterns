@@ -23,8 +23,8 @@ import project.Position;
 import project.Rotation;
 import project.Supply;
 /**
- * This class represent the concrete class for the unfriendly player strategy type,
- * Unfriendly player selects an option to place a lake tile, which does not give any 
+ * This class represent the concrete class for the unfriendly player strategy type, <br>
+ * Unfriendly player selects an option to place a lake tile, which does not give any <br>
  * Opponent player a lantern card to make a dedication. 
  * @author Nirav
  * @version 1.0
@@ -32,7 +32,7 @@ import project.Supply;
 public class Unfriendliness extends UnfriendlyStrategy{
     
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 7175461946886588653L;
 	private static final int FOUR_OF_A_KIND_CHOICE = 0;
@@ -40,8 +40,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	private static final int SEVEN_UNIQUE_CHOICE = 2;
     
     /**
-     * to check if the player can make a dedication or not for the
-     * current stack of lantern cards
+     * This method is to check if the player can make a dedication or not for the<br>
+     * current stack of lantern cards.
      * @param players Queue of all the players
      * @return isDedicatoinPossible true if make a dedication is possible, false otherwise
      */
@@ -61,8 +61,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * To check which dedication is possible to make, and return the choice 
-     * based on the possibilities
+     * This method is to check which dedication is possible to make, and return the choice <br> 
+     * based on the possibilities.
      * @param players queue of all the players
      * @return choice number based on the possible dedication 
      */
@@ -83,7 +83,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * To check if lantern card exchange is possible for a player
+     * This method is to check if lantern card exchange is possible for a player.
      * @param players queue of all the players
      * @param game instance of the game class
      * @return true if the exchange is possible, false otherwise 
@@ -109,8 +109,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * to perform an exchange of a lantern card, to get all the lantern cards on a player hand
-     * and put it in a HashMap
+     * This method is to perform an exchange of a lantern card, to get all the lantern cards <br>
+     * on a player hand and put it in a HashMap.
      * @param player current player
      * @param game clone of the game instance
      * @return pair of solution to be selected for the exchange of a lantern card
@@ -146,7 +146,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * Decide which lantern card to exchange 
+     * This method is to choose lantern card
+     *  if lantern card exchange is possible for a player
      * @param sortedMap sorted HashMap of color and value pair
      * @param player current player
      * @param game clone of the game instance
@@ -178,12 +179,12 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * Decide which lantern card to exchange to make a three Pair dedication
+     * This method is to select which lantern card to exchange to make a three pair dedication.
      * @param player current player
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
 	private int[] findThreePairPattern(Player player, Game game, int[] colors,Color[] c, int[] exchnageOptions) {
 		 if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && player.getNumberOfFavorTokens() >= 2){
@@ -212,15 +213,15 @@ public class Unfriendliness extends UnfriendlyStrategy{
 		 }
 		 return exchnageOptions;
 	}
+	
     /**
-     * Decide which lantern card to exchange to make a Four of a Kind dedication
+     * This method is to select which lantern card to exchange to make a four of a kind dedication.
      * @param player current player
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
-
 	private int[] findFourOfKindPattern(Player player, Game game, int[] colors,
 			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 3 && colors[1] == 1 && player.getNumberOfFavorTokens() >= 2){
@@ -259,15 +260,15 @@ public class Unfriendliness extends UnfriendlyStrategy{
 		 }
 		return exchnageOptions;
 	}
+	
     /**
-     * Decide which lantern card to exchange to make a Seven Unique Dedication
+     * This method is to select which lantern card to exchange to make a seven unique dedication.
      * @param player current player
      * @param game Clone of the game instance
      * @param colors lantern cards color
      * @param c color of lantern card
-     * @param ExchnageOptions Lantern cards to be exchanges options
+     * @param exchnageOptions Lantern cards to be exchanges options
      */
-
 	private int[] findSevenOfKindPattern(Player player, Game game, int[] colors,
 			Color[] c, int[] exchnageOptions) {
 		if(colors[0] == 2 && colors[1] == 2 && colors[2] == 1 && colors[3] == 1 && colors[4] == 1 && player.getNumberOfFavorTokens() >= 4){
@@ -308,7 +309,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
 	}
     
 	/**
-     * select a lantern card from player stack to exchange
+     * This method is to select a lantern card from player stack to exchange.
      * @param playerCard color to exchange
      * @param game clone instance of game class
      * @param player current player
@@ -344,7 +345,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * select a lantern card to exchange from supply
+     * This method is to select a lantern card to exchange from supply.
      * @param playerCard a card color to put in the supply
      * @param supplyCard a card color to get from the supply
      * @param game clone instance of game class
@@ -389,8 +390,9 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * check lantern card supply to make sure the lantern card a player wants to exchange is
-     * available in the supply stack otherwise return false
+     * This method is to check if lantern card supply to make sure <br>
+     * the lantern card a player wants to exchange is available in <br>
+     * the supply stack otherwise return false.
      * @param supplyCard color to search for in the supply stack
      * @param game clone instance of game class
      * @return flag true if the color is available , false otherwise
@@ -417,8 +419,8 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * check all possible solutions for each three steps of place a lake tile on the board and return
-     * best solution to put a lake tile
+     * This method is to get the best solution by checking all possible solutions<br>
+     * for each three steps of place a lake tile on the board for unfriendly player.
      * @param game clone instance of game class 
      */
     protected ArrayList<Integer> simulateGamePlay(Game game)
@@ -484,7 +486,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * To pick random value from a given array
+     * This method is to pick random value from a given array.
      * @param min minimum range
      * @param max Maximum range
      * @return random number
@@ -503,11 +505,11 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
     
     /**
-     * This method distribute lantern card from supply to player
+     * This method distribute lantern card from supply to player.
      * @param active_laketile active lake tile 
      * @param supply lantern card supply
      * @param game current game being played
-     * @return boolean
+     * @return if there is only one the worst distribution of other players.  
      */
     public boolean checkdistributeLanternCard(LakeTile active_laketile, Supply supply, Game game) 
     {
@@ -552,7 +554,7 @@ public class Unfriendliness extends UnfriendlyStrategy{
     }
 
     /**
-     * perform sorting on the HashMap of Lantern cards
+     * This method is to perform sorting on the HashMap of lantern cards.
      * @param unsortMap unsorted map
      * @param order sorting order
      * @return sorted map

@@ -13,8 +13,8 @@ import java.util.Map.Entry;
 import project.exception.ColorNotExistedException;
 
 /**
- * play area is a place for players to put a lake tile and draw dedication
- * tokens
+ * Play area is a place for players to put a lake tile and draw dedication
+ * tokens.
  * 
  * @author none
  */

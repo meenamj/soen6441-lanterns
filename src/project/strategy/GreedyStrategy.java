@@ -7,23 +7,23 @@ import project.Game;
 import project.Player;
 import project.exception.RotationNotExistedException;
 /**
- * This class represent the abstract class for greedy player strategy class,
- * the greedy player always makes the move which will bring the best immediate return
- * (i.e. always try to place a Lake Tile which will help arrange a dedication, 
- * and always make a dedication as soon as possible) 
+ * This class represent the abstract class for greedy player strategy class, <br>
+ * the greedy player always makes the move which will bring the best immediate <br> 
+ * return (i.e. always try to place a Lake Tile which will help arrange a <br>
+ * dedication, and always make a dedication as soon as possible). 
  * @author Nirav
  * 
  */
 public abstract class GreedyStrategy implements Strategy{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 8668713217327493214L;
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	private int[] exchangeOptions = new int[2];
 	
 	/**
-	 * This method determine the strategy of the player in a game and what option they have selected
+	 * This method determine the strategy of the player in a game and what option they have selected.
 	 * @param number_options option selected by player
 	 * @param status what strategy is currently being used by player
 	 * @param game The current game played
@@ -93,8 +93,9 @@ public abstract class GreedyStrategy implements Strategy{
 	}
 	
 	/**
-	 * Check for all possible solutions, and pick the best one to place a lake tile, which can earn
-	 * the greedy player, maximum lantern cards, and favor tokens
+	 * This method is to get the best greedy player's solution, <br>
+	 * which can earn, maximum lantern cards, and favor tokens, <br>
+	 * by checking for all possible solutions to place a lake tile. 
 	 * @param game instance of the game class
 	 * @return best solution to place a lake tile
 	 * @throws RotationNotExistedException occurs if rotation not exist
@@ -102,22 +103,23 @@ public abstract class GreedyStrategy implements Strategy{
 	protected abstract ArrayList<Integer> simulateGamePlay(Game game) throws RotationNotExistedException;
 	
 	/**
-	 * To check if a player can make a dedication, based on the number of lantern cards
+	 * This method is to check if a player can make a dedication, <br>
+	 * based on the number of lantern cards.
 	 * @param players list of all the players
 	 * @return true if dedication is possible to make, false otherwise
 	 */
 	protected abstract boolean canMakeDedication(Queue<Player> players);
 	
 	/**
-	 * To select which dedication to make
+	 * This method is to select which dedication to make.
 	 * @param players
 	 * @return choice selected 
 	 */
 	protected abstract int selectDedication(Queue<Player> players);
 	
 	/**
-	 * To check if a player can exchange a lantern card in order to perform 
-	 * a dedication
+	 * This method is to check if a player can exchange a lantern card <br>
+	 * in order to perform a dedication.
 	 * @param players list of players in the game
 	 * @param game clone instance of game class
 	 * @return true if exchange is possible, false otherwise
@@ -125,8 +127,8 @@ public abstract class GreedyStrategy implements Strategy{
 	protected abstract boolean canExchangeLanternCard(Queue<Player> players, Game game);
 	
 	/**
-	 * Perform exchange and get the lantern cards a player wants
-	 * to make a dedication
+	 * This method is to perform exchange and get the lantern cards a player wants <br>
+	 * to make a dedication.
 	 * @param player current player
 	 * @param game clone instance of game class
 	 * @return inputs need to be provided in order to perform an exchange

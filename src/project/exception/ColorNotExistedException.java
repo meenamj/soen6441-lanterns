@@ -1,17 +1,17 @@
 package project.exception;
 
 /**
- * this exception happens when color does not exist
+ * This exception happens when color does not exist.
  */
 public class ColorNotExistedException extends Exception {
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 5818804403065858938L;
 
 	/**
-	 * 
+	 * Constructor of the class.
 	 * @param string color name
 	 */
 	public ColorNotExistedException(String string) {

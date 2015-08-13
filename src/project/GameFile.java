@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 import project.strategy.Human;
 /**
- * this class is used to manage the game file\
+ * this class is used to manage the game file
  * 
  * @author Nuttakit
  * @version 1.1

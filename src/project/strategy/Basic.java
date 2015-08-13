@@ -1,6 +1,6 @@
 package project.strategy;
 /**
- * This class represent the basis strategy player type
+ * This class represent the basis strategy player type.
  * @author Idris
  * @version 1.0
  */
@@ -8,7 +8,7 @@ package project.strategy;
 public class Basic extends BasicStrategy{
 
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -6785139788847554351L;
 

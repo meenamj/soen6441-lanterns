@@ -14,7 +14,8 @@ import project.strategy.Random;
 import project.strategy.Strategy.Name;
 
 /**
- * The game named Lanterns : Harvest Festival This class is used to run the game
+ * The game named Lanterns : Harvest Festival.<br>
+ * This class is used to run the game.
  * 
  * @author Nuttakit
  * @version 2.0
@@ -23,14 +24,14 @@ import project.strategy.Strategy.Name;
 public class Game implements Serializable {
 	
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = 4065252587270966918L;
 
 	/**
-	 * the list of players in the game
+	 * The list of players in the game.
 	 * 
-	 * You can get the first player by element method
+	 * You can get the first player by element method.
 	 * <code>Player first_player = getPlayers().element();</code>
 	 * also, pop method, however, after using this method, the player will not in the queue object.
 	 * <code>Player first_player = getPlayers().pop();</code>

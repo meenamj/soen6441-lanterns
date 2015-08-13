@@ -5,18 +5,18 @@ import java.util.Random;
 import project.Game;
 import project.Player;
 /**
- * This abstract class represent the basis strategy player type
+ * This abstract class represent the basis strategy player type.
  * @author Idris
  * @version 1.0
  */
 public abstract class BasicStrategy implements Strategy{
 	/**
-	 * it is used to keep the correct version
+	 * It is used to keep the correct version.
 	 */
 	private static final long serialVersionUID = -5287120180128710069L;
 
 	/**
-	 * This method determine the strategy of the player in a game and what option they have selected
+	 * This method determine the strategy of the player in a game and what option they have selected.
 	 * @param number_options option selected by player
 	 * @param status what strategy is currently being used by player
 	 * @param game The current game played

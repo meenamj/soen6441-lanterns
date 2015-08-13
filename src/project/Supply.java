@@ -6,7 +6,7 @@ import java.util.*;
 import project.exception.ColorNotExistedException;
 
 /** 
- * This supply class will be used for seven lantern stacks creation
+ * This supply class will be used for seven lantern stacks creation.
  * @author Meenakshi
  */
 public class Supply extends HashMap<Color, Stack<LanternCard>>implements Serializable{
