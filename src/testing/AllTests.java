@@ -7,7 +7,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ DisasterTest.class, GameFileTest.class, GameTest.class,
 		LakeTileTest.class, PlayAreaTest.class, PlayerTest.class,
-		PositionTest.class, RotationTest.class, SupplyTest.class })
+		PositionTest.class, RotationTest.class, RuleTest.class,
+		StrategyTest.class, SupplyTest.class })
 public class AllTests {
 
 }
