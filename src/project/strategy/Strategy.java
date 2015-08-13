@@ -18,16 +18,16 @@ public interface Strategy extends Serializable{
 	/**
 	 * Name enumeration represents different menu choices.
 	 * <ul>
-	 * <li>START represents the menu where we select player types.</li>
-	 * <li>MAINMENU represents main options available for each player where they get their turn</li>
-	 * <li>CHOOSE_LANTERN_HAND represents options to pick a lantern card from player stack while performing 
+	 * <li><b style="color:#FF0000">START</b> represents the menu where we select player types.</li>
+	 * <li><b style="color:#FF0000">MAINMENU</b> represents main options available for each player where they get their turn</li>
+	 * <li><b style="color:#FF0000">CHOOSE_LANTERN_HAND</b> represents options to pick a lantern card from player stack while performing 
 	 * 						a lantern card exchange</li>
-	 * <li>CHOOSE_LANTERN_SUPPLY represents options to pick a lantern card from supply stack while performing
+	 * <li><b style="color:#FF0000">CHOOSE_LANTERN_SUPPLY</b> represents options to pick a lantern card from supply stack while performing
 	 * 						a lantern card exchange</li>
-	 * <li>MAKE_DEDICATION represents options to select a dedication a player wants to make</li>
-	 * <li>SELECT_LAKE represents options while selecting a lake tile to place from a player hand</li>
-	 * <li>SELECT_BOARD_POSITION represents options to select a position on the board to place a lake tile</li>
-	 * <li>SELECT_LAKE_ROTATION represents options to select a rotation of the lake tile 
+	 * <li><b style="color:#FF0000">MAKE_DEDICATION</b> represents options to select a dedication a player wants to make</li>
+	 * <li><b style="color:#FF0000">SELECT_LAKE</b> represents options while selecting a lake tile to place from a player hand</li>
+	 * <li><b style="color:#FF0000">SELECT_BOARD_POSITION</b> represents options to select a position on the board to place a lake tile</li>
+	 * <li><b style="color:#FF0000">SELECT_LAKE_ROTATION</b> represents options to select a rotation of the lake tile 
 	 * 						before placing it on the board</li>
 	 * </ul>
 	 */
