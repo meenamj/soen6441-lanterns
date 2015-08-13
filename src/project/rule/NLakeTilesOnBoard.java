@@ -31,7 +31,7 @@ public class NLakeTilesOnBoard extends NLakeTilesOnBoardRule{
 		int num_draw = start_laketile_stack-current_laketile_stack;
 		//plus 1 because first round players do not draw stack
 		int current_round = (num_draw/num_player)+1;
-		if(current_round==getFinalRound()){
+		if(current_round>=getFinalRound()){
 			System.out.println("with n lake tile on board rule");
 			is_winner = true;
 			try {
