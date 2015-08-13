@@ -7,7 +7,7 @@ import project.Player;
 /**
  * This class represent the abstract class for the random strategy player.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  */
 public abstract class RandomStrategy implements Strategy{
 	/**

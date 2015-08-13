@@ -6,7 +6,7 @@ import project.Player;
 /**
  * This class extends base rule abstract class.
  * @author Nuttakit
- * @version 1.0
+ * @version 3.0
  */
 
 public class Base extends BaseRule{

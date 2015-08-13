@@ -29,6 +29,7 @@ import project.exception.RotationNotExistedException;
  * always try to get more lantern cards, and to make dedication, so greedy player <br>
  * tries to choose a solution, which can get it more lantern cards and favor tokens. 
  * @author Nirav
+ * @version 3.0
  *
  */
 public class Greed extends GreedyStrategy{

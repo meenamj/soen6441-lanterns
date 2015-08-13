@@ -5,7 +5,7 @@ import project.Game;
 /**
  * This class represent the Number of Lake Tile rule type.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  *
  */
 public class NLakeTilesOnBoard extends NLakeTilesOnBoardRule{

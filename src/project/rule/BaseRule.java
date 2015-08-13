@@ -5,7 +5,7 @@ import project.Game;
 /**
  * This class serves as an abstract class for base rule.
  * @author Nuttakit
- * @version 1.0
+ * @version 3.0
  */
 public abstract class BaseRule implements Rule{
 	/**

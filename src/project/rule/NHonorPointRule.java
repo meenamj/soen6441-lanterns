@@ -5,7 +5,7 @@ import project.Game;
 /**
  * This class is an abstract class for the honor point rule type.
  * @author Nirav
- * @version 1.0
+ * @version 3.0
  */
 
 public abstract class NHonorPointRule implements Rule{

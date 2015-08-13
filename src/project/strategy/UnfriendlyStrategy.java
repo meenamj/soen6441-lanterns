@@ -13,7 +13,7 @@ import project.Player;
  * way as to minimize bonuses going to other players, and/or attempt to prevent <br>
  * other players from collecting the Lantern Cards they need to make a dedication).
  * @author Nirav
- * @version 1.0
+ * @version 3.0
  */
 public abstract class UnfriendlyStrategy implements Strategy{
 	/**

@@ -27,7 +27,7 @@ import project.Supply;
  * Unfriendly player selects an option to place a lake tile, which does not give any <br>
  * Opponent player a lantern card to make a dedication. 
  * @author Nirav
- * @version 1.0
+ * @version 3.0
  */
 public class Unfriendliness extends UnfriendlyStrategy{
     

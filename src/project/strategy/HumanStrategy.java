@@ -7,7 +7,7 @@ import project.Game;
 /**
  * This class represent the abstract class of the Human strategy player type.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  */
 
 public abstract class HumanStrategy implements Strategy{

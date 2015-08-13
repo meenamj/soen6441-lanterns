@@ -7,7 +7,7 @@ import project.Player;
 /**
  * This abstract class represent the basis strategy player type.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  */
 public abstract class BasicStrategy implements Strategy{
 	/**

@@ -4,7 +4,7 @@ import project.Game;
 /**
  * This is an abstract class for the Number of Lake Tile rule.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  */
 
 public abstract class NLakeTilesOnBoardRule implements Rule{

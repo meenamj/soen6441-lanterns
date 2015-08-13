@@ -2,7 +2,7 @@ package project.strategy;
 /**
  * This class represent the concrete class of a random strategy player.
  * @author Idris
- * @version 1.0
+ * @version 3.0
  */
 public class Random extends RandomStrategy{
 

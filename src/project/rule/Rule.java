@@ -6,7 +6,7 @@ import project.Game;
 /**
  * This class serves as an interface to different types of rule that can be applied to the game.
  * @author Meena
- * @version 1.0
+ * @version 3.0
  */
 public interface Rule extends Serializable{
 	final static int BASE_RULE = 0 ;

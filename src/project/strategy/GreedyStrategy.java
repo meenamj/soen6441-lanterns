@@ -12,6 +12,7 @@ import project.exception.RotationNotExistedException;
  * return (i.e. always try to place a Lake Tile which will help arrange a <br>
  * dedication, and always make a dedication as soon as possible). 
  * @author Nirav
+ * @version 3.0
  * 
  */
 public abstract class GreedyStrategy implements Strategy{

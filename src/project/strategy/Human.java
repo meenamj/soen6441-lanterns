@@ -2,7 +2,7 @@ package project.strategy;
 /**
  * This class is a concrete class for Human strategy player type.
  * @author Nuttakit
- * @version 1.0
+ * @version 3.0
  */
 public class Human extends HumanStrategy{
 

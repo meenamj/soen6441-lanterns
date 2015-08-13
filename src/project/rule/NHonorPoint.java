@@ -9,7 +9,7 @@ import project.Player;
 /**
  * This class represent the honor point rule type and extends the abstract class of the Honor Point rule type.
  * @author Nirav
- * @version 1.0
+ * @version 3.0
  */
 
 public class NHonorPoint extends NHonorPointRule{
