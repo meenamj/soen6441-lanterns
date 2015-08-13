@@ -9,6 +9,10 @@ import project.Game;
  * @version 1.0
  */
 public interface Rule extends Serializable{
+	final static int BASE_RULE = 0 ;
+	final static int N_LAKE_TILES_ON_BOARD_RULE = 1;
+	final static int N_HONOR_POINT_RULE = 2;
+	
 	/**
 	 * This method enables the modification of the game rule
 	 * @param game the current game being played
