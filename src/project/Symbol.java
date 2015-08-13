@@ -2,7 +2,7 @@ package project;
 /**
  * This class is used for getting a string of unicode.
  */
-public class Symbol {
+public final class Symbol {
 	/**
 	 * ( &uarr; ) 
 	 */
