@@ -256,9 +256,9 @@ public class PlayArea implements Serializable {
 
 		for (int i = 0; i < numberOfEachToken; i++) {
 
-			if (numberOfPlayers == 2 && DedicationToken.dotsList[i] > 2) {
+			if (numberOfPlayers == 2 && DedicationToken.DOTS_LIST[i] > 2) {
 				// for 2 players, do not add dots in any stacks
-			} else if (numberOfPlayers == 3 && DedicationToken.dotsList[i] > 3) {
+			} else if (numberOfPlayers == 3 && DedicationToken.DOTS_LIST[i] > 3) {
 				// for 3 players, do not add Dedication token4 dots in any
 				// stacks
 			} else {

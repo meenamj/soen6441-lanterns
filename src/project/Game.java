@@ -49,7 +49,7 @@ public class Game implements Serializable {
 	 * 0: Greedy - try to make dedication as possible
 	 * 1: Unfriendly - try not to help other players as possible
 	 * 2: Random - random everything as possible (high overhead)
-	 * 3: Basic - choose only first option on place laketile as possible
+	 * 3: Basic - choose only first option on place lake tile as possible
 	 * 4: Human - you can control everything by yourself
 	 */
 	private int[] strategies;
@@ -60,23 +60,23 @@ public class Game implements Serializable {
 	private Rule rule;
 	
 	/**
-	 * the disaster of the game
-	 * there are 3 kinds of disaster
+	 * The disaster of the game.
+	 * There are 3 kinds of disaster.
 	 * 1: Tsunami - clear all lake tile on board
-	 * to get the tsunami object
-	 * <code>Tsunami disaster = (Tsunami)disasters.get(0)</code>
+	 * to get the tsunami object.
+	 * <code>Tsunami disaster = (Tsunami)disasters.get(Strategy.Tsunami)</code>
 	 * 2: Passing Power Boat - clear some lake tile on board
-	 * to get the passing power boat object
-	 * <code>PassingPowerBoat disaster = (PassingPowerBoat)disasters.get(1)</code>
+	 * to get the passing power boat object.
+	 * <code>PassingPowerBoat disaster = (PassingPowerBoat)disasters.get(Strategy.PassingPowerBoat)</code>
 	 * 3: Lightning Strike - remove some dedication tokens on players randomly
-	 * to get the lightning strike object
-	 * <code>LightningStrike disaster = new (LightningStrike)disasters.get(2)</code>
+	 * to get the lightning strike object.
+	 * <code>LightningStrike disaster = (LightningStrike)disasters.get(Strategy.LightningStrike)</code>
 	 */
 	private ArrayList<Disaster> disasters;
 	
 	/**
-	 * the play area which provided lantern cards, lake tiles and dedication
-	 * token
+	 * the play area which provided lantern cards, 
+	 * lake tiles and dedication token
 	 */
 	private PlayArea playArea;
 
@@ -287,6 +287,8 @@ public class Game implements Serializable {
 			{
 				game.updateStrategy();
 				int nplayer = game.players.size();
+				String current_rule_name = game.getRule().getClass().getSimpleName();
+				System.out.println("the current rule is "+current_rule_name);
 				Rule r = ruleMenu(nplayer);
 				game.setRule(r);
 			}
@@ -336,11 +338,11 @@ public class Game implements Serializable {
 			System.out.println("Player[" + i + "] name:");
 			names[i] = new Human().inputString();
 			System.out.println("Which computer-based players you want?");
-			System.out.println("0. Greed\n" +
-					"1. Unfriend\n" +
-					"2. Random\n" +
-					"3. Basic\n" +
-					"4. Human");
+			System.out.println(Strategy.GREEDY_STRATEGY+". Greed\n");
+			System.out.println(Strategy.UNFRIENDLY_STRATEGY+". Unfriend\n");
+			System.out.println(Strategy.RANDOM_STRATEGY+". Random\n");
+			System.out.println(Strategy.BASIC_STRATEGY+". Basic\n");
+			System.out.println(Strategy.HUMAN_STRATEGY+". Human");
 			strategies[i] = new Human().inputOption(5, Strategy.Name.START,null);
 		}
 		Rule rule = ruleMenu(nplayer);
@@ -402,12 +404,12 @@ public class Game implements Serializable {
 		}else if(rule_choice==Rule.N_HONOR_POINT_RULE){
 			System.out.println("How many Honor point do you want to finish the game?");
 			int sum_honor = 0;
-			for(int i = 0; i<DedicationToken.dotsList.length;i++){
-				if(DedicationToken.dotsList[i]<nplayer)
+			for(int i = 0; i<DedicationToken.DOTS_LIST.length;i++){
+				if(DedicationToken.DOTS_LIST[i]<nplayer)
 				{
-					sum_honor +=FourOfAKindToken.honorList[i];
-					sum_honor +=ThreePairToken.honorList[i];
-					sum_honor +=SevenUniqueToken.honorList[i];
+					sum_honor +=FourOfAKindToken.HONOR_LIST[i];
+					sum_honor +=ThreePairToken.HONOR_LIST[i];
+					sum_honor +=SevenUniqueToken.HONOR_LIST[i];
 				}
 			}
 			
@@ -677,8 +679,6 @@ public class Game implements Serializable {
 				System.out.println(getPlayerPositionText());
 				
 				System.out.println("Place a lake tile selected");
-				
-				// **discard card or return to menu.
 
 				// show player position
 				
@@ -695,28 +695,30 @@ public class Game implements Serializable {
 				
 				int pos_laketile_opt = current_player.getStrategy().inputOption(list.size(), Strategy.Name.SELECT_BOARD_POSITION,this);
 				HashMap<Rotation, Vector<Object>> adjacent_colors = current_player.getPossibleRotation(list, adjacent_color_list, playArea, active_laketile, pos_laketile_opt);
-				///
+				
 				System.out.println(current_player.getPossibleRotationText(active_laketile));
 				
 				int rotation_opt = current_player.getStrategy().inputOption(4, Strategy.Name.SELECT_LAKE_ROTATION,this);
 				current_player.setRotationOnActiveLakeTile(active_laketile, rotation_opt);
-				///
+				
 				
 				distributeLanternCard(active_laketile, playArea.getSupply());
 				getBonusPlaceLakeTile(active_laketile, adjacent_colors);
 				
-				///
 				current_player.getInformationText(current_player);
 				
 				// change turn
 				players.add(players.remove());
 				
-				// to get the winner
+				// to get the winner with rules
 				if (getRule().rule(this)) 
 				{
 					System.out.println(getTheWinner());
 					System.exit(0);
 				}
+				
+				// disaster feature before starting the next player turn
+				// show lake tile board once on board before disasters occur
 				boolean showBeforeDisaster = true;
 				for(int i = 0; i< getDisasters().size(); i++)
 				{
@@ -744,9 +746,11 @@ public class Game implements Serializable {
 			if(!error_text.equals(""))
 			{
 				System.out.println(error_text);
-				System.out.println("continue playing the current game");
+				System.out.println("Continue playing the current game");
 			}else{
 				g.updateStrategy();
+				String current_rule_name = g.getRule().getClass().getSimpleName();
+				System.out.println("The current rule is "+current_rule_name);
 				rule = ruleMenu(g.players.size());
 				g.play();
 			}
@@ -796,7 +800,7 @@ public class Game implements Serializable {
 	
 	
 	/**
-	 * This method shows the player position
+	 * This method get text of the player position with direction
 	 * @return String show direction of player
 	 */
 	private String getPlayerPositionText() 
@@ -864,7 +868,7 @@ public class Game implements Serializable {
 			for (Entry<Rotation, Vector<Object>> c : adjacent_colors.entrySet()) 
 			{
 				Vector<Object> color_platform = (Vector<Object>) c.getValue();
-				// up -adjacent laketile color and down - (active color)
+				// up -adjacent lake tile color and down - (active color)
 				if (c.getKey().equals(Rotation.D0)) 
 				{
 					getBonusDirection(Rotation.D0, active_laketile, color_platform);
@@ -1015,6 +1019,9 @@ public class Game implements Serializable {
 		return winnerStr;
 	}
 	
+	/**
+	 * This method is used for updating strategy after loading game
+	 */
 	public void updateStrategy(){
 		System.out.println("Do you want to change strategy? Y/N");
 		boolean is_changed_strategy = new Human().inputYesNo();
@@ -1025,11 +1032,11 @@ public class Game implements Serializable {
 				String strategy_name = player.getStrategy().getClass().getSimpleName();
 				System.out.println(strategy_name);
 				System.out.println("Which strategy do you want to change?");
-				System.out.println("0. Greed\n" +
-						"1. Unfriend\n" +
-						"2. Random\n" +
-						"3. Basic\n" +
-						"4. Human");
+				System.out.println(Strategy.GREEDY_STRATEGY+". Greed\n");
+				System.out.println(Strategy.UNFRIENDLY_STRATEGY+". Unfriend\n");
+				System.out.println(Strategy.RANDOM_STRATEGY+". Random\n");
+				System.out.println(Strategy.BASIC_STRATEGY+". Basic\n");
+				System.out.println(Strategy.HUMAN_STRATEGY+". Human");
 				int input_num = new Human().inputOption(5, Name.START,this);
 				if(input_num == Strategy.GREEDY_STRATEGY){
 					player.setStrategy(new Greed());

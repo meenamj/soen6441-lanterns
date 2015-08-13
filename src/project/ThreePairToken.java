@@ -13,14 +13,14 @@ public class ThreePairToken extends DedicationToken {
 	 */
 	private static final long serialVersionUID = -1143854564213189338L;
 	/**
-	 * used for order the card in three pair token stack
+	 * HONOR_LIST is used for order the card in three pair token stack
 	 */
-	static final int[] honorList = { 5, 5, 6, 6, 7, 7, 8, 8, 9 };
+	static final int[] HONOR_LIST = { 5, 5, 6, 6, 7, 7, 8, 8, 9 };
 	/**
-	 * Contructor of three pair token
+	 * Constructor of three pair token
 	 * @param indexOfHonor the index of honor in three pair token stack
 	 */
 	public ThreePairToken(int indexOfHonor) {
-		setHonor(honorList[indexOfHonor]);
+		setHonor(HONOR_LIST[indexOfHonor]);
 	}
 }

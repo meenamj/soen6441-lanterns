@@ -14,14 +14,14 @@ public class SevenUniqueToken extends DedicationToken {
 	 */
 	private static final long serialVersionUID = -8255380834896808320L;
 	/**
-	 * This honorList is used for order the card in seven unique token stack
+	 * This HONOR_LIST is used for order the card in seven unique token stack
 	 */
-	static final int[] honorList = { 5, 6, 7, 7, 8, 8, 9, 9, 10 };
+	static final int[] HONOR_LIST = { 5, 6, 7, 7, 8, 8, 9, 9, 10 };
 	/**
-	 * Contructor of seven unique token
+	 * Constructor of seven unique token
 	 * @param indexOfHonor the index of honor in seven unique token stack
 	 */
 	public SevenUniqueToken(int indexOfHonor) {
-		setHonor(honorList[indexOfHonor]);
+		setHonor(HONOR_LIST[indexOfHonor]);
 	}
 }
