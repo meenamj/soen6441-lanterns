@@ -286,6 +286,9 @@ public class Game implements Serializable {
 			else
 			{
 				game.updateStrategy();
+				int nplayer = game.players.size();
+				Rule r = ruleMenu(nplayer);
+				game.setRule(r);
 			}
 		} else
 		{
@@ -378,9 +381,9 @@ public class Game implements Serializable {
 				"1. N Lake tiles on board Rule\n" +
 				"2. N Honor Point Rule");
 		int rule_choice = new Human().inputOption(3, Strategy.Name.START,null);
-		if(rule_choice==0){
+		if(rule_choice==Rule.BASE_RULE){
 			rule = (Rule) new Base();
-		}else if(rule_choice==1){
+		}else if(rule_choice==Rule.N_LAKE_TILES_ON_BOARD_RULE){
 			System.out.println("How many round do you want to play?");
 			int max_laketile_stack = 0;
 			if(nplayer==4){
@@ -396,7 +399,7 @@ public class Game implements Serializable {
 			}
 			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
 			rule = (Rule) new NLakeTilesOnBoard(round+2);
-		}else if(rule_choice==2){
+		}else if(rule_choice==Rule.N_HONOR_POINT_RULE){
 			System.out.println("How many Honor point do you want to finish the game?");
 			int sum_honor = 0;
 			for(int i = 0; i<DedicationToken.dotsList.length;i++){
@@ -639,6 +642,11 @@ public class Game implements Serializable {
 	 */
 	public void gameCoreOption(Player current_player) throws ColorNotExistedException, RotationNotExistedException   
 	{
+		if (getRule().rule(this)) 
+		{
+			System.out.println(getTheWinner());
+			System.exit(0);
+		}
 		int input = Menu();
 		switch (input) 
 		{
@@ -739,6 +747,7 @@ public class Game implements Serializable {
 				System.out.println("continue playing the current game");
 			}else{
 				g.updateStrategy();
+				rule = ruleMenu(g.players.size());
 				g.play();
 			}
 			break;
