@@ -401,7 +401,7 @@ public class Game implements Serializable {
 				System.out.println("option"+i+"::"+(i+2));
 			}
 			int round = new Human().inputOption(max_round-2, Strategy.Name.START,null);
-			rule = (Rule) new NLakeTilesOnBoard(round+2);
+			rule = new NLakeTilesOnBoard(round+2);
 		}else if(rule_choice==Rule.N_HONOR_POINT_RULE){
 			System.out.println("How many Honor point do you want to finish the game?");
 			int sum_honor = 0;
@@ -752,7 +752,8 @@ public class Game implements Serializable {
 				g.updateStrategy();
 				String current_rule_name = g.getRule().getClass().getSimpleName();
 				System.out.println("The current rule is "+current_rule_name);
-				rule = ruleMenu(g.players.size());
+				Rule new_rule = ruleMenu(g.players.size());
+				g.setRule(new_rule);
 				g.play();
 			}
 			break;
